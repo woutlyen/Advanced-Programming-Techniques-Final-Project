@@ -29,11 +29,11 @@ QGraphicsScene* WorldView2D::makeScene(std::vector<std::unique_ptr<Enemy> > &ene
     // Create and add protagonist view
     scene->addItem(new ProtagonistView2D(protagonist,gridSize));
 
-    healthBar = new StatusBar(10, 10, Qt::green);
-    energyBar = new StatusBar(10, 30, Qt::green);
+    healthBar = new StatusBar2D(10, 10, Qt::green);
+    energyBar = new StatusBar2D(10, 40, Qt::green);
 
-    connect(protagonist.get(), &Protagonist::healthChanged, healthBar, &StatusBar::updateBar);
-    connect(protagonist.get(), &Protagonist::energyChanged, energyBar, &StatusBar::updateBar);
+    connect(protagonist.get(), &Protagonist::healthChanged, healthBar, &StatusBar2D::updateBar);
+    connect(protagonist.get(), &Protagonist::energyChanged, energyBar, &StatusBar2D::updateBar);
 
     scene->addItem(healthBar);
     scene->addItem(energyBar);
