@@ -15,8 +15,6 @@ public:
                                       QString filename,
                                       std::size_t gridSize) = 0;
 
-protected:
-    QGraphicsScene* scene;
 };
 
 #endif // WORLDVIEW_H

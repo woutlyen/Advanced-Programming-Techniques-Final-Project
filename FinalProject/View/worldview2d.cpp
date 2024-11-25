@@ -8,7 +8,7 @@ WorldView2D::WorldView2D() {}
 
 QGraphicsScene* WorldView2D::makeScene(std::vector<std::unique_ptr<Enemy> > &enemies, std::vector<std::unique_ptr<Tile> > &healthPacks, std::unique_ptr<Protagonist> &protagonist, QString filename, std::size_t gridSize)
 {
-    scene = new QGraphicsScene();
+    QGraphicsScene* scene = new QGraphicsScene();
 
     scene->addPixmap(recolorGrayscalePixmap(QPixmap(filename))
                          .scaled(gridSize*QPixmap(filename).width(),
