@@ -16,7 +16,7 @@ InputController::InputController(QObject* parent) : QObject(parent)
     rateLimitTimers[Qt::Key_Home] = new QTimer(this);
     rateLimitTimers[Qt::Key_End] = new QTimer(this);
 
-    // Set interval for rate-limiting (e.g., 200ms)
+    // Set interval for rate-limiting
     for (auto timer : rateLimitTimers) {
         timer->setInterval(630);
         timer->setSingleShot(true); // Ensure the timer runs once per trigger

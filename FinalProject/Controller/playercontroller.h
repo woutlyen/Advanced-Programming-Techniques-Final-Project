@@ -10,10 +10,10 @@ class PlayerController : public QObject
 
 public:
     PlayerController();
-    void moveUp(std::unique_ptr<Protagonist>& protagonist, std::vector<std::unique_ptr<Tile>>& tiles, int width, int height);
+    void moveUp(std::unique_ptr<Protagonist>& protagonist, std::vector<std::unique_ptr<Tile>>& tiles, int width);
     void moveDown(std::unique_ptr<Protagonist>& protagonist, std::vector<std::unique_ptr<Tile>>& tiles, int width, int height);
-    void moveLeft(std::unique_ptr<Protagonist>& protagonist, std::vector<std::unique_ptr<Tile>>& tiles, int width, int height);
-    void moveRight(std::unique_ptr<Protagonist>& protagonist, std::vector<std::unique_ptr<Tile>>& tiles, int width, int height);
+    void moveLeft(std::unique_ptr<Protagonist>& protagonist, std::vector<std::unique_ptr<Tile>>& tiles, int width);
+    void moveRight(std::unique_ptr<Protagonist>& protagonist, std::vector<std::unique_ptr<Tile>>& tiles, int width);
 
 };
 

@@ -12,5 +12,6 @@
         <file>images/WALK.png</file>
         <file>images/IDLE.png</file>
         <file>images/DEATH.png</file>
+        <file>images/ATTACK1.png</file>
     </qresource>
 </RCC>

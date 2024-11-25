@@ -18,13 +18,14 @@ public:
 
 private:
     std::size_t gridSize{};
-    enum AnimationState { Idle, Walking, Dying }; // Animation states
+    enum AnimationState { Idle, Walking, Fighting, Dying }; // Animation states
     AnimationState currentState;                 // Current animation state
 
     QPropertyAnimation* movementAnimation; // Animation for position movement
     QTimer* animationTimer;                // Timer for cycling pixmaps
     std::vector<QPixmap> idlePixmaps;          // Pixmaps for idle animation
     std::vector<QPixmap> walkingPixmaps;       // Pixmaps for walking animation
+    std::vector<QPixmap> fightingPixmaps;       // Pixmaps for fighting animation
     std::vector<QPixmap> dyingPixmaps;         // Pixmaps for dying animation
     int currentFrameIndex;                 // Current frame index in pixmap arrays
 

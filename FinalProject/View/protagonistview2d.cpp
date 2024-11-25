@@ -3,7 +3,7 @@
 ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Protagonist>& protagonist, std::size_t gridSize, QGraphicsItem* parent)
     : QObject(),
     QGraphicsPixmapItem(parent),
-    currentState{Idle},
+    currentState{Fighting},
     movementAnimation(new QPropertyAnimation(this, "pos")),
     animationTimer(new QTimer(this)),
     currentFrameIndex{0}
@@ -12,6 +12,7 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Protagonist>& protago
     this->gridSize = gridSize;
     idlePixmaps = extractFrames(":/images/IDLE.png", 40, 40, 7);
     walkingPixmaps = extractFrames(":/images/WALK.png", 40, 40, 8);
+    fightingPixmaps = extractFrames(":/images/ATTACK1.png", 56, 40, 6);
     dyingPixmaps = extractFrames(":/images/DEATH.png", 56, 40, 12);
 
     // Set the initial pixmap
@@ -77,6 +78,9 @@ void ProtagonistView2D::setState(AnimationState newState) {
     case Walking:
         setPixmap(walkingPixmaps[currentFrameIndex]);
         break;
+    case Fighting:
+        setPixmap(fightingPixmaps[currentFrameIndex]);
+        break;
     case Dying:
         setPixmap(dyingPixmaps[currentFrameIndex]);
         break;
@@ -95,9 +99,14 @@ void ProtagonistView2D::updateAnimationFrame() {
         currentFrameIndex = (currentFrameIndex + 1) % walkingPixmaps.size();
         setPixmap(walkingPixmaps[currentFrameIndex]);
         break;
+    case Fighting:
+        // Play dying frames once
+        currentFrameIndex = (currentFrameIndex + 1) % fightingPixmaps.size();
+        setPixmap(fightingPixmaps[currentFrameIndex]);
+        break;
     case Dying:
         // Play dying frames once
-        if (currentFrameIndex < 12 - 1) {
+        if (currentFrameIndex < dyingPixmaps.size() - 1) {
             currentFrameIndex++;
             setPixmap(dyingPixmaps[currentFrameIndex]);
         } else {

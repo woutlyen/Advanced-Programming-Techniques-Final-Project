@@ -33,6 +33,7 @@ void GameController::start()
     width.push_back(world.getCols());
     heigth.push_back(world.getRows());
 
+    protagonist.at(0)->setEnergy(10.0f);
     scenes.push_back(worldView2D.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), ":/world_images/worldmap.png",gridSize));
     currentLevel += 1;
 
@@ -57,7 +58,7 @@ void GameController::start()
 }
 
 void GameController::onUpPressed() {
-    playerController.moveUp(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel), heigth.at(currentLevel));
+    playerController.moveUp(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel));
 }
 
 void GameController::onDownPressed() {
@@ -65,12 +66,12 @@ void GameController::onDownPressed() {
 }
 
 void GameController::onLeftPressed() {
-    playerController.moveLeft(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel), heigth.at(currentLevel));
+    playerController.moveLeft(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel));
 }
 
 
 void GameController::onRightPressed() {
-    playerController.moveRight(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel), heigth.at(currentLevel));
+    playerController.moveRight(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel));
 }
 
 void GameController::onHomePressed() {
