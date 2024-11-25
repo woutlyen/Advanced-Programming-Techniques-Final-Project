@@ -6,6 +6,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 }
 
+void MainWindow::setScene(QGraphicsScene *scene)
+{
+    ui->graphicsView->setScene(scene);
+}
+
 MainWindow::~MainWindow() {
     delete ui;
 }
