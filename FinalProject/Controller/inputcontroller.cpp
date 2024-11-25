@@ -1,5 +1,4 @@
 #include "inputcontroller.h"
-#include <iostream>
 
 InputController::InputController() {}
 
@@ -16,10 +15,10 @@ bool InputController::eventFilter(QObject *obj, QEvent *event)
 void InputController::handleKeyPress(QKeyEvent *event)
 {
     switch (event->key()) {
-    case Qt::Key_Up: std::cout << "Up" << std::endl; break;
-    case Qt::Key_Left: std::cout << "Left" << std::endl; break;
-    case Qt::Key_Down: std::cout << "Down" << std::endl; break;
-    case Qt::Key_Right: std::cout << "Right" << std::endl; break;
+    case Qt::Key_Up: emit upPressed(); break;
+    case Qt::Key_Left: emit leftPressed(); break;
+    case Qt::Key_Down: emit downPressed(); break;
+    case Qt::Key_Right: emit rightPressed(); break;
     default: break; // Ignore other keys
     }
 }

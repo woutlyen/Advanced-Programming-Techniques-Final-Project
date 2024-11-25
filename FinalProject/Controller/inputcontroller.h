@@ -10,6 +10,12 @@ class InputController : public QObject
 public:
     InputController();
 
+signals:
+    void upPressed();
+    void downPressed();
+    void leftPressed();
+    void rightPressed();
+
 protected:
     bool eventFilter(QObject* obj, QEvent* event) override;
 

@@ -5,10 +5,14 @@
 #include "mainwindow.h"
 #include "world.h"
 
-class GameController
+#include <QObject>
+
+class GameController : public QObject
 {
+    Q_OBJECT
+
 public:
-    GameController();
+    GameController(QObject *parent = nullptr);
     void start();
 
 private:
@@ -19,6 +23,12 @@ private:
     std::unique_ptr<Protagonist> protagonist;
 
     InputController inputController;
+
+private slots:
+    void onUpPressed();
+    void onDownPressed();
+    void onLeftPressed();
+    void onRightPressed();
 };
 
 #endif // GAMECONTROLLER_H
