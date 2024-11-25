@@ -1,5 +1,4 @@
 #include "protagonistview2d.h"
-#include <iostream>
 
 ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Protagonist>& protagonist, std::size_t gridSize, QGraphicsItem* parent)
     : QObject(),
@@ -25,11 +24,11 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Protagonist>& protago
     connect(protagonist.get(), &Protagonist::energyChanged, this, &ProtagonistView2D::onEnergyChanged);
 
     // Configure the movement animation
-    movementAnimation->setDuration(800); // Animation duration (in milliseconds)
-    movementAnimation->setEasingCurve(QEasingCurve::InOutQuad);
+    movementAnimation->setDuration(640); // Animation duration (in milliseconds)
+    movementAnimation->setEasingCurve(QEasingCurve::Linear);
 
     // Configure the animation timer
-    animationTimer->setInterval(100); // Frame switch interval (in milliseconds)
+    animationTimer->setInterval(80); // Frame switch interval (in milliseconds)
     animationTimer->start();
     connect(animationTimer, &QTimer::timeout, this, &ProtagonistView2D::updateAnimationFrame);
     connect(movementAnimation, &QPropertyAnimation::finished, this, [this]() {
@@ -82,8 +81,6 @@ void ProtagonistView2D::setState(AnimationState newState) {
         setPixmap(dyingPixmaps[currentFrameIndex]);
         break;
     }
-
-    std::cout << currentState << std::endl;
 }
 
 void ProtagonistView2D::updateAnimationFrame() {

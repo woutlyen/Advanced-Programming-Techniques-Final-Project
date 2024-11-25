@@ -23,9 +23,9 @@ void GameController::start()
 {
     World world;
     WorldView2D worldView2D;
-    std::size_t gridSize {128};
+    std::size_t gridSize {64};
 
-    world.createWorld(":/world_images/worldmap.png", 5, 10);
+    world.createWorld(":/world_images/worldmap.png", 20, 5);
     tiles.push_back(world.getTiles());
     enemies.push_back(world.getEnemies());
     healthPacks.push_back(world.getHealthPacks());

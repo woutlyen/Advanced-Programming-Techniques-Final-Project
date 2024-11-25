@@ -3,12 +3,13 @@
 
 #include <QObject>
 #include <QKeyEvent>
+#include <QTimer>
 
 class InputController : public QObject
 {
     Q_OBJECT
 public:
-    InputController();
+    InputController(QObject* parent = nullptr);
 
 signals:
     void upPressed();
@@ -22,7 +23,8 @@ protected:
     bool eventFilter(QObject* obj, QEvent* event) override;
 
 private:
-    void handleKeyPress(QKeyEvent* event);
+    QSet<int> pressedKeys;                 // Keeps track of currently pressed keys
+    QHash<int, QTimer*> rateLimitTimers;   // Rate-limiting timers for each key
 };
 
 #endif // INPUTCONTROLLER_H
