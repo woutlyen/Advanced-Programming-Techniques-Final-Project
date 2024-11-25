@@ -1,6 +1,7 @@
 #ifndef GAMECONTROLLER_H
 #define GAMECONTROLLER_H
 
+#include "Controller/inputcontroller.h"
 #include "mainwindow.h"
 #include "world.h"
 
@@ -16,6 +17,8 @@ private:
     std::vector<std::unique_ptr<Enemy>> enemies;
     std::vector<std::unique_ptr<Tile>> healthPacks;
     std::unique_ptr<Protagonist> protagonist;
+
+    InputController inputController;
 };
 
 #endif // GAMECONTROLLER_H

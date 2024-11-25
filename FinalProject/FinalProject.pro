@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     Controller/enemycontroller.cpp \
+    Controller/inputcontroller.cpp \
     Controller/penemycontroller.cpp \
     Controller/playercontroller.cpp \
     Controller/xenemycontroller.cpp \
@@ -39,6 +40,7 @@ SOURCES += \
 
 HEADERS += \
     Controller/enemycontroller.h \
+    Controller/inputcontroller.h \
     Controller/penemycontroller.h \
     Controller/playercontroller.h \
     Controller/xenemycontroller.h \

@@ -3,8 +3,11 @@
 #include <QGraphicsScene>
 
 #include "View/worldview2d.h"
+GameController::GameController() {
+    // Install the InputController as an event filter
+    qApp->installEventFilter(&inputController);
 
-GameController::GameController() {}
+}
 
 void GameController::start()
 {
