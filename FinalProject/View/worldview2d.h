@@ -1,6 +1,7 @@
 #ifndef WORLDVIEW2D_H
 #define WORLDVIEW2D_H
 
+#include "statusbar.h"
 #include "worldview.h"
 
 #include <QPixmap>
@@ -20,6 +21,9 @@ private:
     QPixmap recolorGrayscalePixmap(const QPixmap& pixmap);
     QColor darkGreen{0, 50, 0};  // Dark green color
     QColor lightGreen{144, 238, 144};  // Light green color
+
+    StatusBar* healthBar;
+    StatusBar* energyBar;
 };
 
 #endif // WORLDVIEW2D_H

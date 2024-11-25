@@ -7,8 +7,8 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Protagonist>& protago
     setPos(gridSize*protagonist->getXPos(), gridSize*protagonist->getYPos());
 
     connect(protagonist.get(), &Protagonist::posChanged, this, &ProtagonistView2D::onPositionChanged);
-    //connect(protagonist, &Protagonist::healthChanged, this, &ProtagonistView2D::onHealthChanged);
-    //connect(protagonist, &Protagonist::energyChanged, this, &ProtagonistView2D::onEnergyChanged);
+    //connect(protagonist.get(), &Protagonist::healthChanged, this, &ProtagonistView2D::onHealthChanged);
+    //connect(protagonist.get(), &Protagonist::energyChanged, this, &ProtagonistView2D::onEnergyChanged);
 
     this->gridSize = gridSize;
 }

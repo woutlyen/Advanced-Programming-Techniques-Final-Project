@@ -25,6 +25,7 @@ SOURCES += \
     View/penemyviewtext.cpp \
     View/protagonistview2d.cpp \
     View/protagonistviewtext.cpp \
+    View/statusbar.cpp \
     View/tileview.cpp \
     View/worldview2d.cpp \
     View/worldviewtext.cpp \
@@ -55,6 +56,7 @@ HEADERS += \
     View/penemyviewtext.h \
     View/protagonistview2d.h \
     View/protagonistviewtext.h \
+    View/statusbar.h \
     View/tileview.h \
     View/worldview2d.h \
     View/worldviewtext.h \

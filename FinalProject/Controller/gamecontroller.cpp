@@ -43,6 +43,7 @@ void GameController::start()
 
 void GameController::onUpPressed() {
     playerController.moveUp(protagonist);
+    protagonist->setEnergy(protagonist->getEnergy()-1.0);
 }
 
 void GameController::onDownPressed() {

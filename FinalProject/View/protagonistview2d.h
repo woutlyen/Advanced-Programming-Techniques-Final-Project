@@ -5,6 +5,7 @@
 #include <QGraphicsPixmapItem>
 
 #include "world.h"
+#include "statusbar.h"
 
 class ProtagonistView2D : public QObject, public QGraphicsPixmapItem
 {
@@ -15,6 +16,8 @@ public:
 
 private:
     std::size_t gridSize{};
+    StatusBar* healthBar;
+    StatusBar* energyBar;
 
 private slots:
     void onPositionChanged(int x, int y); // Updates the protagonist's position
