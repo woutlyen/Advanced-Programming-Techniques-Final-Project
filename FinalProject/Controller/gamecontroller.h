@@ -37,6 +37,8 @@ private slots:
     void onDownPressed();
     void onLeftPressed();
     void onRightPressed();
+    void onHomePressed();
+    void onEndPressed();
 };
 
 #endif // GAMECONTROLLER_H

@@ -14,6 +14,9 @@ GameController::GameController(QObject *parent) : QObject(parent) {
     connect(&inputController, &InputController::leftPressed, this, &GameController::onLeftPressed);
     connect(&inputController, &InputController::rightPressed, this, &GameController::onRightPressed);
 
+    connect(&inputController, &InputController::homePressed, this, &GameController::onHomePressed);
+    connect(&inputController, &InputController::endPressed, this, &GameController::onEndPressed);
+
 }
 
 void GameController::start()
@@ -69,5 +72,17 @@ void GameController::onLeftPressed() {
 void GameController::onRightPressed() {
     playerController.moveRight(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel), heigth.at(currentLevel));
 }
+
+void GameController::onHomePressed() {
+    currentLevel = 0;
+    mainWindow.setScene(scenes.at(currentLevel));
+}
+
+
+void GameController::onEndPressed() {
+    currentLevel = 1;
+    mainWindow.setScene(scenes.at(currentLevel));
+}
+
 
 
