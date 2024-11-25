@@ -7,5 +7,6 @@
         <file>world_images/worldmap4.png</file>
         <file>images/heart.png</file>
         <file>images/enemy.png</file>
+        <file>images/mario.png</file>
     </qresource>
 </RCC>

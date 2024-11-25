@@ -1,12 +1,17 @@
 #ifndef PROTAGONISTVIEW2D_H
 #define PROTAGONISTVIEW2D_H
 
-#include <View/protagonistview.h>
+#include <QObject>
+#include <QGraphicsPixmapItem>
 
-class ProtagonistView2D : public ProtagonistView
+#include "world.h"
+
+class ProtagonistView2D : public QObject, public QGraphicsPixmapItem
 {
+    Q_OBJECT
+
 public:
-    ProtagonistView2D();
+    ProtagonistView2D(const std::unique_ptr<Protagonist>& protagonist, std::size_t gridSize, QGraphicsItem* parent = nullptr);
 };
 
 #endif // PROTAGONISTVIEW2D_H
