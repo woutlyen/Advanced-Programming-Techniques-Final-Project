@@ -1,7 +1,7 @@
 #ifndef PROTAGONISTVIEW_H
 #define PROTAGONISTVIEW_H
 
-#include <tileview.h>
+#include <View/tileview.h>
 
 class ProtagonistView : public TileView
 {
