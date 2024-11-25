@@ -23,7 +23,7 @@ void GameController::start()
 {
     World world;
     WorldView2D worldView2D;
-    std::size_t gridSize {32};
+    std::size_t gridSize {128};
 
     world.createWorld(":/world_images/worldmap.png", 5, 10);
     tiles.push_back(world.getTiles());

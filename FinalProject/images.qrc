@@ -9,5 +9,8 @@
         <file>images/enemy.png</file>
         <file>images/mario.png</file>
         <file>images/dead.png</file>
+        <file>images/WALK.png</file>
+        <file>images/IDLE.png</file>
+        <file>images/DEATH.png</file>
     </qresource>
 </RCC>
