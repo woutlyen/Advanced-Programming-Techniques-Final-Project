@@ -2,6 +2,7 @@
 #define GAMECONTROLLER_H
 
 #include "Controller/inputcontroller.h"
+#include "Controller/playercontroller.h"
 #include "mainwindow.h"
 #include "world.h"
 
@@ -22,6 +23,7 @@ private:
     std::vector<std::unique_ptr<Tile>> healthPacks;
     std::unique_ptr<Protagonist> protagonist;
 
+    PlayerController playerController;
     InputController inputController;
 
 private slots:

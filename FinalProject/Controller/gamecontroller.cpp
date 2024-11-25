@@ -2,7 +2,6 @@
 
 #include <QGraphicsScene>
 #include <QTimer>
-#include <iostream>
 
 #include "View/worldview2d.h"
 
@@ -43,18 +42,19 @@ void GameController::start()
 }
 
 void GameController::onUpPressed() {
-    std::cout << "Up" << std::endl;
+    playerController.moveUp(protagonist);
 }
 
 void GameController::onDownPressed() {
-    std::cout << "Down" << std::endl;
+    playerController.moveDown(protagonist);
 }
 
 void GameController::onLeftPressed() {
-    std::cout << "Left" << std::endl;
+    playerController.moveLeft(protagonist);
 }
 
 void GameController::onRightPressed() {
-    std::cout << "Right" << std::endl;
+    playerController.moveRight(protagonist);
 }
+
 
