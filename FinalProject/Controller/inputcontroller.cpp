@@ -19,6 +19,10 @@ void InputController::handleKeyPress(QKeyEvent *event)
     case Qt::Key_Left: emit leftPressed(); break;
     case Qt::Key_Down: emit downPressed(); break;
     case Qt::Key_Right: emit rightPressed(); break;
+    case Qt::Key_W: emit upPressed(); break;    // W = Move Up
+    case Qt::Key_A: emit leftPressed(); break;  // A = Move Left
+    case Qt::Key_S: emit downPressed(); break;  // S = Move Down
+    case Qt::Key_D: emit rightPressed(); break; // D = Move Right
     default: break; // Ignore other keys
     }
 }
