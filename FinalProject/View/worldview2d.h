@@ -3,6 +3,9 @@
 
 #include "worldview.h"
 
+#include <QPixmap>
+#include <QColor>
+
 class WorldView2D : public WorldView
 {
 public:
@@ -12,6 +15,11 @@ public:
                               std::unique_ptr<Protagonist>& protagonist,
                               QString filename,
                               std::size_t gridSize);
+
+private:
+    QPixmap recolorGrayscalePixmap(const QPixmap& pixmap);
+    QColor darkGreen{0, 50, 0};  // Dark green color
+    QColor lightGreen{144, 238, 144};  // Light green color
 };
 
 #endif // WORLDVIEW2D_H
