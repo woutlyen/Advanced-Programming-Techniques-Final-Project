@@ -8,7 +8,7 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Protagonist>& protago
 
     connect(protagonist.get(), &Protagonist::posChanged, this, &ProtagonistView2D::onPositionChanged);
     //connect(protagonist.get(), &Protagonist::healthChanged, this, &ProtagonistView2D::onHealthChanged);
-    //connect(protagonist.get(), &Protagonist::energyChanged, this, &ProtagonistView2D::onEnergyChanged);
+    connect(protagonist.get(), &Protagonist::energyChanged, this, &ProtagonistView2D::onEnergyChanged);
 
     this->gridSize = gridSize;
 }
@@ -16,4 +16,11 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Protagonist>& protago
 void ProtagonistView2D::onPositionChanged(int x, int y)
 {
     setPos(gridSize*x, gridSize*y);
+}
+
+void ProtagonistView2D::onEnergyChanged(int energy)
+{
+    if(energy <= 0){
+        setPixmap(QPixmap(":/images/dead.png").scaled(gridSize,gridSize));
+    }
 }

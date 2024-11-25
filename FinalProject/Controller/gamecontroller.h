@@ -6,6 +6,7 @@
 #include "mainwindow.h"
 #include "world.h"
 
+#include <QGraphicsScene>
 #include <QObject>
 
 class GameController : public QObject
@@ -18,10 +19,15 @@ public:
 
 private:
     MainWindow mainWindow;
-    std::vector<std::unique_ptr<Tile>> tiles;
-    std::vector<std::unique_ptr<Enemy>> enemies;
-    std::vector<std::unique_ptr<Tile>> healthPacks;
-    std::unique_ptr<Protagonist> protagonist;
+    std::vector<std::vector<std::unique_ptr<Tile>>> tiles;
+    std::vector<std::vector<std::unique_ptr<Enemy>>> enemies;
+    std::vector<std::vector<std::unique_ptr<Tile>>> healthPacks;
+    std::vector<std::unique_ptr<Protagonist>> protagonist;
+    std::vector<int> width;
+    std::vector<int> heigth;
+
+    std::vector<QGraphicsScene*> scenes;
+    std::size_t currentLevel {0};
 
     PlayerController playerController;
     InputController inputController;

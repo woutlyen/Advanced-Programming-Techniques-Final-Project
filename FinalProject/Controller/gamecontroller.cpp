@@ -1,6 +1,5 @@
 #include "gamecontroller.h"
 
-#include <QGraphicsScene>
 #include <QTimer>
 
 #include "View/worldview2d.h"
@@ -20,19 +19,32 @@ GameController::GameController(QObject *parent) : QObject(parent) {
 void GameController::start()
 {
     World world;
-    world.createWorld(":/world_images/worldmap.png", 5, 10);
-
-    tiles = world.getTiles();
-    enemies = world.getEnemies();
-    healthPacks = world.getHealthPacks();
-    protagonist = world.getProtagonist();
-
-    QGraphicsScene* scene;
     WorldView2D worldView2D;
     std::size_t gridSize {32};
-    scene = worldView2D.makeScene(enemies, healthPacks, protagonist, ":/world_images/worldmap.png",gridSize);
 
-    mainWindow.setScene(scene);
+    world.createWorld(":/world_images/worldmap.png", 5, 10);
+    tiles.push_back(world.getTiles());
+    enemies.push_back(world.getEnemies());
+    healthPacks.push_back(world.getHealthPacks());
+    protagonist.push_back(world.getProtagonist());
+    width.push_back(world.getCols());
+    heigth.push_back(world.getRows());
+
+    scenes.push_back(worldView2D.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), ":/world_images/worldmap.png",gridSize));
+    currentLevel += 1;
+
+    world.createWorld(":/world_images/worldmap.png", 5, 10);
+    tiles.push_back(world.getTiles());
+    enemies.push_back(world.getEnemies());
+    healthPacks.push_back(world.getHealthPacks());
+    protagonist.push_back(world.getProtagonist());
+    width.push_back(world.getCols());
+    heigth.push_back(world.getRows());
+
+    scenes.push_back(worldView2D.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), ":/world_images/worldmap.png",gridSize));
+
+
+    mainWindow.setScene(scenes.at(currentLevel));
     mainWindow.show();
 
     /*
@@ -42,20 +54,20 @@ void GameController::start()
 }
 
 void GameController::onUpPressed() {
-    playerController.moveUp(protagonist);
-    protagonist->setEnergy(protagonist->getEnergy()-1.0);
+    playerController.moveUp(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel), heigth.at(currentLevel));
 }
 
 void GameController::onDownPressed() {
-    playerController.moveDown(protagonist);
+    playerController.moveDown(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel), heigth.at(currentLevel));
 }
 
 void GameController::onLeftPressed() {
-    playerController.moveLeft(protagonist);
+    playerController.moveLeft(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel), heigth.at(currentLevel));
 }
 
+
 void GameController::onRightPressed() {
-    playerController.moveRight(protagonist);
+    playerController.moveRight(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel), heigth.at(currentLevel));
 }
 
 

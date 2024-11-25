@@ -5,7 +5,6 @@
 #include <QGraphicsPixmapItem>
 
 #include "world.h"
-#include "statusbar2d.h"
 
 class ProtagonistView2D : public QObject, public QGraphicsPixmapItem
 {
@@ -19,8 +18,8 @@ private:
 
 private slots:
     void onPositionChanged(int x, int y); // Updates the protagonist's position
-    //void onHealthChanged(int health);    // Updates the protagonist's health bar or visual representation
-    //void onEnergyChanged(int energy);    // Updates the protagonist's energy bar or visual representation
+    //void onHealthChanged(int health);    // Updates the protagonist's visual representation
+    void onEnergyChanged(int energy);    // Updates the protagonist's visual representation
 };
 
 #endif // PROTAGONISTVIEW2D_H
