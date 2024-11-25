@@ -5,4 +5,15 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Protagonist>& protago
 
     setPixmap(QPixmap(":/images/mario.png").scaled(gridSize,gridSize));
     setPos(gridSize*protagonist->getXPos(), gridSize*protagonist->getYPos());
+
+    connect(protagonist.get(), &Protagonist::posChanged, this, &ProtagonistView2D::onPositionChanged);
+    //connect(protagonist, &Protagonist::healthChanged, this, &ProtagonistView2D::onHealthChanged);
+    //connect(protagonist, &Protagonist::energyChanged, this, &ProtagonistView2D::onEnergyChanged);
+
+    this->gridSize = gridSize;
+}
+
+void ProtagonistView2D::onPositionChanged(int x, int y)
+{
+    setPos(gridSize*x, gridSize*y);
 }
