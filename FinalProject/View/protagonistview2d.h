@@ -5,6 +5,8 @@
 #include <QGraphicsPixmapItem>
 #include <QPropertyAnimation>
 #include <QTimer>
+#include <QDir>
+#include <QDirIterator>
 #include "world.h"
 
 
@@ -30,8 +32,8 @@ private:
     int currentFrameIndex;                 // Current frame index in pixmap arrays
 
     void setState(AnimationState newState); // Switch animation state
-    std::vector<QPixmap> extractFrames(const QString& filePath, int frameWidth, int frameHeight, int numberOfFrames);
-
+    std::vector<QPixmap> extractFramesFromSpritesheet(const QString &filePath, int frameWidth, int frameHeight, int numberOfFrames);
+    std::vector<QPixmap> extractFrames(const QString &fileDir);
 private slots:
     void onPositionChanged(int x, int y); // Updates the protagonist's position
     void onHealthChanged(int health);    // Updates the protagonist's visual representation

@@ -10,11 +10,10 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Protagonist>& protago
     {
 
     this->gridSize = gridSize;
-    idlePixmaps = extractFrames(":/images/IDLE.png", 40, 40, 7);
-    walkingPixmaps = extractFrames(":/images/WALK.png", 40, 40, 8);
-    fightingPixmaps = extractFrames(":/images/ATTACK1.png", 56, 40, 6);
-    dyingPixmaps = extractFrames(":/images/DEATH.png", 56, 40, 12);
-
+    idlePixmaps = extractFrames(":/images/player_sprites/player_idle_front");
+    walkingPixmaps = extractFrames(":/images/player_sprites/player_walk_front");
+    fightingPixmaps = extractFrames(":/images/player_sprites/player_attack_front");
+    dyingPixmaps = extractFrames(":/images/player_sprites/player_die");
     // Set the initial pixmap
     setPixmap(idlePixmaps[0]);
     setPos(gridSize*protagonist->getXPos(), gridSize*protagonist->getYPos());
@@ -128,7 +127,22 @@ void ProtagonistView2D::updateAnimationFrame() {
     }
 }
 
-std::vector<QPixmap> ProtagonistView2D::extractFrames(const QString& filePath, int frameWidth, int frameHeight, int numberOfFrames) {
+std::vector<QPixmap> ProtagonistView2D::extractFrames(const QString &fileDir) {
+    std::vector<QPixmap> frames;
+    QPixmap frame;
+    int i = 0;
+
+    QDirIterator it(fileDir, QDirIterator::NoIteratorFlags);
+    while (it.hasNext()){
+        i++;
+        frame = it.next();
+        qDebug() << frame << fileDir << i;
+        frames.push_back(frame.scaledToHeight(gridSize));
+    }
+    return frames;
+}
+
+std::vector<QPixmap> ProtagonistView2D::extractFramesFromSpritesheet(const QString& filePath, int frameWidth, int frameHeight, int numberOfFrames) {
     std::vector<QPixmap> frames;
 
     // Load the full spritesheet
