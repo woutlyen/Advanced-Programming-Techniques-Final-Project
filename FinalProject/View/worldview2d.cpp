@@ -11,10 +11,12 @@ QGraphicsScene *WorldView2D::makeScene(std::vector<std::unique_ptr<Enemy> > &ene
 {
     QGraphicsScene* scene = new QGraphicsScene();
 
-    scene->addPixmap(recolorGrayscalePixmap(QPixmap(filename))
+    /*scene->addPixmap(recolorGrayscalePixmap(QPixmap(filename))
                          .scaled(gridSize*QPixmap(filename).width(),
                                  gridSize*QPixmap(filename).height(),
-                                 Qt::KeepAspectRatio));
+                                 Qt::KeepAspectRatio));*/
+
+    scene->addPixmap(recolorGrayscalePixmap(QPixmap(filename)))->setScale(64.0);
 
     // Create and add health views
     for (const auto& healthPack : healthPacks) {
