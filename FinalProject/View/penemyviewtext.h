@@ -1,9 +1,7 @@
 #ifndef PENEMYVIEWTEXT_H
 #define PENEMYVIEWTEXT_H
 
-#include "penemyview.h"
-
-class PEnemyViewText : public PEnemyView
+class PEnemyViewText
 {
 public:
     PEnemyViewText();

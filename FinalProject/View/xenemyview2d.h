@@ -1,9 +1,7 @@
 #ifndef XENEMYVIEW2D_H
 #define XENEMYVIEW2D_H
 
-#include "xenemyview.h"
-
-class XEnemyView2D : public XEnemyView
+class XEnemyView2D
 {
 public:
     XEnemyView2D();

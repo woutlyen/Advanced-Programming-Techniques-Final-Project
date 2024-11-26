@@ -5,8 +5,8 @@
 #include <QGraphicsPixmapItem>
 #include <QPropertyAnimation>
 #include <QTimer>
-
 #include "world.h"
+
 
 class ProtagonistView2D : public QObject, public QGraphicsPixmapItem
 {

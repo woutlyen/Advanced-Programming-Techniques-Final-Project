@@ -1,10 +1,8 @@
 #ifndef HEALTHPACKVIEWTEXT_H
 #define HEALTHPACKVIEWTEXT_H
 
-#include "healthpackview.h"
 
-class HealthPackViewText : public HealthPackView
-{
+class HealthPackViewText {
 public:
     HealthPackViewText();
 };

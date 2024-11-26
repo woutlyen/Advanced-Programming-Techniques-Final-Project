@@ -1,9 +1,10 @@
 #ifndef WORLDVIEWTEXT_H
 #define WORLDVIEWTEXT_H
 
-#include "worldview.h"
+#include "qgraphicsscene.h"
+#include "world.h"
 
-class WorldViewText : public WorldView
+class WorldViewText
 {
 public:
     WorldViewText();

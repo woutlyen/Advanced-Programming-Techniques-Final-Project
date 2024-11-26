@@ -1,9 +1,7 @@
 #ifndef ENEMYVIEWTEXT_H
 #define ENEMYVIEWTEXT_H
 
-#include "enemyview.h"
-
-class EnemyViewText : public EnemyView
+class EnemyViewText
 {
 public:
     EnemyViewText();

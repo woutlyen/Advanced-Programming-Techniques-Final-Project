@@ -1,9 +1,7 @@
 #ifndef PENEMYVIEW2D_H
 #define PENEMYVIEW2D_H
 
-#include "penemyview.h"
-
-class PEnemyView2D : public PEnemyView
+class PEnemyView2D
 {
 public:
     PEnemyView2D();

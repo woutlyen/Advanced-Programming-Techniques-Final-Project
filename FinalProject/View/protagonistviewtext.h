@@ -1,9 +1,8 @@
 #ifndef PROTAGONISTVIEWTEXT_H
 #define PROTAGONISTVIEWTEXT_H
 
-#include <View/protagonistview.h>
 
-class ProtagonistViewText : public ProtagonistView
+class ProtagonistViewText
 {
 public:
     ProtagonistViewText();

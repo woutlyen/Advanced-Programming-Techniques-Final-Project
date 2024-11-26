@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QGraphicsPixmapItem>
-
 #include "world.h"
 
 class HealthPackView2D : public QObject, public QGraphicsPixmapItem
