@@ -57,6 +57,7 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Protagonist>& protago
 
 void ProtagonistView2D::onPositionChanged(int x, int y)
 {
+    updateDirection(pos().x(), pos().y(), x, y);
     // Switch to walking state
     setState(Walking);
 
