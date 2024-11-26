@@ -34,7 +34,7 @@ void GameController::start()
     heigth.push_back(world.getRows());
 
     protagonist.at(0)->setEnergy(10.0f);
-    scenes.push_back(worldView2D.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), ":/world_images/worldmap.png",gridSize));
+    scenes2D.push_back(worldView2D.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), heigth.at(currentLevel) , width.at(currentLevel), ":/world_images/worldmap.png",gridSize));
     currentLevel += 1;
 
     world.createWorld(":/world_images/worldmap.png", 5, 10);
@@ -45,10 +45,10 @@ void GameController::start()
     width.push_back(world.getCols());
     heigth.push_back(world.getRows());
 
-    scenes.push_back(worldView2D.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), ":/world_images/worldmap.png",gridSize));
+    scenes2D.push_back(worldView2D.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), heigth.at(currentLevel) , width.at(currentLevel), ":/world_images/worldmap.png",gridSize));
 
 
-    mainWindow.setScene(scenes.at(currentLevel));
+    mainWindow.setScene(scenes2D.at(currentLevel));
     mainWindow.show();
 
     /*
@@ -76,13 +76,13 @@ void GameController::onRightPressed() {
 
 void GameController::onHomePressed() {
     currentLevel = 0;
-    mainWindow.setScene(scenes.at(currentLevel));
+    mainWindow.setScene(scenes2D.at(currentLevel));
 }
 
 
 void GameController::onEndPressed() {
     currentLevel = 1;
-    mainWindow.setScene(scenes.at(currentLevel));
+    mainWindow.setScene(scenes2D.at(currentLevel));
 }
 
 

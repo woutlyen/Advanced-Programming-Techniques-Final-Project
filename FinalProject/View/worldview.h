@@ -12,8 +12,10 @@ public:
     virtual QGraphicsScene* makeScene(std::vector<std::unique_ptr<Enemy>>& enemies,
                                       std::vector<std::unique_ptr<Tile>>& healthPacks,
                                       std::unique_ptr<Protagonist>& protagonist,
-                                      QString filename,
-                                      std::size_t gridSize) = 0;
+                                      int rows,
+                                      int columns,
+                                      QString filename = ":/world_images/worldmap.png",
+                                      std::size_t gridSize = 32) = 0;
 
 };
 
