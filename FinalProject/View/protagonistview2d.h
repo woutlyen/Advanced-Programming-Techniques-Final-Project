@@ -50,6 +50,8 @@ private:
     std::vector<QPixmap> extractFramesFromSpritesheet(const QString &filePath, int frameWidth, int frameHeight, int numberOfFrames);
     std::vector<QPixmap> extractFrames(const QString &fileDir);
     void updateDirection(int curX, int curY, int newX, int newY);
+    void updateCurrentFrameIndex();
+    void setAnimation();
 
 private slots:
     void onPositionChanged(int x, int y); // Updates the protagonist's position

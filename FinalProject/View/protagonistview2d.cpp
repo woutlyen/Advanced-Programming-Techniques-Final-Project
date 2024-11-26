@@ -14,17 +14,17 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Protagonist>& protago
 
     // Initialize all Pixmaps
     idlePixmaps_front = extractFrames(":/images/player_sprites/player_idle_front");
-    idlePixmaps_left = extractFrames(":/images/player_sprites/player_idle_left");
+    idlePixmaps_left = extractFrames(":/images/player_sprites/player_idle_right");
     idlePixmaps_right = extractFrames(":/images/player_sprites/player_idle_right");
     idlePixmaps_back = extractFrames(":/images/player_sprites/player_idle_back");
 
     walkingPixmaps_front = extractFrames(":/images/player_sprites/player_walk_front");
-    walkingPixmaps_left = extractFrames(":/images/player_sprites/player_walk_left");
+    walkingPixmaps_left = extractFrames(":/images/player_sprites/player_walk_right");
     walkingPixmaps_right = extractFrames(":/images/player_sprites/player_walk_right");
     walkingPixmaps_back = extractFrames(":/images/player_sprites/player_walk_back");
 
     fightingPixmaps_front = extractFrames(":/images/player_sprites/player_attack_front");
-    fightingPixmaps_left = extractFrames(":/images/player_sprites/player_attack_left");
+    fightingPixmaps_left = extractFrames(":/images/player_sprites/player_attack_right");
     fightingPixmaps_right = extractFrames(":/images/player_sprites/player_attack_right");
     fightingPixmaps_back = extractFrames(":/images/player_sprites/player_attack_back");
 
@@ -94,6 +94,93 @@ void ProtagonistView2D::setState(AnimationState newState) {
     currentFrameIndex = 0;
 
     // Update the pixmap for the new state
+    setAnimation();
+}
+
+void ProtagonistView2D::updateAnimationFrame() {
+    switch (currentState) {
+    case Idle:
+        // Cycle through idle frames
+        updateCurrentFrameIndex();
+        setAnimation();
+        break;
+    case Walking:
+        // Cycle through walking frames
+        updateCurrentFrameIndex();
+        setAnimation();
+        break;
+    case Fighting:
+        // Play fighting frames once
+        if (currentFrameIndex < fightingPixmaps_front.size() - 1) {
+            updateCurrentFrameIndex();
+            setAnimation();
+        } else {
+            setState(Idle);
+        }
+        break;
+    case Dying:
+        // Play dying frames once
+        if (currentFrameIndex < dyingPixmaps.size() - 1) {
+           updateCurrentFrameIndex();
+            setAnimation();
+        } else {
+            animationTimer->stop(); // Stop the timer when animation ends
+        }
+        break;
+    }
+}
+
+std::vector<QPixmap> ProtagonistView2D::extractFrames(const QString &fileDir) {
+    std::vector<QPixmap> frames;
+    QPixmap frame;
+    int i = 0;
+
+    QDirIterator it(fileDir, QDirIterator::NoIteratorFlags);
+    while (it.hasNext()){
+        i++;
+        frame = it.next();
+        qDebug() << frame << fileDir << i;
+        frames.push_back(frame.scaledToHeight(gridSize));
+    }
+    return frames;
+}
+
+void ProtagonistView2D::updateDirection(int curX, int curY, int newX, int newY)
+{
+    if(curX > newX){
+        currentDirection = Left;
+    }
+    else{
+        currentDirection = Right;
+    }
+    if(curY > newY){
+        currentDirection = Back;
+    }
+    else{
+        currentDirection = Front;
+    }
+}
+
+void ProtagonistView2D::updateCurrentFrameIndex()
+{
+    switch (currentState) {
+    case Idle:
+        currentFrameIndex = (currentFrameIndex + 1) % idlePixmaps_front.size();
+        break;
+    case Walking:
+        currentFrameIndex = (currentFrameIndex + 1) % walkingPixmaps_front.size();
+        break;
+    case Fighting:
+        currentFrameIndex++;
+        break;
+    case Dying:
+        currentFrameIndex++;
+        break;
+    }
+}
+
+void ProtagonistView2D::setAnimation()
+{
     switch (currentState) {
     case Idle:
         switch(currentDirection){
@@ -152,69 +239,7 @@ void ProtagonistView2D::setState(AnimationState newState) {
     }
 }
 
-void ProtagonistView2D::updateAnimationFrame() {
-    switch (currentState) {
-    case Idle:
-        // Cycle through idle frames
-        currentFrameIndex = (currentFrameIndex + 1) % idlePixmaps.size();
-        setPixmap(idlePixmaps[currentFrameIndex]);
-        break;
-    case Walking:
-        // Cycle through walking frames
-        currentFrameIndex = (currentFrameIndex + 1) % walkingPixmaps.size();
-        setPixmap(walkingPixmaps[currentFrameIndex]);
-        break;
-    case Fighting:
-        // Play fighting frames once
-        if (currentFrameIndex < fightingPixmaps.size() - 1) {
-            currentFrameIndex++;
-            setPixmap(fightingPixmaps[currentFrameIndex]);
-        } else {
-            setState(Idle);
-        }
-        break;
-    case Dying:
-        // Play dying frames once
-        if (currentFrameIndex < dyingPixmaps.size() - 1) {
-            currentFrameIndex++;
-            setPixmap(dyingPixmaps[currentFrameIndex]);
-        } else {
-            animationTimer->stop(); // Stop the timer when animation ends
-        }
-        break;
-    }
-}
 
-std::vector<QPixmap> ProtagonistView2D::extractFrames(const QString &fileDir) {
-    std::vector<QPixmap> frames;
-    QPixmap frame;
-    int i = 0;
-
-    QDirIterator it(fileDir, QDirIterator::NoIteratorFlags);
-    while (it.hasNext()){
-        i++;
-        frame = it.next();
-        qDebug() << frame << fileDir << i;
-        frames.push_back(frame.scaledToHeight(gridSize));
-    }
-    return frames;
-}
-
-void ProtagonistView2D::updateDirection(int curX, int curY, int newX, int newY)
-{
-    if(curX > newX){
-        currentDirection = Left;
-    }
-    else{
-        currentDirection = Right;
-    }
-    if(curY > newY){
-        currentDirection = Back;
-    }
-    else{
-        currentDirection = Front;
-    }
-}
 
 std::vector<QPixmap> ProtagonistView2D::extractFramesFromSpritesheet(const QString& filePath, int frameWidth, int frameHeight, int numberOfFrames) {
     std::vector<QPixmap> frames;
