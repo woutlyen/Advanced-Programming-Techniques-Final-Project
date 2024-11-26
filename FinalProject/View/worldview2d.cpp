@@ -3,6 +3,7 @@
 #include "View/enemyview2d.h"
 #include "View/healthpackview2d.h"
 #include "View/protagonistview2d.h"
+#include "qgraphicsscene.h"
 
 WorldView2D::WorldView2D() {}
 

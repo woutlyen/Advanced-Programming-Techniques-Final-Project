@@ -2,11 +2,12 @@
 #define WORLDVIEW2D_H
 
 #include "statusbar2d.h"
-
+#include "world.h"
+#include <QObject>
 #include <QPixmap>
 #include <QColor>
 
-class WorldView2D :
+class WorldView2D: public QObject
 {
 public:
     WorldView2D();
