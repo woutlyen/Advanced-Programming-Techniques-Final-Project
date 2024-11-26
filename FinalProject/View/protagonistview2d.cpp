@@ -4,6 +4,7 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Protagonist>& protago
     : QObject(),
     QGraphicsPixmapItem(parent),
     currentState{Idle},
+    currentDirection{Front},
     movementAnimation(new QPropertyAnimation(this, "pos")),
     animationTimer(new QTimer(this)),
     currentFrameIndex{0}
@@ -140,6 +141,22 @@ std::vector<QPixmap> ProtagonistView2D::extractFrames(const QString &fileDir) {
         frames.push_back(frame.scaledToHeight(gridSize));
     }
     return frames;
+}
+
+void ProtagonistView2D::updateDirection(int curX, int curY, int newX, int newY)
+{
+    if(curX > newX){
+        currentDirection = Left;
+    }
+    else{
+        currentDirection = Right;
+    }
+    if(curY > newY){
+        currentDirection = Back;
+    }
+    else{
+        currentDirection = Front;
+    }
 }
 
 std::vector<QPixmap> ProtagonistView2D::extractFramesFromSpritesheet(const QString& filePath, int frameWidth, int frameHeight, int numberOfFrames) {

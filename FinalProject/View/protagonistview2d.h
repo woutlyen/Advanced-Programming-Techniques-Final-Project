@@ -20,8 +20,10 @@ public:
 
 private:
     std::size_t gridSize{};
+    enum Direction {Front, Back, Left, Right};
     enum AnimationState { Idle, Walking, Fighting, Dying }; // Animation states
     AnimationState currentState;                 // Current animation state
+    Direction currentDirection;
 
     QPropertyAnimation* movementAnimation; // Animation for position movement
     QTimer* animationTimer;                // Timer for cycling pixmaps
@@ -34,6 +36,8 @@ private:
     void setState(AnimationState newState); // Switch animation state
     std::vector<QPixmap> extractFramesFromSpritesheet(const QString &filePath, int frameWidth, int frameHeight, int numberOfFrames);
     std::vector<QPixmap> extractFrames(const QString &fileDir);
+    void updateDirection(int curX, int curY, int newX, int newY);
+
 private slots:
     void onPositionChanged(int x, int y); // Updates the protagonist's position
     void onHealthChanged(int health);    // Updates the protagonist's visual representation
