@@ -25,15 +25,16 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Protagonist>& protago
     connect(protagonist.get(), &Protagonist::energyChanged, this, &ProtagonistView2D::onEnergyChanged);
 
     // Configure the movement animation
-    movementAnimation->setDuration(640); // Animation duration (in milliseconds)
+    movementAnimation->setDuration(480); // Animation duration (in milliseconds)
     movementAnimation->setEasingCurve(QEasingCurve::Linear);
 
     // Configure the animation timer
-    animationTimer->setInterval(80); // Frame switch interval (in milliseconds)
+    animationTimer->setInterval(120); // Frame switch interval (in milliseconds)
     animationTimer->start();
     connect(animationTimer, &QTimer::timeout, this, &ProtagonistView2D::updateAnimationFrame);
     connect(movementAnimation, &QPropertyAnimation::finished, this, [this]() {
         if (currentState == Walking) {
+            animationTimer->setInterval(120);
             setState(Idle); // Switch to idle when movement finishes
         }
     });
@@ -44,8 +45,9 @@ void ProtagonistView2D::onPositionChanged(int x, int y)
     // Switch to walking state
     setState(Walking);
 
-    // Stop any ongoing movement animation and animation timer
+    // Stop any ongoing movement animation and update animation timer
     movementAnimation->stop();
+    animationTimer->setInterval(60);
 
     // Set the animation start (current position) and end (target position)
     movementAnimation->setStartValue(pos()); // Current position

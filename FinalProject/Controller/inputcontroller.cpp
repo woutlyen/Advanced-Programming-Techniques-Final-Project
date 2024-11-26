@@ -18,7 +18,7 @@ InputController::InputController(QObject* parent) : QObject(parent)
 
     // Set interval for rate-limiting
     for (auto timer : rateLimitTimers) {
-        timer->setInterval(630);
+        timer->setInterval(460);
         timer->setSingleShot(true); // Ensure the timer runs once per trigger
     }
 }
