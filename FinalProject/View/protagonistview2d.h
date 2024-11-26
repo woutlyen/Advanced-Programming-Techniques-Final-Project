@@ -49,7 +49,6 @@ private:
     void setState(AnimationState newState); // Switch animation state
     std::vector<QPixmap> extractFramesFromSpritesheet(const QString &filePath, int frameWidth, int frameHeight, int numberOfFrames);
     std::vector<QPixmap> extractFrames(const QString &fileDir);
-    void updateDirection(int curX, int curY, int newX, int newY);
     void updateCurrentFrameIndex();
     void setAnimation();
 
@@ -58,6 +57,8 @@ private slots:
     void onHealthChanged(int health);    // Updates the protagonist's visual representation
     void onEnergyChanged(int energy);    // Updates the protagonist's visual representation
     void updateAnimationFrame(); // Update animation frame
+    void updateDirection(int curX, int curY, int newX, int newY);
+
 };
 
 #endif // PROTAGONISTVIEW2D_H

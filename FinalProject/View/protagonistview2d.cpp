@@ -14,17 +14,17 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Protagonist>& protago
 
     // Initialize all Pixmaps
     idlePixmaps_front = extractFrames(":/images/player_sprites/player_idle_front");
-    idlePixmaps_left = extractFrames(":/images/player_sprites/player_idle_right");
+    idlePixmaps_left = extractFrames(":/images/player_sprites/player_idle_left");
     idlePixmaps_right = extractFrames(":/images/player_sprites/player_idle_right");
     idlePixmaps_back = extractFrames(":/images/player_sprites/player_idle_back");
 
     walkingPixmaps_front = extractFrames(":/images/player_sprites/player_walk_front");
-    walkingPixmaps_left = extractFrames(":/images/player_sprites/player_walk_right");
+    walkingPixmaps_left = extractFrames(":/images/player_sprites/player_walk_left");
     walkingPixmaps_right = extractFrames(":/images/player_sprites/player_walk_right");
     walkingPixmaps_back = extractFrames(":/images/player_sprites/player_walk_back");
 
     fightingPixmaps_front = extractFrames(":/images/player_sprites/player_attack_front");
-    fightingPixmaps_left = extractFrames(":/images/player_sprites/player_attack_right");
+    fightingPixmaps_left = extractFrames(":/images/player_sprites/player_attack_left");
     fightingPixmaps_right = extractFrames(":/images/player_sprites/player_attack_right");
     fightingPixmaps_back = extractFrames(":/images/player_sprites/player_attack_back");
 
@@ -57,15 +57,11 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Protagonist>& protago
 
 void ProtagonistView2D::onPositionChanged(int x, int y)
 {
-    qDebug() << "curr x = " << pos().x() << "curr y = " << pos().y() << "new x = " << x << "new y " << y;
-    updateDirection(pos().x(), pos().y(), gridSize * x, gridSize * y);
     // Switch to walking state
     setState(Walking);
 
     // Stop any ongoing movement animation and update animation timer
     movementAnimation->stop();
-    animationTimer->setInterval(60);
-
     // Set the animation start (current position) and end (target position)
     movementAnimation->setStartValue(pos()); // Current position
     movementAnimation->setEndValue(QPoint(gridSize * x, gridSize * y)); // Target position
@@ -171,6 +167,7 @@ void ProtagonistView2D::setAnimation()
 {
     switch (currentState) {
     case Idle:
+        animationTimer->setInterval(180);
         switch(currentDirection){
         case Front:
             setPixmap(idlePixmaps_front[currentFrameIndex]);
@@ -188,7 +185,7 @@ void ProtagonistView2D::setAnimation()
 
         break;
     case Walking:
-
+        animationTimer->setInterval(90);
         switch(currentDirection){
         case Front:
             setPixmap(walkingPixmaps_front[currentFrameIndex]);
@@ -206,6 +203,7 @@ void ProtagonistView2D::setAnimation()
         break;
 
     case Fighting:
+        animationTimer->setInterval(120);
         switch(currentDirection){
         case Front:
             setPixmap(fightingPixmaps_front[currentFrameIndex]);
