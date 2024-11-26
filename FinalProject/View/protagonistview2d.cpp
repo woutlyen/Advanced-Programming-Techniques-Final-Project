@@ -57,7 +57,8 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Protagonist>& protago
 
 void ProtagonistView2D::onPositionChanged(int x, int y)
 {
-    updateDirection(pos().x(), pos().y(), x, y);
+    qDebug() << "curr x = " << pos().x() << "curr y = " << pos().y() << "new x = " << x << "new y " << y;
+    updateDirection(pos().x(), pos().y(), gridSize * x, gridSize * y);
     // Switch to walking state
     setState(Walking);
 
@@ -133,18 +134,19 @@ void ProtagonistView2D::updateAnimationFrame() {
 
 void ProtagonistView2D::updateDirection(int curX, int curY, int newX, int newY)
 {
-    if(curX > newX){
+    if(curX > newX && curY == newY){
         currentDirection = Left;
     }
-    else{
+    else if(curX < newX && curY == newY){
         currentDirection = Right;
     }
-    if(curY > newY){
+    else if(curY > newY){
         currentDirection = Back;
     }
     else{
         currentDirection = Front;
     }
+    qDebug() << "new direction is: " << currentDirection;
 }
 
 void ProtagonistView2D::updateCurrentFrameIndex()
