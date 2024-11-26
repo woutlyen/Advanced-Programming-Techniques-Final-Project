@@ -96,13 +96,55 @@ void ProtagonistView2D::setState(AnimationState newState) {
     // Update the pixmap for the new state
     switch (currentState) {
     case Idle:
-        setPixmap(idlePixmaps[currentFrameIndex]);
+        switch(currentDirection){
+        case Front:
+            setPixmap(idlePixmaps_front[currentFrameIndex]);
+            break;
+        case Back:
+            setPixmap(idlePixmaps_back[currentFrameIndex]);
+            break;
+        case Left:
+            setPixmap(idlePixmaps_left[currentFrameIndex]);
+            break;
+        case Right:
+            setPixmap(idlePixmaps_right[currentFrameIndex]);
+            break;
+        }
+
         break;
     case Walking:
-        setPixmap(walkingPixmaps[currentFrameIndex]);
+
+        switch(currentDirection){
+        case Front:
+            setPixmap(walkingPixmaps_front[currentFrameIndex]);
+            break;
+        case Back:
+            setPixmap(walkingPixmaps_back[currentFrameIndex]);
+            break;
+        case Left:
+            setPixmap(walkingPixmaps_left[currentFrameIndex]);
+            break;
+        case Right:
+            setPixmap(walkingPixmaps_right[currentFrameIndex]);
+            break;
+        }
         break;
+
     case Fighting:
-        setPixmap(fightingPixmaps[currentFrameIndex]);
+        switch(currentDirection){
+        case Front:
+            setPixmap(fightingPixmaps_front[currentFrameIndex]);
+            break;
+        case Back:
+            setPixmap(fightingPixmaps_back[currentFrameIndex]);
+            break;
+        case Left:
+            setPixmap(fightingPixmaps_left[currentFrameIndex]);
+            break;
+        case Right:
+            setPixmap(fightingPixmaps_right[currentFrameIndex]);
+            break;
+        }
         break;
     case Dying:
         setPixmap(dyingPixmaps[currentFrameIndex]);
