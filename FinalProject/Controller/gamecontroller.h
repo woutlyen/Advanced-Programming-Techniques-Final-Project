@@ -1,6 +1,7 @@
 #ifndef GAMECONTROLLER_H
 #define GAMECONTROLLER_H
 
+#include "Controller/enemycontroller.h"
 #include "Controller/inputcontroller.h"
 #include "Controller/playercontroller.h"
 #include "mainwindow.h"
@@ -31,6 +32,7 @@ private:
     std::size_t currentLevel {0};
 
     PlayerController playerController;
+    EnemyController enemyController;
     InputController inputController;
 
 private slots:

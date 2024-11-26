@@ -3,7 +3,7 @@
 ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Protagonist>& protagonist, std::size_t gridSize, QGraphicsItem* parent)
     : QObject(),
     QGraphicsPixmapItem(parent),
-    currentState{Fighting},
+    currentState{Idle},
     movementAnimation(new QPropertyAnimation(this, "pos")),
     animationTimer(new QTimer(this)),
     currentFrameIndex{0}
@@ -21,7 +21,7 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Protagonist>& protago
 
     // Connect signalsc & slots
     connect(protagonist.get(), &Protagonist::posChanged, this, &ProtagonistView2D::onPositionChanged);
-    //connect(protagonist.get(), &Protagonist::healthChanged, this, &ProtagonistView2D::onHealthChanged);
+    connect(protagonist.get(), &Protagonist::healthChanged, this, &ProtagonistView2D::onHealthChanged);
     connect(protagonist.get(), &Protagonist::energyChanged, this, &ProtagonistView2D::onEnergyChanged);
 
     // Configure the movement animation
@@ -55,6 +55,12 @@ void ProtagonistView2D::onPositionChanged(int x, int y)
 
     // Start the movement animation and timer
     movementAnimation->start();
+}
+
+void ProtagonistView2D::onHealthChanged(int health)
+{
+    // Switch to fighting state
+    setState(Fighting);
 }
 
 void ProtagonistView2D::onEnergyChanged(int energy)
@@ -102,9 +108,13 @@ void ProtagonistView2D::updateAnimationFrame() {
         setPixmap(walkingPixmaps[currentFrameIndex]);
         break;
     case Fighting:
-        // Play dying frames once
-        currentFrameIndex = (currentFrameIndex + 1) % fightingPixmaps.size();
-        setPixmap(fightingPixmaps[currentFrameIndex]);
+        // Play fighting frames once
+        if (currentFrameIndex < fightingPixmaps.size() - 1) {
+            currentFrameIndex++;
+            setPixmap(fightingPixmaps[currentFrameIndex]);
+        } else {
+            setState(Idle);
+        }
         break;
     case Dying:
         // Play dying frames once

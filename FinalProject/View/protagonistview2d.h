@@ -34,7 +34,7 @@ private:
 
 private slots:
     void onPositionChanged(int x, int y); // Updates the protagonist's position
-    //void onHealthChanged(int health);    // Updates the protagonist's visual representation
+    void onHealthChanged(int health);    // Updates the protagonist's visual representation
     void onEnergyChanged(int energy);    // Updates the protagonist's visual representation
     void updateAnimationFrame(); // Update animation frame
 };
