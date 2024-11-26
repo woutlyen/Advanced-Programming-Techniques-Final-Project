@@ -14,5 +14,57 @@
         <file>images/DEATH.png</file>
         <file>images/ATTACK1.png</file>
         <file>images/hearts.png</file>
+        <file>images/player_sprites/player_walk_right/tile029.png</file>
+        <file>images/player_sprites/player_walk_right/tile028.png</file>
+        <file>images/player_sprites/player_walk_right/tile027.png</file>
+        <file>images/player_sprites/player_walk_right/tile026.png</file>
+        <file>images/player_sprites/player_walk_right/tile025.png</file>
+        <file>images/player_sprites/player_walk_right/tile024.png</file>
+        <file>images/player_sprites/player_walk_front/tile023.png</file>
+        <file>images/player_sprites/player_walk_front/tile022.png</file>
+        <file>images/player_sprites/player_walk_front/tile021.png</file>
+        <file>images/player_sprites/player_walk_front/tile020.png</file>
+        <file>images/player_sprites/player_walk_front/tile019.png</file>
+        <file>images/player_sprites/player_walk_front/tile018.png</file>
+        <file>images/player_sprites/player_walk_back/tile035.png</file>
+        <file>images/player_sprites/player_walk_back/tile034.png</file>
+        <file>images/player_sprites/player_walk_back/tile033.png</file>
+        <file>images/player_sprites/player_walk_back/tile032.png</file>
+        <file>images/player_sprites/player_walk_back/tile031.png</file>
+        <file>images/player_sprites/player_walk_back/tile030.png</file>
+        <file>images/player_sprites/player_idle_right/tile011.png</file>
+        <file>images/player_sprites/player_idle_right/tile010.png</file>
+        <file>images/player_sprites/player_idle_right/tile009.png</file>
+        <file>images/player_sprites/player_idle_right/tile008.png</file>
+        <file>images/player_sprites/player_idle_right/tile007.png</file>
+        <file>images/player_sprites/player_idle_right/tile006.png</file>
+        <file>images/player_sprites/player_idle_front/tile005.png</file>
+        <file>images/player_sprites/player_idle_front/tile004.png</file>
+        <file>images/player_sprites/player_idle_front/tile003.png</file>
+        <file>images/player_sprites/player_idle_front/tile002.png</file>
+        <file>images/player_sprites/player_idle_front/tile001.png</file>
+        <file>images/player_sprites/player_idle_front/tile000.png</file>
+        <file>images/player_sprites/player_idle_back/tile017.png</file>
+        <file>images/player_sprites/player_idle_back/tile016.png</file>
+        <file>images/player_sprites/player_idle_back/tile015.png</file>
+        <file>images/player_sprites/player_idle_back/tile014.png</file>
+        <file>images/player_sprites/player_idle_back/tile013.png</file>
+        <file>images/player_sprites/player_idle_back/tile012.png</file>
+        <file>images/player_sprites/player_die/tile057.png</file>
+        <file>images/player_sprites/player_die/tile056.png</file>
+        <file>images/player_sprites/player_die/tile055.png</file>
+        <file>images/player_sprites/player_die/tile054.png</file>
+        <file>images/player_sprites/player_attack_right/tile045.png</file>
+        <file>images/player_sprites/player_attack_right/tile044.png</file>
+        <file>images/player_sprites/player_attack_right/tile043.png</file>
+        <file>images/player_sprites/player_attack_right/tile042.png</file>
+        <file>images/player_sprites/player_attack_front/tile039.png</file>
+        <file>images/player_sprites/player_attack_front/tile038.png</file>
+        <file>images/player_sprites/player_attack_front/tile037.png</file>
+        <file>images/player_sprites/player_attack_front/tile036.png</file>
+        <file>images/player_sprites/player_attack_back/tile051.png</file>
+        <file>images/player_sprites/player_attack_back/tile050.png</file>
+        <file>images/player_sprites/player_attack_back/tile049.png</file>
+        <file>images/player_sprites/player_attack_back/tile048.png</file>
     </qresource>
 </RCC>
