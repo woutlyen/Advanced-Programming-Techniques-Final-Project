@@ -57,6 +57,7 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Protagonist>& protago
 
 void ProtagonistView2D::onPositionChanged(int x, int y)
 {
+    updateDirection(pos().x(), pos().y(), x, y);
     // Switch to walking state
     setState(Walking);
 
@@ -128,21 +129,6 @@ void ProtagonistView2D::updateAnimationFrame() {
         }
         break;
     }
-}
-
-std::vector<QPixmap> ProtagonistView2D::extractFrames(const QString &fileDir) {
-    std::vector<QPixmap> frames;
-    QPixmap frame;
-    int i = 0;
-
-    QDirIterator it(fileDir, QDirIterator::NoIteratorFlags);
-    while (it.hasNext()){
-        i++;
-        frame = it.next();
-        qDebug() << frame << fileDir << i;
-        frames.push_back(frame.scaledToHeight(gridSize));
-    }
-    return frames;
 }
 
 void ProtagonistView2D::updateDirection(int curX, int curY, int newX, int newY)
@@ -240,6 +226,17 @@ void ProtagonistView2D::setAnimation()
 }
 
 
+std::vector<QPixmap> ProtagonistView2D::extractFrames(const QString &fileDir) {
+    std::vector<QPixmap> frames;
+    QPixmap frame;
+
+    QDirIterator it(fileDir, QDirIterator::NoIteratorFlags);
+    while (it.hasNext()){
+        frame = it.next();
+        frames.push_back(frame.scaledToHeight(gridSize));
+    }
+    return frames;
+}
 
 std::vector<QPixmap> ProtagonistView2D::extractFramesFromSpritesheet(const QString& filePath, int frameWidth, int frameHeight, int numberOfFrames) {
     std::vector<QPixmap> frames;
