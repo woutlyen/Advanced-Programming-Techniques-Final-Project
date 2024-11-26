@@ -37,7 +37,7 @@ void GameController::start()
     scenes2D.push_back(worldView2D.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), heigth.at(currentLevel) , width.at(currentLevel), ":/world_images/worldmap.png",gridSize));
     currentLevel += 1;
 
-    world.createWorld(":/world_images/worldmap4.png", 5, 10);
+    world.createWorld(":/world_images/worldmap.png", 5, 10);
     tiles.push_back(world.getTiles());
     enemies.push_back(world.getEnemies());
     healthPacks.push_back(world.getHealthPacks());
@@ -45,7 +45,7 @@ void GameController::start()
     width.push_back(world.getCols());
     heigth.push_back(world.getRows());
 
-    scenes2D.push_back(worldView2D.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), heigth.at(currentLevel) , width.at(currentLevel), ":/world_images/worldmap4.png",gridSize));
+    scenes2D.push_back(worldView2D.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), heigth.at(currentLevel) , width.at(currentLevel), ":/world_images/worldmap.png",gridSize));
 
 
     mainWindow.setScene(scenes2D.at(currentLevel));
