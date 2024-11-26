@@ -66,5 +66,21 @@
         <file>images/player_sprites/player_attack_back/tile050.png</file>
         <file>images/player_sprites/player_attack_back/tile049.png</file>
         <file>images/player_sprites/player_attack_back/tile048.png</file>
+        <file>images/player_sprites/player_walk_left/tile029.png</file>
+        <file>images/player_sprites/player_walk_left/tile028.png</file>
+        <file>images/player_sprites/player_walk_left/tile027.png</file>
+        <file>images/player_sprites/player_walk_left/tile026.png</file>
+        <file>images/player_sprites/player_walk_left/tile025.png</file>
+        <file>images/player_sprites/player_walk_left/tile024.png</file>
+        <file>images/player_sprites/player_idle_left/tile011.png</file>
+        <file>images/player_sprites/player_idle_left/tile010.png</file>
+        <file>images/player_sprites/player_idle_left/tile009.png</file>
+        <file>images/player_sprites/player_idle_left/tile008.png</file>
+        <file>images/player_sprites/player_idle_left/tile007.png</file>
+        <file>images/player_sprites/player_idle_left/tile006.png</file>
+        <file>images/player_sprites/player_attack_left/tile045.png</file>
+        <file>images/player_sprites/player_attack_left/tile044.png</file>
+        <file>images/player_sprites/player_attack_left/tile043.png</file>
+        <file>images/player_sprites/player_attack_left/tile042.png</file>
     </qresource>
 </RCC>
