@@ -11,12 +11,27 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Protagonist>& protago
     {
 
     this->gridSize = gridSize;
-    idlePixmaps = extractFrames(":/images/player_sprites/player_idle_front");
-    walkingPixmaps = extractFrames(":/images/player_sprites/player_walk_front");
-    fightingPixmaps = extractFrames(":/images/player_sprites/player_attack_front");
+
+    // Initialize all Pixmaps
+    idlePixmaps_front = extractFrames(":/images/player_sprites/player_idle_front");
+    idlePixmaps_left = extractFrames(":/images/player_sprites/player_idle_left");
+    idlePixmaps_right = extractFrames(":/images/player_sprites/player_idle_right");
+    idlePixmaps_back = extractFrames(":/images/player_sprites/player_idle_back");
+
+    walkingPixmaps_front = extractFrames(":/images/player_sprites/player_walk_front");
+    walkingPixmaps_left = extractFrames(":/images/player_sprites/player_walk_left");
+    walkingPixmaps_right = extractFrames(":/images/player_sprites/player_walk_right");
+    walkingPixmaps_back = extractFrames(":/images/player_sprites/player_walk_back");
+
+    fightingPixmaps_front = extractFrames(":/images/player_sprites/player_attack_front");
+    fightingPixmaps_left = extractFrames(":/images/player_sprites/player_attack_left");
+    fightingPixmaps_right = extractFrames(":/images/player_sprites/player_attack_right");
+    fightingPixmaps_back = extractFrames(":/images/player_sprites/player_attack_back");
+
     dyingPixmaps = extractFrames(":/images/player_sprites/player_die");
+
     // Set the initial pixmap
-    setPixmap(idlePixmaps[0]);
+    setPixmap(idlePixmaps_front[0]);
     setPos(gridSize*protagonist->getXPos(), gridSize*protagonist->getYPos());
 
     // Connect signalsc & slots

@@ -27,10 +27,23 @@ private:
 
     QPropertyAnimation* movementAnimation; // Animation for position movement
     QTimer* animationTimer;                // Timer for cycling pixmaps
-    std::vector<QPixmap> idlePixmaps;          // Pixmaps for idle animation
-    std::vector<QPixmap> walkingPixmaps;       // Pixmaps for walking animation
-    std::vector<QPixmap> fightingPixmaps;       // Pixmaps for fighting animation
-    std::vector<QPixmap> dyingPixmaps;         // Pixmaps for dying animation
+    // Pixmaps for idle animation
+    std::vector<QPixmap> idlePixmaps_front;
+    std::vector<QPixmap> idlePixmaps_left;
+    std::vector<QPixmap> idlePixmaps_right;
+    std::vector<QPixmap> idlePixmaps_back;
+    // Pixmaps for walking animation
+    std::vector<QPixmap> walkingPixmaps_front;
+    std::vector<QPixmap> walkingPixmaps_left;
+    std::vector<QPixmap> walkingPixmaps_right;
+    std::vector<QPixmap> walkingPixmaps_back;
+    // Pixmaps for fighting animation
+    std::vector<QPixmap> fightingPixmaps_front;
+    std::vector<QPixmap> fightingPixmaps_left;
+    std::vector<QPixmap> fightingPixmaps_right;
+    std::vector<QPixmap> fightingPixmaps_back;
+    // Pixmaps for dying animation
+    std::vector<QPixmap> dyingPixmaps;
     int currentFrameIndex;                 // Current frame index in pixmap arrays
 
     void setState(AnimationState newState); // Switch animation state
