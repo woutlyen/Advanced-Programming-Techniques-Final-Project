@@ -16,6 +16,8 @@ InputController::InputController(QObject* parent) : QObject(parent)
     rateLimitTimers[Qt::Key_Home] = new QTimer(this);
     rateLimitTimers[Qt::Key_End] = new QTimer(this);
 
+    rateLimitTimers[Qt::Key_Tab] = new QTimer(this);
+
     // Set interval for rate-limiting
     for (auto timer : rateLimitTimers) {
         timer->setInterval(460);
@@ -51,6 +53,8 @@ bool InputController::eventFilter(QObject *obj, QEvent *event)
 
                 case Qt::Key_Home: emit homePressed(); break;
                 case Qt::Key_End: emit endPressed(); break;
+
+                case Qt::Key_Tab: emit tabPressed(); break;
                 default: break; // Ignore other keys
             }
         }

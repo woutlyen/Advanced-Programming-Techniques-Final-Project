@@ -18,6 +18,7 @@ signals:
     void rightPressed();
     void homePressed();
     void endPressed();
+    void tabPressed();
 
 protected:
     bool eventFilter(QObject* obj, QEvent* event) override;

@@ -17,6 +17,7 @@ GameController::GameController(QObject *parent) : QObject(parent) {
 
     connect(&inputController, &InputController::homePressed, this, &GameController::onHomePressed);
     connect(&inputController, &InputController::endPressed, this, &GameController::onEndPressed);
+    connect(&inputController, &InputController::tabPressed, this, &GameController::onTabPressed);
 
 }
 
@@ -24,6 +25,7 @@ void GameController::start()
 {
     World world;
     WorldViewText worldViewText;
+    WorldView2D worldView2D;
     std::size_t gridSize {64};
 
     world.createWorld(":/world_images/worldmap.png", 20, 5);
@@ -36,6 +38,8 @@ void GameController::start()
 
     protagonist.at(0)->setEnergy(10.0f);
     scenesText.push_back(worldViewText.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), heigth.at(currentLevel) , width.at(currentLevel), ":/world_images/worldmap.png",gridSize));
+
+    scenes2D.push_back(worldView2D.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), heigth.at(currentLevel) , width.at(currentLevel), ":/world_images/worldmap.png",gridSize));
     currentLevel += 1;
 
     world.createWorld(":/world_images/worldmap.png", 5, 10);
@@ -48,6 +52,7 @@ void GameController::start()
 
     scenesText.push_back(worldViewText.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), heigth.at(currentLevel) , width.at(currentLevel), ":/world_images/worldmap.png",gridSize));
 
+    scenes2D.push_back(worldView2D.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), heigth.at(currentLevel) , width.at(currentLevel), ":/world_images/worldmap.png",gridSize));
 
     mainWindow.setScene(scenesText.at(currentLevel));
     mainWindow.show();
@@ -92,6 +97,11 @@ void GameController::onHomePressed() {
 void GameController::onEndPressed() {
     currentLevel = 1;
     mainWindow.setScene(scenesText.at(currentLevel));
+}
+
+void GameController::onTabPressed() {
+    currentMode = !currentMode;
+    mainWindow.setScene((currentMode) ? scenesText.at(currentLevel) : scenes2D.at(currentLevel));
 }
 
 

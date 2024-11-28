@@ -28,7 +28,9 @@ private:
     std::vector<int> heigth;
 
     std::vector<QGraphicsScene*> scenesText;
+    std::vector<QGraphicsScene*> scenes2D;
     std::size_t currentLevel {0};
+    std::size_t currentMode {0};
 
     PlayerController playerController;
     EnemyController enemyController;
@@ -41,6 +43,7 @@ private slots:
     void onRightPressed();
     void onHomePressed();
     void onEndPressed();
+    void onTabPressed();
 };
 
 #endif // GAMECONTROLLER_H
