@@ -1,6 +1,13 @@
 #include "worldviewtext.h"
-#include "View/protagonistviewtext.h"
+#include "View/enemyviewtext.h"
+#include "View/healthpackviewtext.h"
 #include "qgraphicsitem.h"
+#include <QObject>
+
+#include "View/enemyview2d.h"
+#include "View/healthpackview2d.h"
+#include "View/protagonistviewtext.h"
+#include "qgraphicsscene.h"
 
 WorldViewText::WorldViewText() {}
 
@@ -52,23 +59,29 @@ QGraphicsScene *WorldViewText::makeScene(std::vector<std::unique_ptr<Enemy>> &en
     borders->setText(borders->text() + QString("\u256f\n"));
 
     // Place protagonist, enemies and health
-    auto prot = scene->addSimpleText(QString("P"), font);
-    prot->setPen(QColor(255, 205, 0));
-    prot->setPos(width * protagonist->getXPos() + width / 2, height * protagonist->getXPos() + height / 2);
+    /*auto prot = scene->addSimpleText(QString("P"), font);*/
+    /*prot->setPen(QColor(255, 205, 0));*/
+    /*prot->setPos(width * protagonist->getXPos() + width / 2, height * protagonist->getXPos() + height / 2);*/
 
     for (auto &enemy : enemies) {
-        auto e = scene->addSimpleText(QString("E"), font);
-        e->setPen(QColor(0, 255, 0));
-        e->setPos(width * enemy->getXPos() + width / 2, height * enemy->getYPos() + height / 2);
+        scene->addItem(new EnemyViewText(enemy, width, height, font));
     }
 
     for (auto &pack : healthPacks) {
-        auto h = scene->addSimpleText(QString("H"), font);
-        h->setPen(QColor(255, 0, 0));
-        h->setPos(width * pack->getXPos() + width / 2, height * pack->getYPos() + height / 2);
+        scene->addItem(new HealthPackViewText(pack, width, height, font));
     }
 
-    scene->addItem(new ProtagonistViewText(protagonist, gridSize));
+
+    scene->addItem(new ProtagonistViewText(protagonist, width, height, font));
+
+    healthBar = new StatusBar2D(10, 10, Qt::green);
+    energyBar = new StatusBar2D(10, 40, Qt::green);
+
+    QObject::connect(protagonist.get(), &Protagonist::healthChanged, healthBar, &StatusBar2D::updateBar);
+    QObject::connect(protagonist.get(), &Protagonist::energyChanged, energyBar, &StatusBar2D::updateBar);
+
+    scene->addItem(healthBar);
+    scene->addItem(energyBar);
 
     return scene;
 }

@@ -3,6 +3,7 @@
 #include <QTimer>
 
 #include "View/worldview2d.h"
+#include "View/worldviewtext.h"
 
 GameController::GameController(QObject *parent) : QObject(parent) {
     // Install the InputController as an event filter
@@ -22,7 +23,7 @@ GameController::GameController(QObject *parent) : QObject(parent) {
 void GameController::start()
 {
     World world;
-    WorldView2D worldView2D;
+    WorldViewText worldViewText;
     std::size_t gridSize {64};
 
     world.createWorld(":/world_images/worldmap.png", 20, 5);
@@ -34,7 +35,7 @@ void GameController::start()
     heigth.push_back(world.getRows());
 
     protagonist.at(0)->setEnergy(10.0f);
-    scenes2D.push_back(worldView2D.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), heigth.at(currentLevel) , width.at(currentLevel), ":/world_images/worldmap.png",gridSize));
+    scenesText.push_back(worldViewText.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), heigth.at(currentLevel) , width.at(currentLevel), ":/world_images/worldmap.png",gridSize));
     currentLevel += 1;
 
     world.createWorld(":/world_images/worldmap.png", 5, 10);
@@ -45,10 +46,10 @@ void GameController::start()
     width.push_back(world.getCols());
     heigth.push_back(world.getRows());
 
-    scenes2D.push_back(worldView2D.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), heigth.at(currentLevel) , width.at(currentLevel), ":/world_images/worldmap.png",gridSize));
+    scenesText.push_back(worldViewText.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), heigth.at(currentLevel) , width.at(currentLevel), ":/world_images/worldmap.png",gridSize));
 
 
-    mainWindow.setScene(scenes2D.at(currentLevel));
+    mainWindow.setScene(scenesText.at(currentLevel));
     mainWindow.show();
 
     /*
@@ -84,13 +85,13 @@ void GameController::onRightPressed() {
 
 void GameController::onHomePressed() {
     currentLevel = 0;
-    mainWindow.setScene(scenes2D.at(currentLevel));
+    mainWindow.setScene(scenesText.at(currentLevel));
 }
 
 
 void GameController::onEndPressed() {
     currentLevel = 1;
-    mainWindow.setScene(scenes2D.at(currentLevel));
+    mainWindow.setScene(scenesText.at(currentLevel));
 }
 
 

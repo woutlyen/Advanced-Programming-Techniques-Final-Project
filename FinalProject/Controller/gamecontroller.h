@@ -27,7 +27,6 @@ private:
     std::vector<int> width;
     std::vector<int> heigth;
 
-    std::vector<QGraphicsScene*> scenes2D;
     std::vector<QGraphicsScene*> scenesText;
     std::size_t currentLevel {0};
 
