@@ -19,13 +19,25 @@ signals:
     void homePressed();
     void endPressed();
     void tabPressed();
+    void enterPressed(QString textCommand);
 
 protected:
     bool eventFilter(QObject* obj, QEvent* event) override;
 
 private:
     QSet<int> pressedKeys;                 // Keeps track of currently pressed keys
+    QSet<int> pressedLetters;                 // Keeps track of currently pressed letters for a command
+    QString textCommand;
     QHash<int, QTimer*> rateLimitTimers;   // Rate-limiting timers for each key
+
+    std::vector<std::string> commands = {
+        "up",
+        "down",
+        "left",
+        "right"
+    };
+    std::string processCommand(std::string input);
+    std::string text;
 };
 
 #endif // INPUTCONTROLLER_H

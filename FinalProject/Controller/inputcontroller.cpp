@@ -1,4 +1,5 @@
 #include "inputcontroller.h"
+#include <iostream>
 
 InputController::InputController(QObject* parent) : QObject(parent)
 {
@@ -17,6 +18,8 @@ InputController::InputController(QObject* parent) : QObject(parent)
     rateLimitTimers[Qt::Key_End] = new QTimer(this);
 
     rateLimitTimers[Qt::Key_Tab] = new QTimer(this);
+    rateLimitTimers[Qt::Key_Return] = new QTimer(this);
+    rateLimitTimers[Qt::Key_Backspace] = new QTimer(this);
 
     // Set interval for rate-limiting
     for (auto timer : rateLimitTimers) {
@@ -30,6 +33,13 @@ bool InputController::eventFilter(QObject *obj, QEvent *event)
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
         int key = keyEvent->key();
+
+        // Limmit the maximum command size
+        if (this->textCommand.size() < 100 && !keyEvent->text().isEmpty()) this->textCommand.append(keyEvent->text());
+
+        this->text.append(keyEvent->text().toStdString());
+
+        QString test = "up";
 
         // Ignore repeated key events
         //if (keyEvent->isAutoRepeat())
@@ -54,7 +64,21 @@ bool InputController::eventFilter(QObject *obj, QEvent *event)
                 case Qt::Key_Home: emit homePressed(); break;
                 case Qt::Key_End: emit endPressed(); break;
 
-                case Qt::Key_Tab: emit tabPressed(); break;
+                // Works
+                case Qt::Key_Tab: 
+                    emit tabPressed(); 
+                    this->text.clear();
+                    break;
+
+                // doesn't work for some fucking reason
+                case Qt::Key_Return: 
+                    emit enterPressed(test);
+                    break;
+
+                // doesn't work for some fucking reason
+                case Qt::Key_Backspace:
+                    break;
+
                 default: break; // Ignore other keys
             }
         }
@@ -74,4 +98,24 @@ bool InputController::eventFilter(QObject *obj, QEvent *event)
     }
 
     return QObject::eventFilter(obj, event); // Pass unhandled events to the base class
+}
+
+std::string InputController::processCommand(std::string input) {
+
+    std::cout << "Checking for: " << input << std::endl;
+
+    std::vector<std::string> matches = {
+    };
+
+    for (std::string &command: commands) {
+        std::cout << "Command: " << command << " Find at: " << command.find(input) << std::endl;
+        if (command.find(input) == 0){
+            std::cout << "Match found: " << command << std::endl;
+            matches.push_back(command);
+        }
+    }
+
+    if (matches.size() == 1) return matches[0];
+    
+    return "";
 }
