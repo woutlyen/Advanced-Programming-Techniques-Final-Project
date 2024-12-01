@@ -9,16 +9,17 @@
 
 #include <QGraphicsScene>
 #include <QObject>
+#include <functional>
 
-class GameController : public QObject
-{
+
+class GameController : public QObject {
     Q_OBJECT
 
-public:
+  public:
     GameController(QObject *parent = nullptr);
     void start();
 
-private:
+  private:
     MainWindow mainWindow;
     std::vector<std::vector<std::unique_ptr<Tile>>> tiles;
     std::vector<std::vector<std::unique_ptr<Enemy>>> enemies;
@@ -27,23 +28,35 @@ private:
     std::vector<int> width;
     std::vector<int> heigth;
 
-    std::vector<QGraphicsScene*> scenesText;
-    std::vector<QGraphicsScene*> scenes2D;
-    std::size_t currentLevel {0};
-    std::size_t currentMode {0};
+    std::vector<QGraphicsScene *> scenesText;
+    std::vector<QGraphicsScene *> scenes2D;
+    std::size_t currentLevel{0};
 
     PlayerController playerController;
     EnemyController enemyController;
     InputController inputController;
 
-private slots:
-    void onUpPressed();
-    void onDownPressed();
-    void onLeftPressed();
-    void onRightPressed();
+    enum ViewMode { Graphics2DView,
+                    TextView };
+
+    ViewMode currentMode{};
+
+    // Where is the best place to define this typedef?
+    /*typedef void (GameController::*gamecontroller_method_t)();*/
+    //typedef std::function<void()> func;
+    std::unordered_map<std::string, std::function<void()>> gamecontrollerMethodMap;
+
+
+  private slots:
+    void moveProtagonistUp();
+    void moveProtagonistDown();
+    void moveProtagonistLeft();
+    void moveProtagonistRight();
     void onHomePressed();
     void onEndPressed();
-    void onTabPressed();
+    void changeViewMode();
+    void processCommand(QString textCommand);
 };
+
 
 #endif // GAMECONTROLLER_H
