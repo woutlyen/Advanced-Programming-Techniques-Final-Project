@@ -28,7 +28,7 @@ GameController::GameController(QObject *parent) : QObject(parent) {
 
     connect(&inputController, &InputController::homePressed, this, &GameController::onHomePressed);
     connect(&inputController, &InputController::endPressed, this, &GameController::onEndPressed);
-    connect(&inputController, &InputController::tabPressed, this, &GameController::changeViewMode);
+    connect(&inputController, &InputController::shiftPressed, this, &GameController::changeViewMode);
     connect(&inputController, &InputController::enterPressed, this, &GameController::processCommand);
 }
 
@@ -109,15 +109,23 @@ void GameController::onEndPressed() {
 
 void GameController::changeViewMode() {
     switch (currentMode) {
-    case TextView:
-        currentMode = Graphics2DView;
-        mainWindow.setScene(scenes2D.at(currentLevel));
-        break;
+        case TextView:
+            currentMode = Graphics2DView;
+            mainWindow.setScene(scenes2D.at(currentLevel));
+            connect(&inputController, &InputController::upPressed, this, &GameController::moveProtagonistUp);
+            connect(&inputController, &InputController::downPressed, this, &GameController::moveProtagonistDown);
+            connect(&inputController, &InputController::leftPressed, this, &GameController::moveProtagonistLeft);
+            connect(&inputController, &InputController::rightPressed, this, &GameController::moveProtagonistRight);
+            break;
 
-    case Graphics2DView:
-        currentMode = TextView;
-        mainWindow.setScene(scenesText.at(currentLevel));
-        break;
+        case Graphics2DView:
+            currentMode = TextView;
+            mainWindow.setScene(scenesText.at(currentLevel));
+            disconnect(&inputController, &InputController::upPressed, this, &GameController::moveProtagonistUp);
+            disconnect(&inputController, &InputController::downPressed, this, &GameController::moveProtagonistDown);
+            disconnect(&inputController, &InputController::leftPressed, this, &GameController::moveProtagonistLeft);
+            disconnect(&inputController, &InputController::rightPressed, this, &GameController::moveProtagonistRight);
+            break;
     }
 }
 

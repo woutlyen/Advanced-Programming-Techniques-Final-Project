@@ -17,6 +17,7 @@ HealthPackViewText::HealthPackViewText(const std::unique_ptr<Tile> &healthPack, 
     setText("H");
     setFont(this->font);
     setPen(QColor(255, 0, 0));
+    setBrush(QColor(255, 0, 0));
     setPos(tileWidth * healthPack->getXPos() + tileWidth / 2, tileHeight * healthPack->getYPos() + tileHeight / 2);
 
     animationTimer->setInterval(600);

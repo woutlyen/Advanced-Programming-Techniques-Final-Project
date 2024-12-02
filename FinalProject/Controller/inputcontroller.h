@@ -18,7 +18,7 @@ signals:
     void rightPressed();
     void homePressed();
     void endPressed();
-    void tabPressed();
+    void shiftPressed();
     void enterPressed(QString textCommand);
 
 protected:
@@ -30,14 +30,13 @@ private:
     QString textCommand;
     QHash<int, QTimer*> rateLimitTimers;   // Rate-limiting timers for each key
 
-    std::vector<std::string> commands = {
+    std::vector<QString> commands = {
         "up",
         "down",
         "left",
         "right"
     };
-    std::string processCommand(std::string input);
-    std::string text;
+    QString processCommand(QString input);
 };
 
 #endif // INPUTCONTROLLER_H
