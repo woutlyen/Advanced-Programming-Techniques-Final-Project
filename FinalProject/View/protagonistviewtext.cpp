@@ -11,10 +11,14 @@ ProtagonistViewText::ProtagonistViewText(const std::unique_ptr<Protagonist> &pro
     this->tileWidth = tileWidth;
     this->tileHeight = tileHeight;
     this->font = font;
+    this->pen = QPen(QColor(255, 255, 0));
+
+    QPropertyAnimation colorAnimation = new QPropertyAnimation(this, "pen");
 
     // Set the initial pixmap
     setText(QString("P"));
     setFont(font);
+    setPen(pen);
     setPos(tileWidth * protagonist->getXPos() + tileWidth / 2, tileHeight * protagonist->getYPos() + tileHeight / 2);
 
     // Connect signalsc & slots
@@ -27,13 +31,14 @@ ProtagonistViewText::ProtagonistViewText(const std::unique_ptr<Protagonist> &pro
     movementAnimation->setEasingCurve(QEasingCurve::Linear);
 
     // Configure the animation timer
-    animationTimer->setInterval(400); // Frame switch interval (in milliseconds)
+    animationTimer->setInterval(100); // Frame switch interval (in milliseconds)
     animationTimer->start();
     connect(animationTimer, &QTimer::timeout, this, &ProtagonistViewText::updateAnimationFrame);
     connect(movementAnimation, &QPropertyAnimation::finished, this, [this]() {
         if (currentState == Walking) {
-            animationTimer->setInterval(400);
+            animationTimer->setInterval(100);
             setState(Idle); // Switch to idle when movement finishes
+            setText("P");
         }
     });
 }
@@ -48,7 +53,7 @@ void ProtagonistViewText::onPositionChanged(int x, int y) {
 
     // Set the animation start (current position) and end (target position)
     movementAnimation->setStartValue(pos());                                                               // Current position
-    movementAnimation->setEndValue(QPoint(tileWidth * x + tileWidth / 2, tileHeight * y + tileWidth / 2)); // Target position
+    movementAnimation->setEndValue(QPoint(tileWidth * x + tileWidth / 2, tileHeight * y + tileHeight / 2)); // Target position
 
     // Start the movement animation and timer
     movementAnimation->start();
@@ -77,6 +82,7 @@ void ProtagonistViewText::setState(AnimationState newState) {
     // Update the pixmap for the new state
     switch (currentState) {
     case Idle:
+        setText("P");
         break;
     case Walking:
         break;
@@ -89,22 +95,57 @@ void ProtagonistViewText::setState(AnimationState newState) {
 
 void ProtagonistViewText::updateAnimationFrame() {
     switch (currentState) {
-    case Idle:
-        // Cycle through idle frames
-        setText((text().isUpper()) ? QString("p") : QString("P"));
-        this->font.setItalic(false);
-        setFont(this->font);
-        break;
-    case Walking:
-        // Cycle through walking frames
-        (this->font.italic()) ? this->font.setItalic(false) : this->font.setItalic(true);
-        setFont(this->font);
-        break;
-    case Fighting:
-        // Play fighting frames once
-        break;
-    case Dying:
-        // Play dying frames once
-        break;
+        case Idle:
+            this->font.setItalic(false);
+            setFont(this->font);
+            currentFrameIndex = (currentFrameIndex + 1) % 16;
+            if (currentFrameIndex < 8) {
+                this->pen.setColor((QColor(255-32*currentFrameIndex, 255-32*currentFrameIndex, 0)));
+                this->pen.setWidth((2- currentFrameIndex/4));
+                setPen(this->pen);
+                
+            } else {
+                this->pen.setColor((QColor(32*(currentFrameIndex -8), 32*(currentFrameIndex -8), 0)));
+                this->pen.setWidth((currentFrameIndex-8)/4);
+                setPen(this->pen);
+            }
+            update();
+             
+            // Cycle through idle frames
+            break;
+        case Walking:
+            // Cycle through walking frames
+            this->font.setItalic(true);
+            setFont(this->font);
+            break;
+        case Fighting:
+            // Play fighting frames once
+            if (text().toLower() == "p") {
+                setText("P/");
+            }
+            else if (text() == "P/") {
+                setText("P_");
+            }
+            else if (text() == "P_") {
+                setText("P");
+                setState(Idle);
+            }
+
+            currentFrameIndex = (currentFrameIndex + 1) % 16;
+            if (currentFrameIndex < 8) {
+                this->pen.setColor((QColor(255-32*currentFrameIndex,0, 0)));
+                this->pen.setWidth((2- currentFrameIndex/4));
+                setPen(this->pen);
+                
+            } else {
+                this->pen.setColor((QColor(32*(currentFrameIndex -8),0, 0)));
+                this->pen.setWidth((currentFrameIndex-8)/4);
+                setPen(this->pen);
+            }
+            update();
+            break;
+        case Dying:
+            // Play dying frames once
+            break;
     }
 }

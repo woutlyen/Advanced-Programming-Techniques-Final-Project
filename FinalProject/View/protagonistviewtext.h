@@ -8,6 +8,7 @@
 #include <QPropertyAnimation>
 #include <QFont>
 #include <QTimer>
+#include <QPen>
 
 class ProtagonistViewText : public QObject, public QGraphicsSimpleTextItem {
     Q_OBJECT
@@ -30,6 +31,7 @@ class ProtagonistViewText : public QObject, public QGraphicsSimpleTextItem {
     int currentFrameIndex;                 // Current frame index in pixmap arrays
 
     void setState(AnimationState newState); // Switch animation state
+    QPen pen;
 
   private slots:
     void onPositionChanged(int x, int y); // Updates the protagonist's position
