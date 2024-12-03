@@ -130,13 +130,14 @@ void ProtagonistView2D::updateAnimationFrame() {
 
 void ProtagonistView2D::updateDirection(int curX, int curY, int newX, int newY)
 {
-    if(curX > newX && curY == newY){
+
+    if((curX > (newX * gridSize ))&& (curY == (newY * gridSize))){
         currentDirection = Left;
     }
-    else if(curX < newX && curY == newY){
+    else if((curX < (newX * gridSize ))&& (curY == (newY * gridSize))){
         currentDirection = Right;
     }
-    else if(curY > newY){
+    else if(curY > (newY * gridSize)){
         currentDirection = Back;
     }
     else{
