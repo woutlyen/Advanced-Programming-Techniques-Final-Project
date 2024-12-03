@@ -73,31 +73,38 @@ void ProtagonistView2D::onPositionChanged(int x, int y)
     // Start the movement animation and timer
     movementAnimation->start();
 
-    // Smoothly center the view on the protagonist
+    /// Smoothly center the view on the protagonist
     if (scene() && !scene()->views().isEmpty()) {
         QGraphicsView* view = scene()->views().first(); // Get the first associated view
         if (view) {
+            // Get the zoom scale factor of the view
+            qreal zoomScale = view->transform().m11(); // Assuming uniform scaling
+
             // Target protagonist's position in the scene
             QPointF targetPosInScene = QPointF(gridSize * x, gridSize * y); // Target position
 
-            // Create an animation to smoothly center the view
-            QPropertyAnimation* scrollAnimation = new QPropertyAnimation(view->verticalScrollBar(), "value", this);
-            QPropertyAnimation* horizontalScrollAnimation = new QPropertyAnimation(view->horizontalScrollBar(), "value", this);
-
-            // Calculate target scrollbar values to center on the protagonist
+            // Calculate the center of the viewport in scene coordinates
             QPointF viewCenter = view->mapToScene(view->viewport()->rect().center());
-            int dx = targetPosInScene.x() - viewCenter.x();
-            int dy = targetPosInScene.y() - viewCenter.y();
 
+            // Calculate scroll offsets adjusted for zoom
+            int dx = (targetPosInScene.x() - viewCenter.x()) * zoomScale;
+            int dy = (targetPosInScene.y() - viewCenter.y()) * zoomScale;
+
+            // Calculate target scroll bar values
             int horizontalTarget = view->horizontalScrollBar()->value() + dx;
             int verticalTarget = view->verticalScrollBar()->value() + dy;
 
-            // Set up animations
+            // Create animations for vertical and horizontal scroll bars
+            QPropertyAnimation* scrollAnimation = new QPropertyAnimation(view->verticalScrollBar(), "value", this);
+            QPropertyAnimation* horizontalScrollAnimation = new QPropertyAnimation(view->horizontalScrollBar(), "value", this);
+
+            // Set up vertical scroll animation
             scrollAnimation->setDuration(400); // Duration in milliseconds
             scrollAnimation->setStartValue(view->verticalScrollBar()->value());
             scrollAnimation->setEndValue(verticalTarget);
             scrollAnimation->setEasingCurve(QEasingCurve::InOutQuad);
 
+            // Set up horizontal scroll animation
             horizontalScrollAnimation->setDuration(400); // Duration in milliseconds
             horizontalScrollAnimation->setStartValue(view->horizontalScrollBar()->value());
             horizontalScrollAnimation->setEndValue(horizontalTarget);

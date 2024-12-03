@@ -15,10 +15,13 @@ class MainWindow : public QMainWindow {
 
   public:
     MainWindow(QWidget *parent = nullptr);
-      void setScene(QGraphicsScene* scene);
+    void setScene(QGraphicsScene* scene);
     ~MainWindow();
+
+    void zoom(double zoomFactor);
 
   private:
     Ui::MainWindow *ui;
+
 };
 #endif // MAINWINDOW_H

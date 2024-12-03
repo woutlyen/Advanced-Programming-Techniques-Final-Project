@@ -58,16 +58,35 @@ bool InputController::eventFilter(QObject *obj, QEvent *event)
         return true; // Consume the event
     }
 
-    if (event->type() == QEvent::KeyRelease) {
-        QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
-        int key = keyEvent->key();
+    // Handle zoom functionality with QEvent::Wheel
+    if (event->type() == QEvent::Wheel) {
+        QWheelEvent* wheelEvent = static_cast<QWheelEvent*>(event);
 
-        if (pressedKeys.contains(key)) {
-            pressedKeys.remove(key);
+        // Determine the zoom direction (positive: zoom in, negative: zoom out)
+        if (wheelEvent->angleDelta().y() > 0) {
+            zoomIn();
+        } else {
+            zoomOut();
         }
 
         return true; // Consume the event
     }
 
     return QObject::eventFilter(obj, event); // Pass unhandled events to the base class
+}
+
+void InputController::zoomIn()
+{
+    if (currentZoomLevel < 10) { // Limit maximum zoom in
+        emit zoomChanged(zoomFactor); // Notify connected views to zoom in
+        ++currentZoomLevel;
+    }
+}
+
+void InputController::zoomOut()
+{
+    if (currentZoomLevel > -10) { // Limit maximum zoom out
+        emit zoomChanged(1 / zoomFactor); // Notify connected views to zoom out
+        --currentZoomLevel;
+    }
 }

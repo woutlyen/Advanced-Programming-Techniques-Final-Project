@@ -18,13 +18,18 @@ signals:
     void rightPressed();
     void homePressed();
     void endPressed();
+    void zoomChanged(double zoomFactor);
 
 protected:
     bool eventFilter(QObject* obj, QEvent* event) override;
 
 private:
-    QSet<int> pressedKeys;                 // Keeps track of currently pressed keys
     QHash<int, QTimer*> rateLimitTimers;   // Rate-limiting timers for each key
+    const double zoomFactor {1.15};  // Factor to zoom in/out by
+    int currentZoomLevel {0};     // Track zoom level (to prevent over-zooming)
+
+    void zoomIn();
+    void zoomOut();
 };
 
 #endif // INPUTCONTROLLER_H

@@ -18,6 +18,7 @@ GameController::GameController(QObject *parent) : QObject(parent) {
     connect(&inputController, &InputController::homePressed, this, &GameController::onHomePressed);
     connect(&inputController, &InputController::endPressed, this, &GameController::onEndPressed);
 
+    connect(&inputController, &InputController::zoomChanged, this, &GameController::onZoomEvent);
 }
 
 void GameController::start()
@@ -106,5 +107,8 @@ void GameController::onEndPressed() {
     mainWindow.setScene(scenes2D.at(currentLevel));
 }
 
+void GameController::onZoomEvent(double zoomFactor){
+    mainWindow.zoom(zoomFactor);
+}
 
 

@@ -16,3 +16,7 @@ void MainWindow::setScene(QGraphicsScene *scene)
 MainWindow::~MainWindow() {
     delete ui;
 }
+
+void MainWindow::zoom(double zoomFactor) {
+    ui->graphicsView->scale(zoomFactor, zoomFactor);
+}
