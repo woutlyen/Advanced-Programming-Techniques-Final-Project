@@ -100,12 +100,12 @@ void ProtagonistViewText::updateAnimationFrame() {
             setFont(this->font);
             currentFrameIndex = (currentFrameIndex + 1) % 16;
             if (currentFrameIndex < 8) {
-                this->pen.setColor((QColor(255-32*currentFrameIndex, 255-32*currentFrameIndex, 0)));
-                this->pen.setWidth((2- currentFrameIndex/4));
+                this->pen.setColor((QColor(255-16*currentFrameIndex, 255-16*currentFrameIndex, 0)));
+                this->pen.setWidth(1 + (2- currentFrameIndex/4));
                 setPen(this->pen);
                 
             } else {
-                this->pen.setColor((QColor(32*(currentFrameIndex -8), 32*(currentFrameIndex -8), 0)));
+                this->pen.setColor((QColor(127+16*(currentFrameIndex -8),127+ 16*(currentFrameIndex -8), 0)));
                 this->pen.setWidth((currentFrameIndex-8)/4);
                 setPen(this->pen);
             }

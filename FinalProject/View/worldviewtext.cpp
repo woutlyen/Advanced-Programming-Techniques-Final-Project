@@ -95,6 +95,9 @@ QGraphicsScene *WorldViewText::makeScene(std::vector<std::unique_ptr<Enemy>> &en
 
     scene->addItem(new ProtagonistViewText(protagonist, width, height, font));
 
+    
+    
+
     healthBar = new StatusBar2D(10, 10, Qt::green);
     energyBar = new StatusBar2D(10, 40, Qt::green);
 
