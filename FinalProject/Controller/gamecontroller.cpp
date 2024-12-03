@@ -3,6 +3,7 @@
 #include <QTimer>
 
 #include "View/worldview2d.h"
+#include "Model/worldrevised.h"
 
 GameController::GameController(QObject *parent) : QObject(parent) {
     // Install the InputController as an event filter
@@ -21,7 +22,7 @@ GameController::GameController(QObject *parent) : QObject(parent) {
 
 void GameController::start()
 {
-    World world;
+    WorldRevised world;
     WorldView2D worldView2D;
     std::size_t gridSize {64};
 
@@ -64,6 +65,12 @@ void GameController::start()
 }
 
 void GameController::onUpPressed() {
+    static size_t pos{0};
+    if (pos < enemies[0].size()){
+        enemies[0].at(pos).get()->setDefeated(true);
+        pos++;
+    }
+
     if (!enemyController.checkForEnemy(enemies.at(currentLevel), protagonist.at(currentLevel), width.at(currentLevel), heigth.at(currentLevel), EnemyController::Position::Up)){
         playerController.moveUp(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel));
     }

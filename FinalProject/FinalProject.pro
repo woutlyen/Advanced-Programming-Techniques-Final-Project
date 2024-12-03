@@ -14,6 +14,8 @@ SOURCES += \
     Controller/penemycontroller.cpp \
     Controller/playercontroller.cpp \
     Controller/xenemycontroller.cpp \
+    Model/worldrevised.cpp \
+    Model/xenemy.cpp \
     View/enemyview2d.cpp \
     View/enemyviewtext.cpp \
     View/healthpackview2d.cpp \
@@ -39,6 +41,8 @@ HEADERS += \
     Controller/penemycontroller.h \
     Controller/playercontroller.h \
     Controller/xenemycontroller.h \
+    Model/worldrevised.h \
+    Model/xenemy.h \
     View/enemyview2d.h \
     View/enemyviewtext.h \
     View/healthpackview2d.h \

@@ -3,14 +3,13 @@
 ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Player> &protagonist, std::size_t gridSize, QGraphicsItem* parent)
     : QObject(),
     QGraphicsPixmapItem(parent),
+    gridSize{gridSize},
     currentState{Idle},
     currentDirection{Front},
     movementAnimation(new QPropertyAnimation(this, "pos")),
     animationTimer(new QTimer(this)),
     currentFrameIndex{0}
     {
-
-    this->gridSize = gridSize;
 
     // Initialize all Pixmaps
     idlePixmaps_front = extractFrames(":/images/player_sprites/player_idle_front");
