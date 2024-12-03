@@ -25,11 +25,15 @@ void GameController::start()
     WorldView2D worldView2D;
     std::size_t gridSize {64};
 
+    auto pro = world.getProtagonist();
+
+    std::unique_ptr<Player> player = std::move(*reinterpret_cast<std::unique_ptr<Player>*>(&pro));
+
     world.createWorld(":/world_images/worldmap.png", 20, 5);
     tiles.push_back(world.getTiles());
     enemies.push_back(world.getEnemies());
     healthPacks.push_back(world.getHealthPacks());
-    protagonist.push_back(world.getProtagonist());
+    protagonist.push_back(std::move(player));
     width.push_back(world.getCols());
     heigth.push_back(world.getRows());
 
@@ -41,7 +45,9 @@ void GameController::start()
     tiles.push_back(world.getTiles());
     enemies.push_back(world.getEnemies());
     healthPacks.push_back(world.getHealthPacks());
-    protagonist.push_back(world.getProtagonist());
+    pro = world.getProtagonist();
+    player = std::move(*reinterpret_cast<std::unique_ptr<Player>*>(&pro));
+    protagonist.push_back(std::move(player));
     width.push_back(world.getCols());
     heigth.push_back(world.getRows());
 

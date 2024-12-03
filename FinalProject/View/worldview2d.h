@@ -1,6 +1,7 @@
 #ifndef WORLDVIEW2D_H
 #define WORLDVIEW2D_H
 
+#include "Model/player.h"
 #include "statusbar2d.h"
 #include "world.h"
 #include <QObject>
@@ -13,7 +14,7 @@ public:
     WorldView2D();
     QGraphicsScene* makeScene(std::vector<std::unique_ptr<Enemy>>& enemies,
                               std::vector<std::unique_ptr<Tile>>& healthPacks,
-                              std::unique_ptr<Protagonist>& protagonist,
+                              std::unique_ptr<Player>& protagonist,
                               int rows,
                               int columns,
                               QString filename = ":/world_images/worldmap.png",

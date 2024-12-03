@@ -1,6 +1,7 @@
 #ifndef ENEMYCONTROLLER_H
 #define ENEMYCONTROLLER_H
 
+#include "Model/player.h"
 #include <world.h>
 
 
@@ -10,7 +11,7 @@ public:
     enum Position { Up, Down, Left, Right };
 
     EnemyController();
-    bool checkForEnemy(std::vector<std::unique_ptr<Enemy>>& enemies, std::unique_ptr<Protagonist>& protagonist, int width, int height, Position pos);
+    bool checkForEnemy(std::vector<std::unique_ptr<Enemy>>& enemies, std::unique_ptr<Player>& protagonist, int width, int height, Position pos);
 
 };
 
