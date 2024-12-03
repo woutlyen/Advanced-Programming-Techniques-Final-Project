@@ -11,6 +11,9 @@ public:
 
 private:
     Direction currentDirection;
+
+signals:
+    void directionChanged(Direction dir);
 };
 
 #endif // PLAYER_H
