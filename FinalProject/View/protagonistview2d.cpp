@@ -1,5 +1,9 @@
 #include "protagonistview2d.h"
 
+#include <QGraphicsView>
+#include <QPropertyAnimation>
+#include <QScrollBar>
+
 ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Player> &protagonist, std::size_t gridSize, QGraphicsItem* parent)
     : QObject(),
     QGraphicsPixmapItem(parent),
@@ -68,6 +72,42 @@ void ProtagonistView2D::onPositionChanged(int x, int y)
 
     // Start the movement animation and timer
     movementAnimation->start();
+
+    // Smoothly center the view on the protagonist
+    if (scene() && !scene()->views().isEmpty()) {
+        QGraphicsView* view = scene()->views().first(); // Get the first associated view
+        if (view) {
+            // Target protagonist's position in the scene
+            QPointF targetPosInScene = QPointF(gridSize * x, gridSize * y); // Target position
+
+            // Create an animation to smoothly center the view
+            QPropertyAnimation* scrollAnimation = new QPropertyAnimation(view->verticalScrollBar(), "value", this);
+            QPropertyAnimation* horizontalScrollAnimation = new QPropertyAnimation(view->horizontalScrollBar(), "value", this);
+
+            // Calculate target scrollbar values to center on the protagonist
+            QPointF viewCenter = view->mapToScene(view->viewport()->rect().center());
+            int dx = targetPosInScene.x() - viewCenter.x();
+            int dy = targetPosInScene.y() - viewCenter.y();
+
+            int horizontalTarget = view->horizontalScrollBar()->value() + dx;
+            int verticalTarget = view->verticalScrollBar()->value() + dy;
+
+            // Set up animations
+            scrollAnimation->setDuration(400); // Duration in milliseconds
+            scrollAnimation->setStartValue(view->verticalScrollBar()->value());
+            scrollAnimation->setEndValue(verticalTarget);
+            scrollAnimation->setEasingCurve(QEasingCurve::InOutQuad);
+
+            horizontalScrollAnimation->setDuration(400); // Duration in milliseconds
+            horizontalScrollAnimation->setStartValue(view->horizontalScrollBar()->value());
+            horizontalScrollAnimation->setEndValue(horizontalTarget);
+            horizontalScrollAnimation->setEasingCurve(QEasingCurve::InOutQuad);
+
+            // Start animations
+            scrollAnimation->start(QPropertyAnimation::DeleteWhenStopped);
+            horizontalScrollAnimation->start(QPropertyAnimation::DeleteWhenStopped);
+        }
+    }
 }
 
 void ProtagonistView2D::onHealthChanged(int health)
