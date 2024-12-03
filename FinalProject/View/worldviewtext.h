@@ -21,6 +21,12 @@ class WorldViewText {
   private:
     StatusBar2D *healthBar;
     StatusBar2D *energyBar;
+
+    QColor darkGreen{0, 50, 0};  // Dark green color
+    QColor lightGreen{144, 238, 144};  // Light green color
+
+    QString pixmapToString(const QPixmap &pixmap);
+    QPixmap recolorGrayscalePixmap(const QPixmap& pixmap);
 };
 
 #endif // WORLDVIEWTEXT_H
