@@ -30,6 +30,7 @@ SOURCES += \
     Controller/gamecontroller.cpp \
     main.cpp \
     mainwindow.cpp \
+    Model/player.cpp
 
 
 HEADERS += \
@@ -52,7 +53,8 @@ HEADERS += \
     View/xenemyview2d.h \
     View/xenemyviewtext.h \
     Controller/gamecontroller.h \
-    mainwindow.h
+    mainwindow.h \
+    Model/player.h
 
 FORMS += \
     mainwindow.ui

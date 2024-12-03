@@ -2,7 +2,7 @@
 
 EnemyController::EnemyController() {}
 
-bool EnemyController::checkForEnemy(std::vector<std::unique_ptr<Enemy> > &enemies, std::unique_ptr<Protagonist> &protagonist, int width, int height, Position pos)
+bool EnemyController::checkForEnemy(std::vector<std::unique_ptr<Enemy> > &enemies, std::unique_ptr<Player> &protagonist, int width, int height, Position pos)
 {
     int X = protagonist->getXPos();
     int Y = protagonist->getYPos();

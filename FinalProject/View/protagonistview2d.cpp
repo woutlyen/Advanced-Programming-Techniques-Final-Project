@@ -1,6 +1,6 @@
 #include "protagonistview2d.h"
 
-ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Protagonist>& protagonist, std::size_t gridSize, QGraphicsItem* parent)
+ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Player> &protagonist, std::size_t gridSize, QGraphicsItem* parent)
     : QObject(),
     QGraphicsPixmapItem(parent),
     currentState{Idle},

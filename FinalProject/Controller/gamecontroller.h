@@ -4,6 +4,7 @@
 #include "Controller/enemycontroller.h"
 #include "Controller/inputcontroller.h"
 #include "Controller/playercontroller.h"
+#include "Model/player.h"
 #include "mainwindow.h"
 #include "world.h"
 
@@ -23,7 +24,7 @@ private:
     std::vector<std::vector<std::unique_ptr<Tile>>> tiles;
     std::vector<std::vector<std::unique_ptr<Enemy>>> enemies;
     std::vector<std::vector<std::unique_ptr<Tile>>> healthPacks;
-    std::vector<std::unique_ptr<Protagonist>> protagonist;
+    std::vector<std::unique_ptr<Player>> protagonist;
     std::vector<int> width;
     std::vector<int> heigth;
 

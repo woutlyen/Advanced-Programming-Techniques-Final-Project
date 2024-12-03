@@ -7,8 +7,7 @@
 #include <QTimer>
 #include <QDir>
 #include <QDirIterator>
-#include "world.h"
-
+#include "Model/player.h"
 
 class ProtagonistView2D : public QObject, public QGraphicsPixmapItem
 {
@@ -16,7 +15,7 @@ class ProtagonistView2D : public QObject, public QGraphicsPixmapItem
     Q_PROPERTY(QPointF pos READ pos WRITE setPos) // Ensure Q_PROPERTY for pos is declared
 
 public:
-    ProtagonistView2D(const std::unique_ptr<Protagonist>& protagonist, std::size_t gridSize, QGraphicsItem* parent = nullptr);
+    ProtagonistView2D(const std::unique_ptr<Player>& protagonist, std::size_t gridSize, QGraphicsItem* parent = nullptr);
 
 private:
     std::size_t gridSize{};

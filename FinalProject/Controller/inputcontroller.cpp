@@ -4,14 +4,14 @@ InputController::InputController(QObject* parent) : QObject(parent)
 {
     // Initialize rate-limit timers
     rateLimitTimers[Qt::Key_W] = new QTimer(this);
-    rateLimitTimers[Qt::Key_S] = new QTimer(this);
-    rateLimitTimers[Qt::Key_A] = new QTimer(this);
-    rateLimitTimers[Qt::Key_D] = new QTimer(this);
+    rateLimitTimers[Qt::Key_S] = rateLimitTimers[Qt::Key_W];
+    rateLimitTimers[Qt::Key_A] = rateLimitTimers[Qt::Key_W];
+    rateLimitTimers[Qt::Key_D] = rateLimitTimers[Qt::Key_W];
 
-    rateLimitTimers[Qt::Key_Up] = new QTimer(this);
-    rateLimitTimers[Qt::Key_Left] = new QTimer(this);
-    rateLimitTimers[Qt::Key_Down] = new QTimer(this);
-    rateLimitTimers[Qt::Key_Right] = new QTimer(this);
+    rateLimitTimers[Qt::Key_Up] = rateLimitTimers[Qt::Key_W];
+    rateLimitTimers[Qt::Key_Left] = rateLimitTimers[Qt::Key_W];
+    rateLimitTimers[Qt::Key_Down] = rateLimitTimers[Qt::Key_W];
+    rateLimitTimers[Qt::Key_Right] = rateLimitTimers[Qt::Key_W];
 
     rateLimitTimers[Qt::Key_Home] = new QTimer(this);
     rateLimitTimers[Qt::Key_End] = new QTimer(this);
