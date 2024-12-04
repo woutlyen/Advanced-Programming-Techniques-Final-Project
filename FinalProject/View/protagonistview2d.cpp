@@ -81,7 +81,7 @@ void ProtagonistView2D::onPositionChanged(int x, int y)
             qreal zoomScale = view->transform().m11(); // Assuming uniform scaling
 
             // Target protagonist's position in the scene
-            QPointF targetPosInScene = QPointF(gridSize * x, gridSize * y); // Target position
+            QPointF targetPosInScene = QPointF(gridSize * x + gridSize/2, gridSize * y + gridSize/2); // Target position
 
             // Calculate the center of the viewport in scene coordinates
             QPointF viewCenter = view->mapToScene(view->viewport()->rect().center());
