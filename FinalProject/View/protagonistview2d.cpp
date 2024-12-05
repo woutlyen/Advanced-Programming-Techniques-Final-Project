@@ -99,16 +99,16 @@ void ProtagonistView2D::onPositionChanged(int x, int y)
             QPropertyAnimation* horizontalScrollAnimation = new QPropertyAnimation(view->horizontalScrollBar(), "value", this);
 
             // Set up vertical scroll animation
-            scrollAnimation->setDuration(400); // Duration in milliseconds
+            scrollAnimation->setDuration(460); // Duration in milliseconds
             scrollAnimation->setStartValue(view->verticalScrollBar()->value());
             scrollAnimation->setEndValue(verticalTarget);
-            scrollAnimation->setEasingCurve(QEasingCurve::InOutQuad);
+            scrollAnimation->setEasingCurve(QEasingCurve::Linear);
 
             // Set up horizontal scroll animation
-            horizontalScrollAnimation->setDuration(400); // Duration in milliseconds
+            horizontalScrollAnimation->setDuration(460); // Duration in milliseconds
             horizontalScrollAnimation->setStartValue(view->horizontalScrollBar()->value());
             horizontalScrollAnimation->setEndValue(horizontalTarget);
-            horizontalScrollAnimation->setEasingCurve(QEasingCurve::InOutQuad);
+            horizontalScrollAnimation->setEasingCurve(QEasingCurve::Linear);
 
             // Start animations
             scrollAnimation->start(QPropertyAnimation::DeleteWhenStopped);

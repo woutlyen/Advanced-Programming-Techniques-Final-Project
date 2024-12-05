@@ -3,6 +3,7 @@
 #include "xenemy.h"
 
 #include <bits/random.h>
+#include <iostream>
 
 WorldRevised::WorldRevised() {}
 
@@ -32,8 +33,12 @@ void WorldRevised::createWorld(QString filename, unsigned int nrOfEnemies, unsig
             float val = enemies.at(i)->getValue();
             enemies.erase(enemies.begin() + i);
 
+            std::cout << "Voor: " << enemies.size() << std::endl;
+
             auto eptr = std::make_unique<XEnemy>(xPos, yPos, val);
-            enemies.push_back(std::move(eptr));
+            enemies.emplace(enemies.begin()+i, std::move(eptr));
+
+            std::cout << "Achter: " << enemies.size() << std::endl;
 
             if(XEnemyCounter > 1)
                 XEnemyCounter--;
