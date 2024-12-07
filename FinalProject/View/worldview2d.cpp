@@ -32,8 +32,6 @@ QGraphicsScene *WorldView2D::makeScene(std::vector<std::unique_ptr<Enemy> > &ene
 
     // Create and add enemy views
     for (const auto& enemy : enemies) {
-        //TODO seperate enemies
-        scene->addItem(new EnemyView2D(enemy,gridSize));
 
         if (dynamic_cast<PEnemy*>(enemy.get())) {
             // If the enemy is of type PEnemy

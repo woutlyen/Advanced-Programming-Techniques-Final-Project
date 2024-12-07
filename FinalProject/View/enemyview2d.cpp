@@ -25,7 +25,7 @@ EnemyView2D::EnemyView2D(const std::unique_ptr<Enemy> &enemy, std::size_t gridSi
 
 void EnemyView2D::updatePixMap()
 {
-    setPixmap(QPixmap(":/images/player_sprites/player_attack_front/tile036.png").scaled(gridSize,gridSize));
+    setPixmap(QPixmap(":/images/dead.png").scaled(gridSize,gridSize));
     update();
 }
 
