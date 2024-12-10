@@ -1,5 +1,9 @@
 #include "protagonistviewtext.h"
 
+#include <QGraphicsView>
+#include <QPropertyAnimation>
+#include <QScrollBar>
+
 ProtagonistViewText::ProtagonistViewText(const std::unique_ptr<Player> &protagonist, double tileWidth, double tileHeight, QFont font, QGraphicsItem *parent)
     : QObject(),
       QGraphicsSimpleTextItem(parent),
@@ -57,6 +61,49 @@ void ProtagonistViewText::onPositionChanged(int x, int y) {
 
     // Start the movement animation and timer
     movementAnimation->start();
+
+    /// Smoothly center the view on the protagonist
+    if (scene() && !scene()->views().isEmpty()) {
+        QGraphicsView* view = scene()->views().first(); // Get the first associated view
+        if (view) {
+            // Get the zoom scale factor of the view
+            qreal zoomScale = view->transform().m11(); // Assuming uniform scaling
+
+            // Target protagonist's position in the scene
+            QPointF targetPosInScene = QPointF(tileWidth * x + tileWidth/2, tileHeight * y + tileHeight/2); // Target position
+
+            // Calculate the center of the viewport in scene coordinates
+            QPointF viewCenter = view->mapToScene(view->viewport()->rect().center());
+
+            // Calculate scroll offsets adjusted for zoom
+            int dx = (targetPosInScene.x() - viewCenter.x()) * zoomScale;
+            int dy = (targetPosInScene.y() - viewCenter.y()) * zoomScale;
+
+            // Calculate target scroll bar values
+            int horizontalTarget = view->horizontalScrollBar()->value() + dx;
+            int verticalTarget = view->verticalScrollBar()->value() + dy;
+
+            // Create animations for vertical and horizontal scroll bars
+            QPropertyAnimation* scrollAnimation = new QPropertyAnimation(view->verticalScrollBar(), "value", this);
+            QPropertyAnimation* horizontalScrollAnimation = new QPropertyAnimation(view->horizontalScrollBar(), "value", this);
+
+            // Set up vertical scroll animation
+            scrollAnimation->setDuration(460); // Duration in milliseconds
+            scrollAnimation->setStartValue(view->verticalScrollBar()->value());
+            scrollAnimation->setEndValue(verticalTarget);
+            scrollAnimation->setEasingCurve(QEasingCurve::Linear);
+
+            // Set up horizontal scroll animation
+            horizontalScrollAnimation->setDuration(460); // Duration in milliseconds
+            horizontalScrollAnimation->setStartValue(view->horizontalScrollBar()->value());
+            horizontalScrollAnimation->setEndValue(horizontalTarget);
+            horizontalScrollAnimation->setEasingCurve(QEasingCurve::Linear);
+
+            // Start animations
+            scrollAnimation->start(QPropertyAnimation::DeleteWhenStopped);
+            horizontalScrollAnimation->start(QPropertyAnimation::DeleteWhenStopped);
+        }
+    }
 }
 
 void ProtagonistViewText::onHealthChanged(int health) {

@@ -118,8 +118,11 @@ void GameController::onHomePressed() {
 }
 
 void GameController::onEndPressed() {
-    currentLevel = 1;
-    mainWindow.setScene(scenesText.at(currentLevel));
+    //currentLevel = 1;
+    //mainWindow.setScene(scenesText.at(currentLevel));
+
+    currentLevel = 0;
+    mainWindow.setScene(scenes2D.at(currentLevel));
 }
 
 void GameController::onZoomEvent(double zoomFactor){
