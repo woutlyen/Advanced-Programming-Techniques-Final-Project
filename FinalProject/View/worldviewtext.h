@@ -20,8 +20,8 @@ class WorldViewText {
                               std::size_t gridSize = 32);
 
   private:
-    StatusBar2D *healthBar;
-    StatusBar2D *energyBar;
+    //StatusBar2D *healthBar;
+    //StatusBar2D *energyBar;
 
     QColor darkGreen{0, 50, 0};  // Dark green color
     QColor lightGreen{144, 238, 144};  // Light green color
