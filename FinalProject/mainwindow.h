@@ -15,7 +15,8 @@ class MainWindow : public QMainWindow {
 
   public:
     MainWindow(QWidget *parent = nullptr);
-    void setScene(QGraphicsScene* scene);
+    void setScene(QGraphicsScene *scene);
+    void setScale(double sx, double sy);
     ~MainWindow();
 
     void zoom(double zoomFactor);

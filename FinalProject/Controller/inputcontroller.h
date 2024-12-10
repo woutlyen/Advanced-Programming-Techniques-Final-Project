@@ -19,6 +19,8 @@ signals:
     void homePressed();
     void endPressed();
     void zoomChanged(double zoomFactor);
+    void shiftPressed();
+    void enterPressed(QString textCommand);
 
 protected:
     bool eventFilter(QObject* obj, QEvent* event) override;
@@ -30,6 +32,17 @@ private:
 
     void zoomIn();
     void zoomOut();
+    QSet<int> pressedKeys;                 // Keeps track of currently pressed keys
+    QSet<int> pressedLetters;                 // Keeps track of currently pressed letters for a command
+    QString textCommand;
+
+    std::vector<QString> commands = {
+        "up",
+        "down",
+        "left",
+        "right"
+    };
+    QString processCommand(QString input);
 };
 
 #endif // INPUTCONTROLLER_H

@@ -1,4 +1,5 @@
 #include "inputcontroller.h"
+#include <iostream>
 
 InputController::InputController(QObject* parent) : QObject(parent)
 {
@@ -16,6 +17,9 @@ InputController::InputController(QObject* parent) : QObject(parent)
     rateLimitTimers[Qt::Key_Home] = new QTimer(this);
     rateLimitTimers[Qt::Key_End] = new QTimer(this);
 
+    rateLimitTimers[Qt::Key_Shift] = new QTimer(this);
+    rateLimitTimers[Qt::Key_Return] = new QTimer(this);
+
     // Set interval for rate-limiting
     for (auto timer : rateLimitTimers) {
         timer->setInterval(460);
@@ -29,9 +33,31 @@ bool InputController::eventFilter(QObject *obj, QEvent *event)
         QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
         int key = keyEvent->key();
 
-        // Ignore repeated key events
-        //if (keyEvent->isAutoRepeat())
-        //    return true;
+        // Limmit the maximum command size
+
+        QString processedCommand;
+
+        // Proccess the textCommand
+        switch (key) {
+            // Remove the last char on backspace
+            case Qt::Key_Backspace:
+                this->textCommand.removeLast();
+                break;
+            // Check for matches, and clear input if a match is found
+            case Qt::Key_Return:
+                processedCommand = this->processCommand(textCommand);
+                if (processedCommand != nullptr) textCommand.clear();
+                break;
+            // Check for matches and autocomplete if a match is found
+            case Qt::Key_Tab:
+                processedCommand = this->processCommand(textCommand);
+                if (processedCommand != nullptr) textCommand = processedCommand;
+                break;
+            // Append character to the textCommand
+            default:
+                if (this->textCommand.size() < 100 && !keyEvent->text().isEmpty()) this->textCommand.append(keyEvent->text());
+                break;
+        }
 
         // Check if the timer for the key is active
         if (rateLimitTimers.contains(key) && !rateLimitTimers[key]->isActive()) {
@@ -51,6 +77,15 @@ bool InputController::eventFilter(QObject *obj, QEvent *event)
 
                 case Qt::Key_Home: emit homePressed(); break;
                 case Qt::Key_End: emit endPressed(); break;
+
+                case Qt::Key_Shift: emit shiftPressed(); break;
+
+                case Qt::Key_Return: 
+                    // Do nothing if no match is found
+                    if (processedCommand == "") break;
+                    emit enterPressed(processedCommand);
+                    break;
+
                 default: break; // Ignore other keys
             }
         }
@@ -89,4 +124,26 @@ void InputController::zoomOut()
         emit zoomChanged(1 / zoomFactor); // Notify connected views to zoom out
         --currentZoomLevel;
     }
+}
+
+// Check if input uniqly matches with one of the commands
+// Returns input if no unique match found, else the match
+QString InputController::processCommand(QString input) {
+
+    std::cout << "Checking for: " << input.toStdString() << std::endl;
+
+    std::vector<QString> matches = {
+    };
+
+    for (QString &command: commands) {
+        if (command.startsWith(input) == true){
+            std::cout << "Match found: " << command.toStdString() << std::endl;
+            matches.push_back(command);
+        }
+    }
+
+    // Only return if there is an unique match
+    if (matches.size() == 1) return matches[0];
+    
+    return QString("");
 }
