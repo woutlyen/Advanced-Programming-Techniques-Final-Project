@@ -131,7 +131,6 @@ void GameController::changeViewMode() {
         case TextView:
             currentMode = Graphics2DView;
             mainWindow.setScene(scenes2D.at(currentLevel));
-            mainWindow.setScale(1, 1);
             connect(&inputController, &InputController::upPressed, this, &GameController::moveProtagonistUp);
             connect(&inputController, &InputController::downPressed, this, &GameController::moveProtagonistDown);
             connect(&inputController, &InputController::leftPressed, this, &GameController::moveProtagonistLeft);
@@ -141,7 +140,6 @@ void GameController::changeViewMode() {
         case Graphics2DView:
             currentMode = TextView;
             mainWindow.setScene(scenesText.at(currentLevel));
-            mainWindow.setScale(1.065, 0.93);
             disconnect(&inputController, &InputController::upPressed, this, &GameController::moveProtagonistUp);
             disconnect(&inputController, &InputController::downPressed, this, &GameController::moveProtagonistDown);
             disconnect(&inputController, &InputController::leftPressed, this, &GameController::moveProtagonistLeft);

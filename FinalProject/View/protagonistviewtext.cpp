@@ -1,6 +1,6 @@
 #include "protagonistviewtext.h"
 
-ProtagonistViewText::ProtagonistViewText(const std::unique_ptr<Protagonist> &protagonist, double tileWidth, double tileHeight, QFont font, QGraphicsItem *parent)
+ProtagonistViewText::ProtagonistViewText(const std::unique_ptr<Player> &protagonist, double tileWidth, double tileHeight, QFont font, QGraphicsItem *parent)
     : QObject(),
       QGraphicsSimpleTextItem(parent),
       currentState{Idle},

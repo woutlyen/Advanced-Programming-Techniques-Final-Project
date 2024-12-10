@@ -1,4 +1,5 @@
 #include "worldviewtext.h"
+#include "Model/player.h"
 #include "View/enemyviewtext.h"
 #include "View/healthpackviewtext.h"
 #include "qgraphicsitem.h"
@@ -12,7 +13,7 @@
 
 WorldViewText::WorldViewText() {}
 
-QGraphicsScene *WorldViewText::makeScene(std::vector<std::unique_ptr<Enemy>> &enemies, std::vector<std::unique_ptr<Tile>> &healthPacks, std::unique_ptr<Protagonist> &protagonist, int rows, int columns, QString filename, std::size_t gridSize) {
+QGraphicsScene *WorldViewText::makeScene(std::vector<std::unique_ptr<Enemy>> &enemies, std::vector<std::unique_ptr<Tile>> &healthPacks, std::unique_ptr<Player> &protagonist, int rows, int columns, QString filename, std::size_t gridSize) {
     QGraphicsScene *scene = new QGraphicsScene();
 
     QFont font("Monospace");
@@ -136,7 +137,6 @@ QString WorldViewText::pixmapToString(const QPixmap &pixmap) {
             // Set the new color
 
             bgColor.fromRgb(red, green, blue);
-            std::cout << bgColor.name().toStdString() << std::endl;
             bgText.append("<font color=\"");
             /*bgText.append("#00FF00");*/
             bgText.append(QColor(red, green, blue).name());

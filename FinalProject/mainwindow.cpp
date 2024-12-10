@@ -18,8 +18,6 @@ void MainWindow::setScene(QGraphicsScene *scene)
 void MainWindow::setScale(double sx, double sy) {
     int vs = ui->graphicsView->verticalScrollBar()->value();
     int hs = ui->graphicsView->horizontalScrollBar()->value();
-    std::cout << vs << std::endl;
-    std::cout << hs << std::endl;
     ui->graphicsView->setTransform(QTransform::fromScale(sx, sy));
     ui->graphicsView->verticalScrollBar()->setValue(vs);
     ui->graphicsView->horizontalScrollBar()->setValue(hs);

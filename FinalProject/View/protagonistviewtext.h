@@ -1,6 +1,7 @@
 #ifndef PROTAGONISTVIEWTEXT_H
 #define PROTAGONISTVIEWTEXT_H
 
+#include "Model/player.h"
 #include "qgraphicsitem.h"
 #include "world.h"
 #include <QGraphicsPixmapItem>
@@ -15,7 +16,7 @@ class ProtagonistViewText : public QObject, public QGraphicsSimpleTextItem {
     Q_PROPERTY(QPointF pos READ pos WRITE setPos) // Ensure Q_PROPERTY for pos is declared
 
   public:
-    ProtagonistViewText(const std::unique_ptr<Protagonist> &protagonist, double tileWidth, double tileHeight, QFont font,  QGraphicsItem *parent = nullptr);
+    ProtagonistViewText(const std::unique_ptr<Player> &protagonist, double tileWidth, double tileHeight, QFont font,  QGraphicsItem *parent = nullptr);
 
   private:
     double tileWidth, tileHeight;
