@@ -55,9 +55,10 @@ class GameController : public QObject {
     void moveProtagonistRight();
     void onHomePressed();
     void onEndPressed();
-    void onZoomEvent(double zoomFactor);
     void changeViewMode();
     void processCommand(QString textCommand);
+    void onZoomInEvent();
+    void onZoomOutEvent();
 };
 
 
