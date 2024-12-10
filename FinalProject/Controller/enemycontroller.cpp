@@ -1,4 +1,5 @@
 #include "enemycontroller.h"
+#include "qdebug.h"
 
 EnemyController::EnemyController() {}
 
@@ -12,7 +13,7 @@ bool EnemyController::checkForEnemy(std::vector<std::unique_ptr<Enemy> > &enemie
         if (Y > 0){
             for(auto& enemy : enemies){
                 if(enemy->getXPos() == X && enemy->getYPos() == Y-1){
-                    protagonist->setHealth(protagonist->getHealth()-5.0f);
+                    attack(enemy, protagonist);
                     return true;
                 }
             }
@@ -22,7 +23,7 @@ bool EnemyController::checkForEnemy(std::vector<std::unique_ptr<Enemy> > &enemie
         if (Y < height-1){
             for(auto& enemy : enemies){
                 if(enemy->getXPos() == X && enemy->getYPos() == Y+1){
-                    protagonist->setHealth(protagonist->getHealth()-5.0f);
+                    attack(enemy, protagonist);
                     return true;
                 }
             }
@@ -32,7 +33,7 @@ bool EnemyController::checkForEnemy(std::vector<std::unique_ptr<Enemy> > &enemie
         if (X > 0){
             for(auto& enemy : enemies){
                 if(enemy->getXPos() == X-1 && enemy->getYPos() == Y){
-                    protagonist->setHealth(protagonist->getHealth()-5.0f);
+                    attack(enemy, protagonist);
                     return true;
                 }
             }
@@ -42,7 +43,7 @@ bool EnemyController::checkForEnemy(std::vector<std::unique_ptr<Enemy> > &enemie
         if (X < width -1){
             for(auto& enemy : enemies){
                 if(enemy->getXPos() == X+1 && enemy->getYPos() == Y){
-                    protagonist->setHealth(protagonist->getHealth()-5.0f);
+                    attack(enemy, protagonist);
                     return true;
                 }
             }
@@ -50,5 +51,27 @@ bool EnemyController::checkForEnemy(std::vector<std::unique_ptr<Enemy> > &enemie
         return false;
     };
 
+}
+
+void EnemyController::attack(std::unique_ptr<Enemy> &enemy, std::unique_ptr<Player> &protagonist)
+{
+    if(!enemy->getDefeated()){
+        if(PEnemy* penemyType = dynamic_cast<PEnemy *>(enemy.get()))
+        {
+            qDebug() << "p enemy";
+            penemyType->poison();
+        }
+        else if(Enemy* enemyType = dynamic_cast<Enemy *>(enemy.get()))
+        {
+            qDebug() << "normal enemy";
+            protagonist->setHealth(protagonist->getHealth()-enemy->getValue());
+            enemy->setDefeated(true);
+
+        }
+    }
+    else{
+        qDebug()<<"enemy is ded";
+    }
 
 }
+

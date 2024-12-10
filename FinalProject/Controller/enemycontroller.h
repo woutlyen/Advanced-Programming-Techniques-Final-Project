@@ -12,7 +12,7 @@ public:
 
     EnemyController();
     bool checkForEnemy(std::vector<std::unique_ptr<Enemy>>& enemies, std::unique_ptr<Player>& protagonist, int width, int height, Position pos);
-
+    void attack(std::unique_ptr<Enemy> &enemy, std::unique_ptr<Player> &protagonist);
 };
 
 #endif // ENEMYCONTROLLER_H
