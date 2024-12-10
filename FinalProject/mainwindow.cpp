@@ -10,13 +10,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->energyBar->setRange(0, 100);  // Set the range of the bar
     ui->energyBar->setValue(100);     // Initialize at maximum value
     ui->energyBar->setTextVisible(false); // Hide text on the bar
-    ui->energyBar->setFixedSize(300, 20); // Set a fixed size
+    //ui->energyBar->setFixedSize(300, 20); // Set a fixed size
     ui->energyBar->setStyleSheet("QProgressBar::chunk { background-color: darkCyan; }");
 
     ui->healthBar->setRange(0, 100);  // Set the range of the bar
     ui->healthBar->setValue(100);     // Initialize at maximum value
     ui->healthBar->setTextVisible(false); // Hide text on the bar
-    ui->healthBar->setFixedSize(300, 20); // Set a fixed size
+    //ui->healthBar->setFixedSize(300, 20); // Set a fixed size
     ui->healthBar->setStyleSheet("QProgressBar::chunk { background-color: green; }");
 
 }
