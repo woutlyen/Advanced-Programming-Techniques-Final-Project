@@ -4,6 +4,7 @@
 
 class Player : public Protagonist
 {
+    Q_OBJECT
 public:
     Player();
     enum Direction {Front, Back, Left, Right};

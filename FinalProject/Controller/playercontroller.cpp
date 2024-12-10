@@ -23,6 +23,7 @@ void PlayerController::moveLeft(std::unique_ptr<Player>& protagonist, std::vecto
         protagonist->setEnergy(protagonist->getEnergy()
                                - (tiles.at(protagonist->getYPos()*width+protagonist->getXPos()-1)->getValue()));
         protagonist->setXPos(protagonist->getXPos()-1);
+
     }
 }
 
@@ -31,6 +32,9 @@ void PlayerController::moveRight(std::unique_ptr<Player>& protagonist, std::vect
         protagonist->setEnergy(protagonist->getEnergy()
                                - (tiles.at(protagonist->getYPos()*width+protagonist->getXPos()+1)->getValue()));
         protagonist->setXPos(protagonist->getXPos()+1);
-
     }
+}
+
+void PlayerController::updatePlayerDirection(std::unique_ptr<Player>& protagonist, Player::Direction dir){
+    protagonist->setDirection(dir);
 }
