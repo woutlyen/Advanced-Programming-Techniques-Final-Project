@@ -64,29 +64,13 @@ bool InputController::eventFilter(QObject *obj, QEvent *event)
 
         // Determine the zoom direction (positive: zoom in, negative: zoom out)
         if (wheelEvent->angleDelta().y() > 0) {
-            zoomIn();
+            emit zoomIn();
         } else {
-            zoomOut();
+            emit zoomOut();
         }
 
         return true; // Consume the event
     }
 
     return QObject::eventFilter(obj, event); // Pass unhandled events to the base class
-}
-
-void InputController::zoomIn()
-{
-    if (currentZoomLevel < 10) { // Limit maximum zoom in
-        emit zoomChanged(zoomFactor); // Notify connected views to zoom in
-        ++currentZoomLevel;
-    }
-}
-
-void InputController::zoomOut()
-{
-    if (currentZoomLevel > -10) { // Limit maximum zoom out
-        emit zoomChanged(1 / zoomFactor); // Notify connected views to zoom out
-        --currentZoomLevel;
-    }
 }

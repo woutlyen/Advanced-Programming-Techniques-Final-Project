@@ -43,7 +43,8 @@ private slots:
     void onRightPressed();
     void onHomePressed();
     void onEndPressed();
-    void onZoomEvent(double zoomFactor);
+    void onZoomInEvent();
+    void onZoomOutEvent();
 };
 
 #endif // GAMECONTROLLER_H

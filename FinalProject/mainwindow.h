@@ -18,10 +18,15 @@ class MainWindow : public QMainWindow {
     void setScene(QGraphicsScene* scene);
     ~MainWindow();
 
-    void zoom(double zoomFactor);
+  public slots:
+    void zoomIn();
+    void zoomOut();
+
 
   private:
     Ui::MainWindow *ui;
+    const double zoomFactor {1.15};  // Factor to zoom in/out by
+    int currentZoomLevel {0};     // Track zoom level (to prevent over-zooming)
 
 };
 #endif // MAINWINDOW_H
