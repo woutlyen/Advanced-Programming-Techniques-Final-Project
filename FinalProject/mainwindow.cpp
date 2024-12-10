@@ -9,18 +9,45 @@ MainWindow::MainWindow(QWidget *parent)
 
     //this->setCentralWidget(ui->graphicsView);
 
-    ui->energyBar->setRange(0, 100);  // Set the range of the bar
-    ui->energyBar->setValue(100);     // Initialize at maximum value
-    ui->energyBar->setTextVisible(false); // Hide text on the bar
-    //ui->energyBar->setFixedSize(300, 20); // Set a fixed size
-    ui->energyBar->setStyleSheet("QProgressBar::chunk { background-color: darkCyan; }");
+    ui->energyBar->setRange(0, 100);
+    ui->energyBar->setValue(0);
+    ui->energyBar->setTextVisible(false);
 
-    ui->healthBar->setRange(0, 100);  // Set the range of the bar
-    ui->healthBar->setValue(100);     // Initialize at maximum value
-    ui->healthBar->setTextVisible(false); // Hide text on the bar
-    //ui->healthBar->setFixedSize(300, 20); // Set a fixed size
-    ui->healthBar->setStyleSheet("QProgressBar::chunk { background-color: green; }");
+    ui->healthBar->setRange(0, 100);
+    ui->healthBar->setValue(0);
+    ui->healthBar->setTextVisible(false);
 
+    ui->zoomOut->setFixedSize(50, 50);
+    ui->zoomOut->setStyleSheet(
+        "QPushButton {"
+        "   border-radius: 25px;" // Rounded corners (circle effect for square buttons)
+        "   background-color: #f44336;" // Red background
+        "   color: white;" // White text
+        "   font-size: 18px;" // Larger font
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #e53935;" // Slightly darker red on hover
+        "}"
+        "QPushButton:pressed {"
+        "   background-color: #d32f2f;" // Even darker red when pressed
+        "}"
+    );
+
+    ui->zoomIn->setFixedSize(50, 50);
+    ui->zoomIn->setStyleSheet(
+        "QPushButton {"
+        "   border-radius: 25px;" // Rounded corners (circle effect for square buttons)
+        "   background-color: #4CAF50;" // Green background
+        "   color: white;" // White text
+        "   font-size: 18px;" // Larger font
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #45a049;" // Slightly darker green on hover
+        "}"
+        "QPushButton:pressed {"
+        "   background-color: #3e8e41;" // Even darker green when pressed
+        "}"
+    );
 }
 
 void MainWindow::setScene(QGraphicsScene *scene)
@@ -83,7 +110,7 @@ void MainWindow::updateEnergyBar(int value)
     }
 
     // Apply the new color
-    ui->energyBar->setStyleSheet(QString("QProgressBar::chunk { background-color: %1; }").arg(color));
+    ui->energyBar->setStyleSheet(QString("QProgressBar { border-radius: 10px; border: 2px solid #666; background: #ddd; } QProgressBar::chunk { background-color: %1; border-radius: 8px; }").arg(color));
 }
 
 void MainWindow::updateHealthBar(int value)
@@ -102,7 +129,7 @@ void MainWindow::updateHealthBar(int value)
     }
 
     // Apply the new color
-    ui->healthBar->setStyleSheet(QString("QProgressBar::chunk { background-color: %1; }").arg(color));
+    ui->healthBar->setStyleSheet(QString("QProgressBar { border-radius: 10px; border: 2px solid #666; background: #ddd; } QProgressBar::chunk { background-color: %1; border-radius: 8px; }").arg(color));
 }
 
 
