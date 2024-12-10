@@ -48,6 +48,7 @@ QGraphicsScene *WorldView2D::makeScene(std::vector<std::unique_ptr<Enemy> > &ene
     // Create and add protagonist view
     scene->addItem(new ProtagonistView2D(protagonist,gridSize));
 
+    /*
     healthBar = new StatusBar2D(10, 10, Qt::green);
     energyBar = new StatusBar2D(10, 40, Qt::green);
 
@@ -56,6 +57,7 @@ QGraphicsScene *WorldView2D::makeScene(std::vector<std::unique_ptr<Enemy> > &ene
 
     scene->addItem(healthBar);
     scene->addItem(energyBar);
+    */
 
     return scene;
 }

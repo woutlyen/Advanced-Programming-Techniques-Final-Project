@@ -25,8 +25,8 @@ private:
     QColor darkGreen{0, 50, 0};  // Dark green color
     QColor lightGreen{144, 238, 144};  // Light green color
 
-    StatusBar2D* healthBar;
-    StatusBar2D* energyBar;
+    //StatusBar2D* healthBar;
+    //StatusBar2D* energyBar;
 };
 
 #endif // WORLDVIEW2D_H

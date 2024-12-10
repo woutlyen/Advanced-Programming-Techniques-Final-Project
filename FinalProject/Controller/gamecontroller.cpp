@@ -58,6 +58,7 @@ void GameController::start()
 
 
     mainWindow.setScene(scenes2D.at(currentLevel));
+    mainWindow.updateConnections(protagonist.at(currentLevel));
     mainWindow.show();
 
     /*
@@ -100,12 +101,14 @@ void GameController::onRightPressed() {
 void GameController::onHomePressed() {
     currentLevel = 0;
     mainWindow.setScene(scenes2D.at(currentLevel));
+    mainWindow.updateConnections(protagonist.at(currentLevel));
 }
 
 
 void GameController::onEndPressed() {
     currentLevel = 1;
     mainWindow.setScene(scenes2D.at(currentLevel));
+    mainWindow.updateConnections(protagonist.at(currentLevel));
 }
 
 void GameController::onZoomInEvent(){
