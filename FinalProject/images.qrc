@@ -82,5 +82,40 @@
         <file>images/player_sprites/player_attack_left/tile044.png</file>
         <file>images/player_sprites/player_attack_left/tile043.png</file>
         <file>images/player_sprites/player_attack_left/tile042.png</file>
+        <file>images/penemy_sprites/penemy_die/tile016.png</file>
+        <file>images/penemy_sprites/penemy_die/tile015.png</file>
+        <file>images/penemy_sprites/penemy_die/tile014.png</file>
+        <file>images/penemy_sprites/penemy_die/tile013.png</file>
+        <file>images/penemy_sprites/penemy_die/tile012.png</file>
+        <file>images/penemy_sprites/penemy_idle/tile003.png</file>
+        <file>images/penemy_sprites/penemy_idle/tile002.png</file>
+        <file>images/penemy_sprites/penemy_idle/tile001.png</file>
+        <file>images/penemy_sprites/penemy_idle/tile000.png</file>
+        <file>images/penemy_sprites/penemy_attack/tile011.png</file>
+        <file>images/penemy_sprites/penemy_attack/tile010.png</file>
+        <file>images/penemy_sprites/penemy_attack/tile009.png</file>
+        <file>images/penemy_sprites/penemy_attack/tile008.png</file>
+        <file>images/penemy_sprites/penemy_attack/tile007.png</file>
+        <file>images/penemy_sprites/penemy_attack/tile006.png</file>
+        <file>images/enemy_sprites/enemy_idle/tile008.png</file>
+        <file>images/enemy_sprites/enemy_idle/tile003.png</file>
+        <file>images/enemy_sprites/enemy_idle/tile002.png</file>
+        <file>images/enemy_sprites/enemy_idle/tile001.png</file>
+        <file>images/enemy_sprites/enemy_idle/tile000.png</file>
+        <file>images/enemy_sprites/enemy_die/tile023.png</file>
+        <file>images/enemy_sprites/enemy_die/tile022.png</file>
+        <file>images/enemy_sprites/enemy_die/tile021.png</file>
+        <file>images/enemy_sprites/enemy_die/tile020.png</file>
+        <file>images/enemy_sprites/enemy_die/tile019.png</file>
+        <file>images/enemy_sprites/enemy_die/tile018.png</file>
+        <file>images/enemy_sprites/enemy_die/tile017.png</file>
+        <file>images/enemy_sprites/enemy_die/tile016.png</file>
+        <file>images/enemy_sprites/enemy_attack/tile015.png</file>
+        <file>images/enemy_sprites/enemy_attack/tile014.png</file>
+        <file>images/enemy_sprites/enemy_attack/tile013.png</file>
+        <file>images/enemy_sprites/enemy_attack/tile012.png</file>
+        <file>images/enemy_sprites/enemy_attack/tile011.png</file>
+        <file>images/enemy_sprites/enemy_attack/tile010.png</file>
+        <file>images/enemy_sprites/enemy_attack/tile009.png</file>
     </qresource>
 </RCC>
