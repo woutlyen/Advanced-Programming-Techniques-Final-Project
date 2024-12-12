@@ -48,6 +48,8 @@ MainWindow::MainWindow(QWidget *parent)
         "   background-color: #3e8e41;" // Even darker green when pressed
         "}"
     );
+
+
 }
 
 void MainWindow::setScene(QGraphicsScene *scene)
@@ -102,11 +104,11 @@ void MainWindow::updateEnergyBar(int value)
     // Change the color based on the value
     QString color;
     if (value > 50) {
-        color = "darkCyan";
+        color = "#0291d4";
     } else if (value > 25) {
-        color = "darkBlue";
+        color = "#0272a6";
     } else {
-        color = "darkRed";
+        color = "#004b6e";
     }
 
     // Apply the new color
@@ -123,7 +125,7 @@ void MainWindow::updateHealthBar(int value)
     if (value > 50) {
         color = "green";
     } else if (value > 25) {
-        color = "yellow";
+        color = "#bfc900";
     } else {
         color = "darkRed";
     }
