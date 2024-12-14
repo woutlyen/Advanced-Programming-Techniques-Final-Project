@@ -107,7 +107,7 @@ void GameController::start()
     scenes2D.push_back(worldView2D.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), heigth.at(currentLevel), width.at(currentLevel), ":/world_images/map4.png", gridSize, 4));
 
     currentLevel = 0;
-    mainWindow.setScene(scenesText.at(currentLevel));
+    mainWindow.setScene(scenes2D.at(currentLevel), scenesText.at(currentLevel));
     mainWindow.updateConnections(protagonist.at(currentLevel));
     mainWindow.show();
 }
@@ -129,7 +129,7 @@ bool GameController::checkForNewLevel()
         else{
             currentLevel--;
         }
-        mainWindow.setScene(scenes2D.at(currentLevel));
+        mainWindow.setScene(scenes2D.at(currentLevel), scenesText.at(currentLevel));
         mainWindow.updateConnections(protagonist.at(currentLevel));
         return true;
     }
@@ -183,11 +183,9 @@ void GameController::moveProtagonistRight() {
 }
 
 void GameController::onHomePressed() {
-    mainWindow.setScene(scenes2D.at(currentLevel));
 }
 
 void GameController::onEndPressed() {
-    mainWindow.setScene(scenesText.at(currentLevel));
 }
 
 void GameController::onZoomInEvent(){
@@ -202,7 +200,7 @@ void GameController::changeViewMode() {
     switch (currentMode) {
         case TextView:
             currentMode = Graphics2DView;
-            mainWindow.setScene(scenes2D.at(currentLevel));
+            //mainWindow.setScene(scenes2D.at(currentLevel));
             connect(&inputController, &InputController::upPressed, this, &GameController::moveProtagonistUp);
             connect(&inputController, &InputController::downPressed, this, &GameController::moveProtagonistDown);
             connect(&inputController, &InputController::leftPressed, this, &GameController::moveProtagonistLeft);
@@ -211,7 +209,7 @@ void GameController::changeViewMode() {
 
         case Graphics2DView:
             currentMode = TextView;
-            mainWindow.setScene(scenesText.at(currentLevel));
+            //mainWindow.setScene(scenesText.at(currentLevel));
             disconnect(&inputController, &InputController::upPressed, this, &GameController::moveProtagonistUp);
             disconnect(&inputController, &InputController::downPressed, this, &GameController::moveProtagonistDown);
             disconnect(&inputController, &InputController::leftPressed, this, &GameController::moveProtagonistLeft);

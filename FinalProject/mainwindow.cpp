@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QScrollBar>
-#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -52,17 +51,23 @@ MainWindow::MainWindow(QWidget *parent)
 
 }
 
-void MainWindow::setScene(QGraphicsScene *scene)
+void MainWindow::setScene(QGraphicsScene *scene2D, QGraphicsScene *sceneText)
 {
-    ui->graphicsView->setScene(scene);
+    ui->graphicsView2D->setScene(scene2D);
+    ui->graphicsViewText->setScene(sceneText);
 }
 
 void MainWindow::setScale(double sx, double sy) {
-    int vs = ui->graphicsView->verticalScrollBar()->value();
-    int hs = ui->graphicsView->horizontalScrollBar()->value();
-    ui->graphicsView->setTransform(QTransform::fromScale(sx, sy));
-    ui->graphicsView->verticalScrollBar()->setValue(vs);
-    ui->graphicsView->horizontalScrollBar()->setValue(hs);
+    int vs = ui->graphicsView2D->verticalScrollBar()->value();
+    int hs = ui->graphicsView2D->horizontalScrollBar()->value();
+
+    ui->graphicsView2D->setTransform(QTransform::fromScale(sx, sy));
+    ui->graphicsView2D->verticalScrollBar()->setValue(vs);
+    ui->graphicsView2D->horizontalScrollBar()->setValue(hs);
+
+    ui->graphicsViewText->setTransform(QTransform::fromScale(sx, sy));
+    ui->graphicsViewText->verticalScrollBar()->setValue(vs);
+    ui->graphicsViewText->horizontalScrollBar()->setValue(hs);
 }
 
 
@@ -83,7 +88,8 @@ MainWindow::~MainWindow() {
 void MainWindow::zoomIn()
 {
     if (currentZoomLevel < 10) { // Limit maximum zoom in
-        ui->graphicsView->scale(zoomFactor, zoomFactor);
+        ui->graphicsView2D->scale(zoomFactor, zoomFactor);
+        ui->graphicsViewText->scale(zoomFactor, zoomFactor);
         ++currentZoomLevel;
     }
 }
@@ -91,7 +97,8 @@ void MainWindow::zoomIn()
 void MainWindow::zoomOut()
 {
     if (currentZoomLevel > -10) { // Limit maximum zoom out
-        ui->graphicsView->scale(1/zoomFactor, 1/zoomFactor);
+        ui->graphicsView2D->scale(1/zoomFactor, 1/zoomFactor);
+        ui->graphicsViewText->scale(1/zoomFactor, 1/zoomFactor);
         --currentZoomLevel;
     }
 }

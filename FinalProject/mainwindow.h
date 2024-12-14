@@ -17,7 +17,7 @@ class MainWindow : public QMainWindow {
 
   public:
     MainWindow(QWidget *parent = nullptr);
-    void setScene(QGraphicsScene *scene);
+    void setScene(QGraphicsScene *scene2D, QGraphicsScene *sceneText);
     void setScale(double sx, double sy);
     void updateConnections(std::unique_ptr<Player> &protagonist);
     ~MainWindow();
