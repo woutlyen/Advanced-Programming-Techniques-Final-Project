@@ -1,5 +1,7 @@
 #include "protagonistview2d.h"
+#include "View/healthpackview2d.h"
 
+#include <QGraphicsColorizeEffect>
 #include <QGraphicsView>
 #include <QPropertyAnimation>
 #include <QScrollBar>
@@ -53,6 +55,7 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Player> &protagonist,
     connect(movementAnimation, &QPropertyAnimation::finished, this, [this]() {
         if (currentState == Walking) {
             animationTimer->setInterval(120);
+
             setState(Idle); // Switch to idle when movement finishes
         }
     });
@@ -119,8 +122,26 @@ void ProtagonistView2D::onPositionChanged(int x, int y)
 
 void ProtagonistView2D::onHealthChanged(int health)
 {
-    // Switch to fighting state
-    setState(Fighting);
+    if (health == 100){
+        // Add a glow effect
+        QGraphicsColorizeEffect* glowEffect = new QGraphicsColorizeEffect(this);
+        glowEffect->setColor(Qt::darkRed); // Green indicates healing
+        glowEffect->setStrength(0.0);    // Start with no glow
+        setGraphicsEffect(glowEffect);
+
+        // Animate the glow effect
+        QPropertyAnimation* glowAnimation = new QPropertyAnimation(glowEffect, "strength", this);
+        glowAnimation->setDuration(500); // Half a second
+        glowAnimation->setStartValue(0.0);
+        glowAnimation->setKeyValueAt(0.5, 1.0); // Peak glow in the middle
+        glowAnimation->setEndValue(0.0);        // Fade back to normal
+        glowAnimation->start(QPropertyAnimation::DeleteWhenStopped);
+    }
+    else {
+        // Switch to fighting state
+        setState(Fighting);
+    }
+
 }
 
 void ProtagonistView2D::onEnergyChanged(int energy)
@@ -173,6 +194,9 @@ void ProtagonistView2D::updateAnimationFrame() {
         }
         break;
     }
+
+    // Check for health pack collisions
+    checkHealthPackCollision();
 }
 
 void ProtagonistView2D::updateDirection(int curX, int curY, int newX, int newY)
@@ -299,4 +323,20 @@ std::vector<QPixmap> ProtagonistView2D::extractFramesFromSpritesheet(const QStri
     }
 
     return frames;
+}
+
+void ProtagonistView2D::checkHealthPackCollision()
+{
+    // Get a list of all items the protagonist is colliding with
+    QList<QGraphicsItem*> collidingItems = scene()->collidingItems(this);
+
+    for (QGraphicsItem* item : collidingItems) {
+        // Check if the item is a HealthPackView2D
+        HealthPackView2D* healthPack = dynamic_cast<HealthPackView2D*>(item);
+        if (healthPack) {
+            // Trigger the health pack animation
+            healthPack->playPickupAnimation();
+            break;
+        }
+    }
 }

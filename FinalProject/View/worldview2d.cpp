@@ -14,7 +14,7 @@
 
 WorldView2D::WorldView2D() {}
 
-QGraphicsScene *WorldView2D::makeScene(std::vector<std::unique_ptr<Enemy> > &enemies, std::vector<std::unique_ptr<Tile> > &healthPacks, std::unique_ptr<Player> &protagonist, int rows, int columns, QString filename, std::size_t gridSize)
+QGraphicsScene *WorldView2D::makeScene(std::vector<std::unique_ptr<Enemy> > &enemies, std::vector<std::unique_ptr<Tile> > &healthPacks, std::unique_ptr<Player> &protagonist, int rows, int columns, QString filename, std::size_t gridSize, std::size_t imageScale)
 {
     QGraphicsScene* scene = new QGraphicsScene();
 
@@ -23,7 +23,9 @@ QGraphicsScene *WorldView2D::makeScene(std::vector<std::unique_ptr<Enemy> > &ene
                                  gridSize*QPixmap(filename).height(),
                                  Qt::KeepAspectRatio));*/
 
-    scene->addPixmap(recolorGrayscalePixmap(QPixmap(filename)))->setScale(64.0);
+    //scene->addPixmap(recolorGrayscalePixmap(QPixmap(filename)))->setScale(imageScale);
+
+    scene->addPixmap(QPixmap(filename))->setScale(imageScale);
 
     // Create and add health views
     for (const auto& healthPack : healthPacks) {

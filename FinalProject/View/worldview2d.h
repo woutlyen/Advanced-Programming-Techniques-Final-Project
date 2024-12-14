@@ -18,7 +18,8 @@ public:
                               int rows,
                               int columns,
                               QString filename = ":/world_images/worldmap.png",
-                              std::size_t gridSize = 32);
+                              std::size_t gridSize = 32,
+                              std::size_t imageScale = 32);
 
 private:
     QPixmap recolorGrayscalePixmap(const QPixmap& pixmap);

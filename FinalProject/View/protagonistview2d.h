@@ -50,6 +50,7 @@ private:
     std::vector<QPixmap> extractFrames(const QString &fileDir);
     void updateCurrentFrameIndex();
     void setAnimation();
+    void checkHealthPackCollision();
 
 private slots:
     void onPositionChanged(int x, int y); // Updates the protagonist's position
