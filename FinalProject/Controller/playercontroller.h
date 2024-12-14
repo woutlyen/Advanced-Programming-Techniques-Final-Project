@@ -16,6 +16,8 @@ public:
     void moveLeft(std::unique_ptr<Player>& protagonist, std::vector<std::unique_ptr<Tile>>& tiles, int width);
     void moveRight(std::unique_ptr<Player>& protagonist, std::vector<std::unique_ptr<Tile>>& tiles, int width);
     void checkForHealthPack(std::unique_ptr<Player>& protagonist, std::vector<std::unique_ptr<Tile>>& healthPacks);
+    bool checkForNewLevel(std::unique_ptr<Player>& protagonist, std::vector<std::unique_ptr<Tile>>& tiles, int width);
+    bool playerOnLeftOfMap(std::unique_ptr<Player>& protagonist, int width);
 
 };
 

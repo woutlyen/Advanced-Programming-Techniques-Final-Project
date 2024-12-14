@@ -46,6 +46,7 @@ class GameController : public QObject {
     /*typedef void (GameController::*gamecontroller_method_t)();*/
     //typedef std::function<void()> func;
     std::unordered_map<std::string, std::function<void()>> gamecontrollerMethodMap;
+    bool checkForNewLevel();
 
 
   private slots:

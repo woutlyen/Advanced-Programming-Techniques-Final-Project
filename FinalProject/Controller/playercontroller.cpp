@@ -56,3 +56,23 @@ void PlayerController::checkForHealthPack(std::unique_ptr<Player> &protagonist, 
         }
     }
 }
+
+bool PlayerController::checkForNewLevel(std::unique_ptr<Player> &protagonist, std::vector<std::unique_ptr<Tile> > &tiles, int width)
+{
+    float val = (tiles.at(protagonist->getYPos()*width+protagonist->getXPos())->getValue());
+    if (val == 1.0f){
+        return true;
+    }
+
+    return false;
+}
+
+bool PlayerController::playerOnLeftOfMap(std::unique_ptr<Player> &protagonist, int width)
+{
+    if (protagonist->getXPos() < width/2){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
