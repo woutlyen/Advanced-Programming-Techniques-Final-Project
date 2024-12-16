@@ -53,6 +53,10 @@ void GameController::start(QString& filePath)
         qDebug() << "  Data:" << level.data_map;
         qDebug() << "  GridSize:" << level.grid_size;
         qDebug() << "  VisualGridSize:" << level.visual_grid_size;
+        qDebug() << "  prev_level_x_pos:" << level.prev_level_x_pos;
+        qDebug() << "  prev_level_y_pos:" << level.prev_level_y_pos;
+        qDebug() << "  next_level_x_pos:" << level.next_level_x_pos;
+        qDebug() << "  next_level_y_pos:" << level.next_level_y_pos;
 
         generateLevel(currentLevel);
         currentLevel++;
@@ -65,23 +69,22 @@ void GameController::start(QString& filePath)
     playerController.moveRight(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel));
 }
 
-bool GameController::checkForNewLevel()
+bool GameController::checkForPrevLevel()
 {
-    if (playerController.checkForNewLevel(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel))){
-        if (currentLevel > 0 && currentLevel < 3){
-            if (playerController.playerOnLeftOfMap(protagonist.at(currentLevel), width.at(currentLevel))){
-                currentLevel--;
-            }
-            else {
-                currentLevel++;
-            }
-        }
-        else if (currentLevel == 0){
-            currentLevel++;
-        }
-        else{
-            currentLevel--;
-        }
+    if(protagonist.at(currentLevel)->getXPos() == levels.at(currentLevel).prev_level_x_pos && protagonist.at(currentLevel)->getYPos() == levels.at(currentLevel).prev_level_y_pos){
+        currentLevel--;
+        mainWindow.setScene(scenes2D.at(currentLevel), scenesText.at(currentLevel));
+        mainWindow.updateConnections(protagonist.at(currentLevel));
+        return true;
+    }
+    return false;
+}
+
+bool GameController::checkForNextLevel()
+{
+
+    if(protagonist.at(currentLevel)->getXPos() == levels.at(currentLevel).next_level_x_pos && protagonist.at(currentLevel)->getYPos() == levels.at(currentLevel).next_level_y_pos){
+        currentLevel++;
         mainWindow.setScene(scenes2D.at(currentLevel), scenesText.at(currentLevel));
         mainWindow.updateConnections(protagonist.at(currentLevel));
         return true;
@@ -131,6 +134,14 @@ void GameController::parseLevels(QString &filePath)
                         level.grid_size = xml.readElementText().toInt();
                     } else if (elementName == "visual_grid_size") {
                         level.visual_grid_size = xml.readElementText().toInt();
+                    } else if (elementName == "prev_level_x_pos") {
+                        level.prev_level_x_pos = xml.readElementText().toInt();
+                    } else if (elementName == "prev_level_y_pos") {
+                        level.prev_level_y_pos = xml.readElementText().toInt();
+                    } else if (elementName == "next_level_x_pos") {
+                        level.next_level_x_pos = xml.readElementText().toInt();
+                    } else if (elementName == "next_level_y_pos") {
+                        level.next_level_y_pos = xml.readElementText().toInt();
                     }
                 }
             }
@@ -173,7 +184,7 @@ void GameController::moveProtagonistUp() {
     if (!enemyController.checkForEnemy(enemies.at(currentLevel), protagonist.at(currentLevel), width.at(currentLevel), height.at(currentLevel), EnemyController::Position::Up)){
         playerController.moveUp(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel));
         playerController.checkForHealthPack(protagonist.at(currentLevel), healthPacks.at(currentLevel));
-        if (checkForNewLevel()){
+        if (checkForPrevLevel() || checkForNextLevel()){
             playerController.moveUp(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel));
         }
     }
@@ -183,7 +194,7 @@ void GameController::moveProtagonistDown() {
     if (!enemyController.checkForEnemy(enemies.at(currentLevel), protagonist.at(currentLevel), width.at(currentLevel), height.at(currentLevel), EnemyController::Position::Down)) {
         playerController.moveDown(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel), height.at(currentLevel));
         playerController.checkForHealthPack(protagonist.at(currentLevel), healthPacks.at(currentLevel));
-        if (checkForNewLevel()){
+        if (checkForPrevLevel() || checkForNextLevel()){
             playerController.moveDown(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel), height.at(currentLevel));
         }
     }
@@ -193,7 +204,7 @@ void GameController::moveProtagonistLeft() {
     if (!enemyController.checkForEnemy(enemies.at(currentLevel), protagonist.at(currentLevel), width.at(currentLevel), height.at(currentLevel), EnemyController::Position::Left)) {
         playerController.moveLeft(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel));
         playerController.checkForHealthPack(protagonist.at(currentLevel), healthPacks.at(currentLevel));
-        if (checkForNewLevel()){
+        if (checkForPrevLevel() || checkForNextLevel()){
             playerController.moveLeft(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel));
         }
     }
@@ -203,7 +214,7 @@ void GameController::moveProtagonistRight() {
     if (!enemyController.checkForEnemy(enemies.at(currentLevel), protagonist.at(currentLevel), width.at(currentLevel), height.at(currentLevel), EnemyController::Position::Right)) {
         playerController.moveRight(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel));
         playerController.checkForHealthPack(protagonist.at(currentLevel), healthPacks.at(currentLevel));
-        if (checkForNewLevel()){
+        if (checkForPrevLevel() || checkForNextLevel()){
             playerController.moveRight(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel));
         }
     }

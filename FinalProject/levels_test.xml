@@ -12,5 +12,9 @@
     <data_map>:/world_images/worldmap4.png</data_map>
     <grid_size>64</grid_size>
     <visual_grid_size>1</visual_grid_size>
+    <prev_level_x_pos>-1</prev_level_x_pos>
+    <prev_level_y_pos>-1</prev_level_y_pos>
+    <next_level_x_pos>-1</next_level_x_pos>
+    <next_level_y_pos>-1</next_level_y_pos>
   </level>
 </levels>

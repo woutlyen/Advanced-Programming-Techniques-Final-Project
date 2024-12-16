@@ -36,6 +36,10 @@ class GameController : public QObject {
         QString data_map;
         int grid_size;
         int visual_grid_size;
+        int prev_level_x_pos;
+        int prev_level_y_pos;
+        int next_level_x_pos;
+        int next_level_y_pos;
     };
 
     WorldRevised world;
@@ -69,7 +73,8 @@ class GameController : public QObject {
     /*typedef void (GameController::*gamecontroller_method_t)();*/
     //typedef std::function<void()> func;
     std::unordered_map<std::string, std::function<void()>> gamecontrollerMethodMap;
-    bool checkForNewLevel();
+    bool checkForPrevLevel();
+    bool checkForNextLevel();
     void parseLevels(QString& filePath);
     void generateLevel(int levelNumber);
 

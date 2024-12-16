@@ -12,6 +12,10 @@
     <data_map>:/world_images/data_map.png</data_map>
     <grid_size>64</grid_size>
     <visual_grid_size>16</visual_grid_size>
+    <prev_level_x_pos>-1</prev_level_x_pos>
+    <prev_level_y_pos>-1</prev_level_y_pos>
+    <next_level_x_pos>29</next_level_x_pos>
+    <next_level_y_pos>16</next_level_y_pos>
   </level>
   <level>
     <number>2</number>
@@ -25,6 +29,10 @@
     <data_map>:/world_images/data_map2.png</data_map>
     <grid_size>64</grid_size>
     <visual_grid_size>16</visual_grid_size>
+    <prev_level_x_pos>0</prev_level_x_pos>
+    <prev_level_y_pos>16</prev_level_y_pos>
+    <next_level_x_pos>26</next_level_x_pos>
+    <next_level_y_pos>25</next_level_y_pos>
   </level>  
   <level>
     <number>3</number>
@@ -38,6 +46,10 @@
     <data_map>:/world_images/data_map3.png</data_map>
     <grid_size>64</grid_size>
     <visual_grid_size>16</visual_grid_size>
+    <prev_level_x_pos>9</prev_level_x_pos>
+    <prev_level_y_pos>29</prev_level_y_pos>
+    <next_level_x_pos>29</next_level_x_pos>
+    <next_level_y_pos>9</next_level_y_pos>
   </level>  
   <level>
     <number>4</number>
@@ -51,5 +63,9 @@
     <data_map>:/world_images/data_map4.png</data_map>
     <grid_size>64</grid_size>
     <visual_grid_size>16</visual_grid_size>
+    <prev_level_x_pos>0</prev_level_x_pos>
+    <prev_level_y_pos>9</prev_level_y_pos>
+    <next_level_x_pos>-1</next_level_x_pos>
+    <next_level_y_pos>-1</next_level_y_pos>
   </level>
 </levels>
