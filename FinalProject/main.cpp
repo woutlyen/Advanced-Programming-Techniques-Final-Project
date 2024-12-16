@@ -5,8 +5,11 @@
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
+    QString filePath = ":/levels.xml";
+    //QString filePath = ":/levels_test.xml";
+
     GameController gameController;
-    gameController.start();
+    gameController.start(filePath);
 
     return a.exec();
 }

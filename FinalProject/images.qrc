@@ -90,5 +90,7 @@
         <file>images/player_sprites/player_walk_right/3.png</file>
         <file>images/player_sprites/player_walk_right/2.png</file>
         <file>images/player_sprites/player_walk_right/1.png</file>
+        <file>levels.xml</file>
+        <file>levels_test.xml</file>
     </qresource>
 </RCC>

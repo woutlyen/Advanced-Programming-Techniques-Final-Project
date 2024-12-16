@@ -2,8 +2,6 @@
 #define WORLDVIEWTEXT_H
 
 #include "Model/player.h"
-#include "View/statusbar2d.h"
-#include "View/protagonistviewtext.h"
 #include "world.h"
 #include <QObject>
 #include <QGraphicsScene>
@@ -20,9 +18,6 @@ class WorldViewText {
                               std::size_t gridSize = 32);
 
   private:
-    //StatusBar2D *healthBar;
-    //StatusBar2D *energyBar;
-
     QColor darkGreen{0, 75, 0};  // Dark green color
     QColor lightGreen{144, 238, 144};  // Light green color
 

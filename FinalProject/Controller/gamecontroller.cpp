@@ -1,12 +1,10 @@
 #include "gamecontroller.h"
 
 #include <QTimer>
-#include <iostream>
 #include <unordered_map>
-
-#include "View/worldview2d.h"
-#include "View/worldviewtext.h"
-#include "Model/worldrevised.h"
+#include <QFile>
+#include <QXmlStreamReader>
+#include <QDebug>
 
 GameController::GameController(QObject *parent) : QObject(parent) {
     // Install the InputController as an event filter
@@ -37,79 +35,34 @@ GameController::GameController(QObject *parent) : QObject(parent) {
 
 }
 
-void GameController::start()
+void GameController::start(QString& filePath)
 {
-    WorldRevised world;
-    WorldViewText worldViewText;
-    WorldView2D worldView2D;
-    std::size_t gridSize{64};
+    parseLevels(filePath);
 
-    auto pro = world.getProtagonist();
+    // Output the parsed levels
+    for (const Level& level : levels) {
+        qDebug() << "Level:";
+        qDebug() << "  Number:" << level.number;
+        qDebug() << "  X Position:" << level.xpos;
+        qDebug() << "  Y Position:" << level.ypos;
+        qDebug() << "  Healthpacks:" << level.healthpacks;
+        qDebug() << "  Enemies:" << level.enemies;
+        qDebug() << "  Pratio:" << level.pratio;
+        qDebug() << "  Xratio:" << level.xratio;
+        qDebug() << "  Path:" << level.visual_map;
+        qDebug() << "  Data:" << level.data_map;
+        qDebug() << "  GridSize:" << level.grid_size;
+        qDebug() << "  VisualGridSize:" << level.visual_grid_size;
 
-    std::unique_ptr<Player> player = std::move(*reinterpret_cast<std::unique_ptr<Player>*>(&pro));
-    player->setPos(0, 22);
-
-    world.createWorld(":/world_images/data_map.png", 20, 5);
-    tiles.push_back(world.getTiles());
-    enemies.push_back(world.getEnemies());
-    healthPacks.push_back(world.getHealthPacks());
-    protagonist.push_back(std::move(player));
-    width.push_back(world.getCols());
-    heigth.push_back(world.getRows());
-
-    scenesText.push_back(worldViewText.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), heigth.at(currentLevel), width.at(currentLevel), ":/world_images/data_map.png", gridSize));
-    scenes2D.push_back(worldView2D.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), heigth.at(currentLevel), width.at(currentLevel), ":/world_images/map.png", gridSize, 4));
-    currentLevel += 1;
-
-    world.createWorld(":/world_images/data_map2.png", 5, 10);
-    tiles.push_back(world.getTiles());
-    enemies.push_back(world.getEnemies());
-    healthPacks.push_back(world.getHealthPacks());
-    pro = world.getProtagonist();
-    player = std::move(*reinterpret_cast<std::unique_ptr<Player>*>(&pro));
-    player->setPos(0, 16);
-    protagonist.push_back(std::move(player));
-    width.push_back(world.getCols());
-    heigth.push_back(world.getRows());
-
-    scenesText.push_back(worldViewText.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), heigth.at(currentLevel), width.at(currentLevel), ":/world_images/data_map2.png", gridSize));
-    scenes2D.push_back(worldView2D.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), heigth.at(currentLevel), width.at(currentLevel), ":/world_images/map2.png", gridSize, 4));
-    currentLevel += 1;
-
-    world.createWorld(":/world_images/data_map3.png", 5, 10);
-    tiles.push_back(world.getTiles());
-    enemies.push_back(world.getEnemies());
-    healthPacks.push_back(world.getHealthPacks());
-    pro = world.getProtagonist();
-    player = std::move(*reinterpret_cast<std::unique_ptr<Player>*>(&pro));
-    player->setPos(9, 29);
-    protagonist.push_back(std::move(player));
-    width.push_back(world.getCols());
-    heigth.push_back(world.getRows());
-
-    scenesText.push_back(worldViewText.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), heigth.at(currentLevel), width.at(currentLevel), ":/world_images/data_map3.png", gridSize));
-    scenes2D.push_back(worldView2D.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), heigth.at(currentLevel), width.at(currentLevel), ":/world_images/map3.png", gridSize, 4));
-    currentLevel += 1;
-
-    world.createWorld(":/world_images/data_map4.png", 5, 10);
-    tiles.push_back(world.getTiles());
-    enemies.push_back(world.getEnemies());
-    healthPacks.push_back(world.getHealthPacks());
-    pro = world.getProtagonist();
-    player = std::move(*reinterpret_cast<std::unique_ptr<Player>*>(&pro));
-    player->setPos(0, 9);
-    protagonist.push_back(std::move(player));
-    width.push_back(world.getCols());
-    heigth.push_back(world.getRows());
-
-    scenesText.push_back(worldViewText.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), heigth.at(currentLevel), width.at(currentLevel), ":/world_images/data_map4.png", gridSize));
-
-    scenes2D.push_back(worldView2D.makeScene(enemies.at(currentLevel), healthPacks.at(currentLevel), protagonist.at(currentLevel), heigth.at(currentLevel), width.at(currentLevel), ":/world_images/map4.png", gridSize, 4));
+        generateLevel(currentLevel);
+        currentLevel++;
+    }
 
     currentLevel = 0;
     mainWindow.setScene(scenes2D.at(currentLevel), scenesText.at(currentLevel));
     mainWindow.updateConnections(protagonist.at(currentLevel));
     mainWindow.show();
+    playerController.moveRight(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel));
 }
 
 bool GameController::checkForNewLevel()
@@ -136,6 +89,80 @@ bool GameController::checkForNewLevel()
     return false;
 }
 
+void GameController::parseLevels(QString &filePath)
+{
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qWarning() << "Failed to open file:" << filePath;
+        return;
+    }
+
+    QXmlStreamReader xml(&file);
+
+    while (!xml.atEnd() && !xml.hasError()) {
+        xml.readNext();
+
+        if (xml.isStartElement() && !xml.name().toString().compare("level")) {
+            Level level;
+            while (!(xml.isEndElement() && !xml.name().toString().compare("level"))) {
+                xml.readNext();
+                if (xml.isStartElement()) {
+                    QString elementName = xml.name().toString();
+
+                    if (elementName == "number") {
+                        level.number = xml.readElementText().toInt();
+                    } else if (elementName == "xpos") {
+                        level.xpos = xml.readElementText().toInt();
+                    } else if (elementName == "ypos") {
+                        level.ypos = xml.readElementText().toInt();
+                    } else if (elementName == "healthpacks") {
+                        level.healthpacks = xml.readElementText().toInt();
+                    } else if (elementName == "enemies") {
+                        level.enemies = xml.readElementText().toInt();
+                    } else if (elementName == "pratio") {
+                        level.pratio = xml.readElementText().toFloat();
+                    } else if (elementName == "xratio") {
+                        level.xratio = xml.readElementText().toFloat();
+                    } else if (elementName == "visual_map") {
+                        level.visual_map = xml.readElementText();
+                    } else if (elementName == "data_map") {
+                        level.data_map = xml.readElementText();
+                    } else if (elementName == "grid_size") {
+                        level.grid_size = xml.readElementText().toInt();
+                    } else if (elementName == "visual_grid_size") {
+                        level.visual_grid_size = xml.readElementText().toInt();
+                    }
+                }
+            }
+            levels.append(level);
+        }
+    }
+
+    if (xml.hasError()) {
+        qWarning() << "XML Error:" << xml.errorString();
+    }
+
+    file.close();
+}
+
+void GameController::generateLevel(int levelNumber)
+{
+    world.createWorld(levels.at(levelNumber).data_map, levels.at(levelNumber).enemies, levels.at(levelNumber).healthpacks);
+    tiles.push_back(world.getTiles());
+    enemies.push_back(world.getEnemies());
+    healthPacks.push_back(world.getHealthPacks());
+    auto pro = world.getProtagonist();
+    auto player = std::move(*reinterpret_cast<std::unique_ptr<Player>*>(&pro));
+    player->setPos(levels.at(levelNumber).xpos, levels.at(levelNumber).ypos);
+    protagonist.push_back(std::move(player));
+    width.push_back(world.getCols());
+    height.push_back(world.getRows());
+
+    scenesText.push_back(worldViewText.makeScene(enemies.at(levelNumber), healthPacks.at(levelNumber), protagonist.at(levelNumber), height.at(levelNumber), width.at(levelNumber), levels.at(levelNumber).data_map, levels.at(levelNumber).grid_size));
+    scenes2D.push_back(worldView2D.makeScene(enemies.at(levelNumber), healthPacks.at(levelNumber), protagonist.at(levelNumber), height.at(levelNumber), width.at(levelNumber), levels.at(levelNumber).visual_map, levels.at(levelNumber).grid_size, levels.at(levelNumber).visual_grid_size));
+
+}
+
 void GameController::moveProtagonistUp() {
     /*static size_t pos{0};
     if (pos < enemies[0].size()){
@@ -143,7 +170,7 @@ void GameController::moveProtagonistUp() {
         pos++;
     }*/
 
-    if (!enemyController.checkForEnemy(enemies.at(currentLevel), protagonist.at(currentLevel), width.at(currentLevel), heigth.at(currentLevel), EnemyController::Position::Up)){
+    if (!enemyController.checkForEnemy(enemies.at(currentLevel), protagonist.at(currentLevel), width.at(currentLevel), height.at(currentLevel), EnemyController::Position::Up)){
         playerController.moveUp(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel));
         playerController.checkForHealthPack(protagonist.at(currentLevel), healthPacks.at(currentLevel));
         if (checkForNewLevel()){
@@ -153,17 +180,17 @@ void GameController::moveProtagonistUp() {
 }
 
 void GameController::moveProtagonistDown() {
-    if (!enemyController.checkForEnemy(enemies.at(currentLevel), protagonist.at(currentLevel), width.at(currentLevel), heigth.at(currentLevel), EnemyController::Position::Down)) {
-        playerController.moveDown(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel), heigth.at(currentLevel));
+    if (!enemyController.checkForEnemy(enemies.at(currentLevel), protagonist.at(currentLevel), width.at(currentLevel), height.at(currentLevel), EnemyController::Position::Down)) {
+        playerController.moveDown(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel), height.at(currentLevel));
         playerController.checkForHealthPack(protagonist.at(currentLevel), healthPacks.at(currentLevel));
         if (checkForNewLevel()){
-            playerController.moveDown(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel), heigth.at(currentLevel));
+            playerController.moveDown(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel), height.at(currentLevel));
         }
     }
 }
 
 void GameController::moveProtagonistLeft() {
-    if (!enemyController.checkForEnemy(enemies.at(currentLevel), protagonist.at(currentLevel), width.at(currentLevel), heigth.at(currentLevel), EnemyController::Position::Left)) {
+    if (!enemyController.checkForEnemy(enemies.at(currentLevel), protagonist.at(currentLevel), width.at(currentLevel), height.at(currentLevel), EnemyController::Position::Left)) {
         playerController.moveLeft(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel));
         playerController.checkForHealthPack(protagonist.at(currentLevel), healthPacks.at(currentLevel));
         if (checkForNewLevel()){
@@ -173,7 +200,7 @@ void GameController::moveProtagonistLeft() {
 }
 
 void GameController::moveProtagonistRight() {
-    if (!enemyController.checkForEnemy(enemies.at(currentLevel), protagonist.at(currentLevel), width.at(currentLevel), heigth.at(currentLevel), EnemyController::Position::Right)) {
+    if (!enemyController.checkForEnemy(enemies.at(currentLevel), protagonist.at(currentLevel), width.at(currentLevel), height.at(currentLevel), EnemyController::Position::Right)) {
         playerController.moveRight(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel));
         playerController.checkForHealthPack(protagonist.at(currentLevel), healthPacks.at(currentLevel));
         if (checkForNewLevel()){
