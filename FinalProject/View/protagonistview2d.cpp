@@ -1,17 +1,9 @@
 #include "protagonistview2d.h"
 
-ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Player> &protagonist, std::size_t gridSize, QGraphicsItem* parent)
-    : QObject(),
-    QGraphicsPixmapItem(parent),
-    currentState{Idle},
-    currentDirection{Front},
-    movementAnimation(new QPropertyAnimation(this, "pos")),
-    animationTimer(new QTimer(this)),
-    currentFrameIndex{0}
+ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Player> &protagonist, std::size_t gridSize)
+    : GameObject2DView(gridSize),
+    movementAnimation(new QPropertyAnimation(this, "pos"))
     {
-
-    this->gridSize = gridSize;
-
     // Initialize all Pixmaps
     idlePixmaps_front = extractFrames(":/images/player_sprites/player_idle_front");
     idlePixmaps_left = extractFrames(":/images/player_sprites/player_idle_left");
@@ -30,6 +22,12 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Player> &protagonist,
 
     dyingPixmaps = extractFrames(":/images/player_sprites/player_die");
 
+    // Initialize Pixmap Animation Sizes
+    nrOfFramesIdle = idlePixmaps_front.size();
+    nrOfFramesWalking = walkingPixmaps_front.size();
+    nrOfFramesFighting = fightingPixmaps_front.size();
+    nrOfFramesDying = dyingPixmaps.size();
+
     // Set the initial pixmap
     setPixmap(idlePixmaps_front[0]);
     setPos(gridSize*protagonist->getXPos(), gridSize*protagonist->getYPos());
@@ -46,7 +44,7 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Player> &protagonist,
     // Configure the animation timer
     animationTimer->setInterval(120); // Frame switch interval (in milliseconds)
     animationTimer->start();
-    connect(animationTimer, &QTimer::timeout, this, &ProtagonistView2D::updateAnimationFrame);
+    GameObject2DView::connectAnimationTimer();
     connect(movementAnimation, &QPropertyAnimation::finished, this, [this]() {
         if (currentState == Walking) {
             animationTimer->setInterval(120);
@@ -85,50 +83,6 @@ void ProtagonistView2D::onEnergyChanged(int energy)
     }
 }
 
-void ProtagonistView2D::setState(AnimationState newState) {
-    if (currentState == newState or currentState == Dying) return; // No state change
-    currentState = newState;
-
-    // Reset frame index for the new state
-    currentFrameIndex = 0;
-
-    // Update the pixmap for the new state
-    setAnimation();
-}
-
-void ProtagonistView2D::updateAnimationFrame() {
-    switch (currentState) {
-    case Idle:
-        // Cycle through idle frames
-        updateCurrentFrameIndex();
-        setAnimation();
-        break;
-    case Walking:
-        // Cycle through walking frames
-        updateCurrentFrameIndex();
-        setAnimation();
-        break;
-    case Fighting:
-        // Play fighting frames once
-        if (currentFrameIndex < fightingPixmaps_front.size() - 1) {
-            updateCurrentFrameIndex();
-            setAnimation();
-        } else {
-            setState(Idle);
-        }
-        break;
-    case Dying:
-        // Play dying frames once
-        if (currentFrameIndex < dyingPixmaps.size() - 1) {
-           updateCurrentFrameIndex();
-            setAnimation();
-        } else {
-            animationTimer->stop(); // Stop the timer when animation ends
-        }
-        break;
-    }
-}
-
 void ProtagonistView2D::updateDirection(int curX, int curY, int newX, int newY)
 {
     if(curX > newX && curY == newY){
@@ -142,25 +96,6 @@ void ProtagonistView2D::updateDirection(int curX, int curY, int newX, int newY)
     }
     else{
         currentDirection = Front;
-    }
-    qDebug() << "new direction is: " << currentDirection;
-}
-
-void ProtagonistView2D::updateCurrentFrameIndex()
-{
-    switch (currentState) {
-    case Idle:
-        currentFrameIndex = (currentFrameIndex + 1) % idlePixmaps_front.size();
-        break;
-    case Walking:
-        currentFrameIndex = (currentFrameIndex + 1) % walkingPixmaps_front.size();
-        break;
-    case Fighting:
-        currentFrameIndex++;
-        break;
-    case Dying:
-        currentFrameIndex++;
-        break;
     }
 }
 
@@ -224,32 +159,4 @@ void ProtagonistView2D::setAnimation()
         setPixmap(dyingPixmaps[currentFrameIndex]);
         break;
     }
-}
-
-
-std::vector<QPixmap> ProtagonistView2D::extractFrames(const QString &fileDir) {
-    std::vector<QPixmap> frames;
-    QPixmap frame;
-
-    QDirIterator it(fileDir, QDirIterator::NoIteratorFlags);
-    while (it.hasNext()){
-        frame = it.next();
-        frames.push_back(frame.scaledToHeight(gridSize));
-    }
-    return frames;
-}
-
-std::vector<QPixmap> ProtagonistView2D::extractFramesFromSpritesheet(const QString& filePath, int frameWidth, int frameHeight, int numberOfFrames) {
-    std::vector<QPixmap> frames;
-
-    // Load the full spritesheet
-    QPixmap spriteSheet(filePath);
-
-    // Extract each frame
-    for (int i = 0; i < numberOfFrames; ++i) {
-        QPixmap frame = spriteSheet.copy(i * spriteSheet.width()/numberOfFrames + ((spriteSheet.width()/numberOfFrames)-frameWidth)/2, (spriteSheet.height()-frameHeight)/2, frameWidth, frameHeight);
-        frames.push_back(frame.scaledToHeight(gridSize));
-    }
-
-    return frames;
 }

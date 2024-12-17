@@ -8,24 +8,21 @@
 #include <QDir>
 #include <QDirIterator>
 #include "Model/player.h"
+#include "View/gameobject2dview.h"
 
-class ProtagonistView2D : public QObject, public QGraphicsPixmapItem
+class ProtagonistView2D : public GameObject2DView
 {
     Q_OBJECT
     Q_PROPERTY(QPointF pos READ pos WRITE setPos) // Ensure Q_PROPERTY for pos is declared
 
 public:
-    ProtagonistView2D(const std::unique_ptr<Player>& protagonist, std::size_t gridSize, QGraphicsItem* parent = nullptr);
+    ProtagonistView2D(const std::unique_ptr<Player>& protagonist, std::size_t gridSize);
 
 private:
-    std::size_t gridSize{};
     enum Direction {Front, Back, Left, Right};
-    enum AnimationState { Idle, Walking, Fighting, Dying }; // Animation states
-    AnimationState currentState;                 // Current animation state
     Direction currentDirection;
 
     QPropertyAnimation* movementAnimation; // Animation for position movement
-    QTimer* animationTimer;                // Timer for cycling pixmaps
     // Pixmaps for idle animation
     std::vector<QPixmap> idlePixmaps_front;
     std::vector<QPixmap> idlePixmaps_left;
@@ -43,19 +40,12 @@ private:
     std::vector<QPixmap> fightingPixmaps_back;
     // Pixmaps for dying animation
     std::vector<QPixmap> dyingPixmaps;
-    int currentFrameIndex;                 // Current frame index in pixmap arrays
-
-    void setState(AnimationState newState); // Switch animation state
-    std::vector<QPixmap> extractFramesFromSpritesheet(const QString &filePath, int frameWidth, int frameHeight, int numberOfFrames);
-    std::vector<QPixmap> extractFrames(const QString &fileDir);
-    void updateCurrentFrameIndex();
     void setAnimation();
 
 private slots:
     void onPositionChanged(int x, int y); // Updates the protagonist's position
     void onHealthChanged(int health);    // Updates the protagonist's visual representation
     void onEnergyChanged(int energy);    // Updates the protagonist's visual representation
-    void updateAnimationFrame(); // Update animation frame
     void updateDirection(int curX, int curY, int newX, int newY);
 
 };

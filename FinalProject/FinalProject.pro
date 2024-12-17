@@ -16,6 +16,7 @@ SOURCES += \
     Controller/xenemycontroller.cpp \
     View/enemyview2d.cpp \
     View/enemyviewtext.cpp \
+    View/gameobject2dview.cpp \
     View/healthpackview2d.cpp \
     View/healthpackviewtext.cpp \
     View/penemyview2d.cpp \
@@ -41,6 +42,7 @@ HEADERS += \
     Controller/xenemycontroller.h \
     View/enemyview2d.h \
     View/enemyviewtext.h \
+    View/gameobject2dview.h \
     View/healthpackview2d.h \
     View/healthpackviewtext.h \
     View/penemyview2d.h \
