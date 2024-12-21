@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<levels>
+  <level>
+    <number>1</number>
+    <xpos>0</xpos>
+    <ypos>0</ypos>
+    <enemies>20</enemies>
+    <healthpacks>5</healthpacks>
+    <pratio>0.25</pratio>
+    <xratio>0.25</xratio>
+    <visual_map>:/world_images/worldmap4.png</visual_map>
+    <data_map>:/world_images/worldmap4.png</data_map>
+    <grid_size>64</grid_size>
+    <visual_grid_size>1</visual_grid_size>
+    <prev_level_x_pos>-1</prev_level_x_pos>
+    <prev_level_y_pos>-1</prev_level_y_pos>
+    <next_level_x_pos>-1</next_level_x_pos>
+    <next_level_y_pos>-1</next_level_y_pos>
+  </level>
+</levels>

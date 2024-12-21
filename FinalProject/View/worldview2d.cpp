@@ -1,15 +1,20 @@
 #include "worldview2d.h"
 
+#include "Model/xenemy.h"
+
 #include "View/enemyview2d.h"
 #include "View/penemyview2d.h"
+#include "View/xenemyview2d.h"
 
 #include "View/healthpackview2d.h"
 #include "View/protagonistview2d.h"
-#include "qgraphicsscene.h"
+
+#include <QGraphicsScene>
+
 
 WorldView2D::WorldView2D() {}
 
-QGraphicsScene *WorldView2D::makeScene(std::vector<std::unique_ptr<Enemy> > &enemies, std::vector<std::unique_ptr<Tile> > &healthPacks, std::unique_ptr<Player> &protagonist, int rows, int columns, QString filename, std::size_t gridSize)
+QGraphicsScene *WorldView2D::makeScene(std::vector<std::unique_ptr<Enemy> > &enemies, std::vector<std::unique_ptr<Tile> > &healthPacks, std::unique_ptr<Player> &protagonist, int rows, int columns, QString filename, std::size_t gridSize, std::size_t imageGridSize)
 {
     QGraphicsScene* scene = new QGraphicsScene();
 
@@ -18,7 +23,9 @@ QGraphicsScene *WorldView2D::makeScene(std::vector<std::unique_ptr<Enemy> > &ene
                                  gridSize*QPixmap(filename).height(),
                                  Qt::KeepAspectRatio));*/
 
-    scene->addPixmap(recolorGrayscalePixmap(QPixmap(filename)))->setScale(64.0);
+    //scene->addPixmap(recolorGrayscalePixmap(QPixmap(filename)))->setScale(imageScale);
+
+    scene->addPixmap(QPixmap(filename))->setScale(gridSize/imageGridSize);
 
     // Create and add health views
     for (const auto& healthPack : healthPacks) {
@@ -31,9 +38,9 @@ QGraphicsScene *WorldView2D::makeScene(std::vector<std::unique_ptr<Enemy> > &ene
         if (dynamic_cast<PEnemy*>(enemy.get())) {
             // If the enemy is of type PEnemy
             scene->addItem(new PEnemyView2D(enemy, gridSize));
-        // } else if (dynamic_cast<XEnemy*>(enemy.get())) {
-        //     // If the enemy is of type XEnemy
-        //     scene->addItem(new XEnemyView2D(enemy, gridSize));
+        } else if (dynamic_cast<XEnemy*>(enemy.get())) {
+            // If the enemy is of type XEnemy
+            scene->addItem(new XEnemyView2D(enemy, gridSize));
         } else {
             // If the enemy is of type Enemy
             scene->addItem(new EnemyView2D(enemy, gridSize));
@@ -43,15 +50,6 @@ QGraphicsScene *WorldView2D::makeScene(std::vector<std::unique_ptr<Enemy> > &ene
 
     // Create and add protagonist view
     scene->addItem(new ProtagonistView2D(protagonist,gridSize));
-
-    healthBar = new StatusBar2D(10, 10, Qt::green);
-    energyBar = new StatusBar2D(10, 40, Qt::green);
-
-    connect(protagonist.get(), &Protagonist::healthChanged, healthBar, &StatusBar2D::updateBar);
-    connect(protagonist.get(), &Protagonist::energyChanged, energyBar, &StatusBar2D::updateBar);
-
-    scene->addItem(healthBar);
-    scene->addItem(energyBar);
 
     return scene;
 }

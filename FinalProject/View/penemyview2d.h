@@ -2,7 +2,6 @@
 #define PENEMYVIEW2D_H
 
 #include "enemyview2d.h"
-
 #include <world.h>
 
 

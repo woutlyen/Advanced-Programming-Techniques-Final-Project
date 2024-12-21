@@ -15,6 +15,7 @@ public:
     void moveDown(std::unique_ptr<Player>& protagonist, std::vector<std::unique_ptr<Tile>>& tiles, int width, int height);
     void moveLeft(std::unique_ptr<Player>& protagonist, std::vector<std::unique_ptr<Tile>>& tiles, int width);
     void moveRight(std::unique_ptr<Player>& protagonist, std::vector<std::unique_ptr<Tile>>& tiles, int width);
+    void checkForHealthPack(std::unique_ptr<Player>& protagonist, std::vector<std::unique_ptr<Tile>>& healthPacks);
 
 };
 

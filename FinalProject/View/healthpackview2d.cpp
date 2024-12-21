@@ -1,5 +1,6 @@
 #include "healthpackview2d.h"
 
+#include <QPropertyAnimation>
 #include <QTimer>
 
 HealthPackView2D::HealthPackView2D(const std::unique_ptr<Tile>& healthPack, std::size_t gridSize, QGraphicsItem* parent)
@@ -38,4 +39,32 @@ std::vector<QPixmap> HealthPackView2D::extractFrames(const QString& filePath, in
     }
 
     return frames;
+}
+
+void HealthPackView2D::playPickupAnimation()
+{
+    // Stop idle animation
+    //animationTimer->stop();
+
+    // Start fade-out animation
+    QTimer* fadeTimer = new QTimer(this); // Timer to control opacity reduction
+    connect(fadeTimer, &QTimer::timeout, this, [this, fadeTimer]() {
+        currentOpacity -= 0.05; // Decrease opacity gradually
+        if (currentOpacity <= 0.0) {
+            currentOpacity = 0.0;
+            fadeTimer->stop(); // Stop the timer once fully transparent
+            fadeTimer->deleteLater();
+
+            // Remove item from the scene and delete it
+            if (scene()) {
+                //scene()->removeItem(this);
+            }
+            delete this;
+        } else {
+            // Apply the new opacity
+            setOpacity(currentOpacity);
+        }
+    });
+
+    fadeTimer->start(30); // Trigger every 50ms for smooth fade-out
 }

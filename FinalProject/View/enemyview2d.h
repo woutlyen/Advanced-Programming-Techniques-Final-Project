@@ -6,9 +6,10 @@
 
 class EnemyView2D : public GameObject2DView
 {
+    Q_OBJECT
 public:
     EnemyView2D(const std::unique_ptr<Enemy>& enemy, std::size_t gridSize);
-
+    virtual ~EnemyView2D() = default;
 protected:
     const std::unique_ptr<Enemy> &enemy;
     std::vector<QPixmap> idlePixmaps;
