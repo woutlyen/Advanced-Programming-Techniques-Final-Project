@@ -14,41 +14,6 @@
         <file>images/DEATH.png</file>
         <file>images/ATTACK1.png</file>
         <file>images/hearts.png</file>
-        <file>images/penemy_sprites/penemy_die/tile016.png</file>
-        <file>images/penemy_sprites/penemy_die/tile015.png</file>
-        <file>images/penemy_sprites/penemy_die/tile014.png</file>
-        <file>images/penemy_sprites/penemy_die/tile013.png</file>
-        <file>images/penemy_sprites/penemy_die/tile012.png</file>
-        <file>images/penemy_sprites/penemy_idle/tile003.png</file>
-        <file>images/penemy_sprites/penemy_idle/tile002.png</file>
-        <file>images/penemy_sprites/penemy_idle/tile001.png</file>
-        <file>images/penemy_sprites/penemy_idle/tile000.png</file>
-        <file>images/penemy_sprites/penemy_attack/tile011.png</file>
-        <file>images/penemy_sprites/penemy_attack/tile010.png</file>
-        <file>images/penemy_sprites/penemy_attack/tile009.png</file>
-        <file>images/penemy_sprites/penemy_attack/tile008.png</file>
-        <file>images/penemy_sprites/penemy_attack/tile007.png</file>
-        <file>images/penemy_sprites/penemy_attack/tile006.png</file>
-        <file>images/enemy_sprites/enemy_idle/tile000.png</file>
-        <file>images/enemy_sprites/enemy_idle/tile001.png</file>
-        <file>images/enemy_sprites/enemy_idle/tile002.png</file>
-        <file>images/enemy_sprites/enemy_idle/tile003.png</file>
-        <file>images/enemy_sprites/enemy_die/tile016.png</file>
-        <file>images/enemy_sprites/enemy_die/tile017.png</file>
-        <file>images/enemy_sprites/enemy_die/tile018.png</file>
-        <file>images/enemy_sprites/enemy_die/tile019.png</file>
-        <file>images/enemy_sprites/enemy_die/tile020.png</file>
-        <file>images/enemy_sprites/enemy_die/tile021.png</file>
-        <file>images/enemy_sprites/enemy_die/tile022.png</file>
-        <file>images/enemy_sprites/enemy_die/tile023.png</file>
-        <file>images/enemy_sprites/enemy_attack/tile008.png</file>
-        <file>images/enemy_sprites/enemy_attack/tile009.png</file>
-        <file>images/enemy_sprites/enemy_attack/tile010.png</file>
-        <file>images/enemy_sprites/enemy_attack/tile011.png</file>
-        <file>images/enemy_sprites/enemy_attack/tile012.png</file>
-        <file>images/enemy_sprites/enemy_attack/tile013.png</file>
-        <file>images/enemy_sprites/enemy_attack/tile014.png</file>
-        <file>images/enemy_sprites/enemy_attack/tile015.png</file>
         <file>world_images/map.png</file>
         <file>world_images/map2.png</file>
         <file>world_images/map3.png</file>
@@ -127,5 +92,55 @@
         <file>images/player_sprites/player_walk_right/1.png</file>
         <file>levels.xml</file>
         <file>levels_test.xml</file>
+        <file>images/xenemy_sprites/xenemy_attack/1.png</file>
+        <file>images/xenemy_sprites/xenemy_attack/2.png</file>
+        <file>images/xenemy_sprites/xenemy_attack/3.png</file>
+        <file>images/xenemy_sprites/xenemy_attack/4.png</file>
+        <file>images/xenemy_sprites/xenemy_attack/5.png</file>
+        <file>images/xenemy_sprites/xenemy_attack/6.png</file>
+        <file>images/xenemy_sprites/xenemy_die/1.png</file>
+        <file>images/xenemy_sprites/xenemy_die/2.png</file>
+        <file>images/xenemy_sprites/xenemy_die/3.png</file>
+        <file>images/xenemy_sprites/xenemy_die/4.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/1.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/2.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/3.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/4.png</file>
+        <file>images/penemy_sprites/penemy_attack/1.png</file>
+        <file>images/penemy_sprites/penemy_attack/2.png</file>
+        <file>images/penemy_sprites/penemy_attack/3.png</file>
+        <file>images/penemy_sprites/penemy_attack/4.png</file>
+        <file>images/penemy_sprites/penemy_attack/5.png</file>
+        <file>images/penemy_sprites/penemy_attack/6.png</file>
+        <file>images/penemy_sprites/penemy_die/1.png</file>
+        <file>images/penemy_sprites/penemy_die/2.png</file>
+        <file>images/penemy_sprites/penemy_die/3.png</file>
+        <file>images/penemy_sprites/penemy_die/4.png</file>
+        <file>images/penemy_sprites/penemy_die/5.png</file>
+        <file>images/penemy_sprites/penemy_idle/1.png</file>
+        <file>images/penemy_sprites/penemy_idle/2.png</file>
+        <file>images/penemy_sprites/penemy_idle/3.png</file>
+        <file>images/penemy_sprites/penemy_idle/4.png</file>
+        <file>images/enemy_sprites/enemy_attack/1.png</file>
+        <file>images/enemy_sprites/enemy_attack/2.png</file>
+        <file>images/enemy_sprites/enemy_attack/3.png</file>
+        <file>images/enemy_sprites/enemy_attack/4.png</file>
+        <file>images/enemy_sprites/enemy_attack/5.png</file>
+        <file>images/enemy_sprites/enemy_attack/6.png</file>
+        <file>images/enemy_sprites/enemy_attack/7.png</file>
+        <file>images/enemy_sprites/enemy_attack/8.png</file>
+        <file>images/enemy_sprites/enemy_die/1.png</file>
+        <file>images/enemy_sprites/enemy_die/2.png</file>
+        <file>images/enemy_sprites/enemy_die/3.png</file>
+        <file>images/enemy_sprites/enemy_die/4.png</file>
+        <file>images/enemy_sprites/enemy_die/5.png</file>
+        <file>images/enemy_sprites/enemy_die/6.png</file>
+        <file>images/enemy_sprites/enemy_die/7.png</file>
+        <file>images/enemy_sprites/enemy_die/8.png</file>
+        <file>images/enemy_sprites/enemy_idle/1.png</file>
+        <file>images/enemy_sprites/enemy_idle/2.png</file>
+        <file>images/enemy_sprites/enemy_idle/3.png</file>
+        <file>images/enemy_sprites/enemy_idle/4.png</file>
+        <file>images/enemy_sprites/enemy_idle/5.png</file>
     </qresource>
 </RCC>
