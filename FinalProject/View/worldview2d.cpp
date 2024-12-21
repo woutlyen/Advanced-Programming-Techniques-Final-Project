@@ -1,6 +1,8 @@
 #include "worldview2d.h"
 
 #include "View/enemyview2d.h"
+#include "View/penemyview2d.h"
+
 #include "View/healthpackview2d.h"
 #include "View/protagonistview2d.h"
 #include "qgraphicsscene.h"
@@ -25,9 +27,19 @@ QGraphicsScene *WorldView2D::makeScene(std::vector<std::unique_ptr<Enemy> > &ene
 
     // Create and add enemy views
     for (const auto& enemy : enemies) {
-        //TODO seperate enemies
-        scene->addItem(new EnemyView2D(enemy,gridSize));
+
+        if (dynamic_cast<PEnemy*>(enemy.get())) {
+            // If the enemy is of type PEnemy
+            scene->addItem(new PEnemyView2D(enemy, gridSize));
+        // } else if (dynamic_cast<XEnemy*>(enemy.get())) {
+        //     // If the enemy is of type XEnemy
+        //     scene->addItem(new XEnemyView2D(enemy, gridSize));
+        } else {
+            // If the enemy is of type Enemy
+            scene->addItem(new EnemyView2D(enemy, gridSize));
+        }
     }
+
 
     // Create and add protagonist view
     scene->addItem(new ProtagonistView2D(protagonist,gridSize));
