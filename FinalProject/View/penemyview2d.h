@@ -11,6 +11,10 @@ public:
     PEnemyView2D(const std::unique_ptr<Enemy> &enemy, std::size_t gridSize);
 
 private:
+    int getNrOfFramesIdle() const override{ return idlePixmaps.size();}
+    int getNrOfFramesWalking() const override{ return 0;}
+    int getNrOfFramesFighting() const override{ return fightingPixmaps.size();}
+    int getNrOfFramesDying() const override{ return dyingPixmaps.size();}
     QString getIdlePixmapsPath() const override{ return ":/images/penemy_sprites/penemy_idle"; }
     QString getFightingPixmapsPath() const override{ return ":/images/penemy_sprites/penemy_attack"; }
     QString getDyingPixmapsPath() const override{ return ":/images/penemy_sprites/penemy_die"; }
