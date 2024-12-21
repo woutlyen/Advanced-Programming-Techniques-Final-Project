@@ -2,6 +2,12 @@
 #define GAMEOBJECT2DVIEW_H
 
 #include <QGraphicsPixmapItem>
+#include <QTimer>
+#include <QDir>
+#include <QDirIterator>
+#include <QPropertyAnimation>
+
+
 
 class GameObject2DView : public QObject, public QGraphicsPixmapItem
 {

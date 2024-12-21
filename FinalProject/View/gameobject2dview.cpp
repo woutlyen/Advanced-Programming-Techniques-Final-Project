@@ -1,15 +1,12 @@
 #include "gameobject2dview.h"
-#include "qdiriterator.h"
-#include "qtimer.h"
 
 GameObject2DView::GameObject2DView(std::size_t gridSize, QGraphicsItem *parent):QObject(), QGraphicsPixmapItem(parent),currentState{AnimationState::Idle}, currentFrameIndex{0}, gridSize{gridSize}, animationTimer(new QTimer(this))
  {
 }
 
 void GameObject2DView::setState(AnimationState newState) {
-    if (currentState == newState) return; // No state change
+    if (currentState == newState or currentState == Dying) return; // No state change
     currentState = newState;
-
     // Reset frame index for the new state
     currentFrameIndex = 0;
 
@@ -26,7 +23,7 @@ void GameObject2DView::updateAnimationFrame() {
         break;
     case Walking:
         // Cycle through walking frames
-        updateCurrentFrameIndex();
+        updateCurrentFrameIndex();   
         setAnimation();
         break;
     case Fighting:
