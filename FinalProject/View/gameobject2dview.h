@@ -14,15 +14,15 @@ class GameObject2DView : public QObject, public QGraphicsPixmapItem
     Q_OBJECT
 public:
     GameObject2DView(std::size_t gridSize, QGraphicsItem* parent = nullptr);
+    virtual int getNrOfFramesIdle() const = 0;
+    virtual int getNrOfFramesWalking() const = 0;
+    virtual int getNrOfFramesFighting() const = 0;
+    virtual int getNrOfFramesDying() const = 0;
 
 protected:
     enum AnimationState { Idle, Walking, Fighting, Dying }; // Animation states
     AnimationState currentState;                 // Current animation state
     int currentFrameIndex;                 // Current frame index in pixmap arrays
-    int nrOfFramesIdle;
-    int nrOfFramesWalking;
-    int nrOfFramesFighting;
-    int nrOfFramesDying;
     std::size_t gridSize{};
     QTimer* animationTimer;                // Timer for cycling pixmaps
     void setState(AnimationState newState); // Switch animation state

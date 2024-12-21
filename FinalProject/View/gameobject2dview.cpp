@@ -1,8 +1,7 @@
 #include "gameobject2dview.h"
 
 GameObject2DView::GameObject2DView(std::size_t gridSize, QGraphicsItem *parent):QObject(), QGraphicsPixmapItem(parent),currentState{AnimationState::Idle}, currentFrameIndex{0}, gridSize{gridSize}, animationTimer(new QTimer(this))
- {
-}
+ {}
 
 void GameObject2DView::setState(AnimationState newState) {
     if (currentState == newState or currentState == Dying) return; // No state change
@@ -17,7 +16,7 @@ void GameObject2DView::setState(AnimationState newState) {
 void GameObject2DView::updateAnimationFrame() {
     switch (currentState) {
     case Idle:
-        // Cycle through idle frames
+        // Cycle through idle frames,
         updateCurrentFrameIndex();
         setAnimation();
         break;
@@ -28,7 +27,7 @@ void GameObject2DView::updateAnimationFrame() {
         break;
     case Fighting:
         // Play fighting frames once
-        if (currentFrameIndex < nrOfFramesFighting - 1) {
+        if (currentFrameIndex < getNrOfFramesFighting() - 1) {
             updateCurrentFrameIndex();
             setAnimation();
         } else {
@@ -37,7 +36,7 @@ void GameObject2DView::updateAnimationFrame() {
         break;
     case Dying:
         // Play dying frames once
-        if (currentFrameIndex < nrOfFramesDying - 1) {
+        if (currentFrameIndex < getNrOfFramesDying() - 1) {
             updateCurrentFrameIndex();
             setAnimation();
         } else {
@@ -51,10 +50,11 @@ void GameObject2DView::updateCurrentFrameIndex()
 {
     switch (currentState) {
     case Idle:
-        currentFrameIndex = (currentFrameIndex + 1) % nrOfFramesIdle;
+        qDebug() << &currentFrameIndex << currentFrameIndex <<" being updated of " << getNrOfFramesIdle();
+        currentFrameIndex = (currentFrameIndex + 1) % getNrOfFramesIdle();
         break;
     case Walking:
-        currentFrameIndex = (currentFrameIndex + 1) % nrOfFramesWalking;
+        currentFrameIndex = (currentFrameIndex + 1) % getNrOfFramesWalking();
         break;
     case Fighting:
         currentFrameIndex++;

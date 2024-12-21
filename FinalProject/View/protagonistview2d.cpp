@@ -28,12 +28,6 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Player> &protagonist,
 
     dyingPixmaps = extractFrames(":/images/player_sprites/player_die");
 
-    // Initialize Pixmap Animation Sizes
-    nrOfFramesIdle = idlePixmaps_front.size();
-    nrOfFramesWalking = walkingPixmaps_front.size();
-    nrOfFramesFighting = fightingPixmaps_front.size();
-    nrOfFramesDying = dyingPixmaps.size();
-
     currentDirection = Front,
 
 

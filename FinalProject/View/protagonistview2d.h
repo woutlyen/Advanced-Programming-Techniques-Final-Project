@@ -17,6 +17,11 @@ private:
     enum Direction {Front, Back, Left, Right};
     Direction currentDirection;
 
+    int getNrOfFramesIdle() const override{ return idlePixmaps_front.size();}
+    int getNrOfFramesWalking() const override{ return walkingPixmaps_front.size();}
+    int getNrOfFramesFighting() const override{ return fightingPixmaps_front.size();}
+    int getNrOfFramesDying() const override{ return dyingPixmaps.size();}
+
     QPropertyAnimation* movementAnimation; // Animation for position movement
     // Pixmaps for idle animation
     std::vector<QPixmap> idlePixmaps_front;
