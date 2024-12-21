@@ -2,11 +2,6 @@
 #define PROTAGONISTVIEW2D_H
 
 #include <QObject>
-#include <QGraphicsPixmapItem>
-#include <QPropertyAnimation>
-#include <QTimer>
-#include <QDir>
-#include <QDirIterator>
 #include "Model/player.h"
 #include "View/gameobject2dview.h"
 
