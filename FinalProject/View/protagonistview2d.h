@@ -35,8 +35,7 @@ private:
     std::vector<QPixmap> fightingPixmaps_back;
     // Pixmaps for dying animation
     std::vector<QPixmap> dyingPixmaps;
-    void setAnimation();
-    void checkHealthPackCollision();
+    void setAnimation() override;
     void connectAnimationTimer() override;
 
 private slots:
@@ -44,7 +43,7 @@ private slots:
     void onHealthChanged(int health);    // Updates the protagonist's visual representation
     void onEnergyChanged(int energy);    // Updates the protagonist's visual representation
     void updateDirection(int curX, int curY, int newX, int newY);
-
+    void checkHealthPackCollision();
 };
 
 #endif // PROTAGONISTVIEW2D_H

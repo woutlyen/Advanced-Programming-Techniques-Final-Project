@@ -147,10 +147,10 @@ void ProtagonistView2D::onHealthChanged(int health)
 }
 
 
-void GameObject2DView::connectAnimationTimer()
+void ProtagonistView2D::connectAnimationTimer()
 {
-    connect(animationTimer, &QTimer::timeout, this, &GameObject2DView::updateAnimationFrame);
-    connect(animationTimer, &QTimer::timeout, this, &ProtagonistView2D::checkHealthPackCollision());
+    GameObject2DView::connectAnimationTimer();
+    connect(animationTimer, &QTimer::timeout, this, &ProtagonistView2D::checkHealthPackCollision);
 }
     
 
