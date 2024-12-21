@@ -1,12 +1,15 @@
 #include "xenemyview2d.h"
 
-XEnemyView2D::XEnemyView2D(const std::unique_ptr<Enemy> &enemy, std::size_t gridSize, QGraphicsItem *parent)
-    : EnemyView2D(enemy, gridSize,":/images/mario.png" , parent)
-{}
-
-
-void XEnemyView2D::updatePixMap()
+XEnemyView2D::XEnemyView2D(const std::unique_ptr<Enemy> &enemy, std::size_t gridSize, QGraphicsItem *parent):EnemyView2D(enemy, gridSize)
 {
-    setPixmap(QPixmap(":/images/dead.png").scaled(gridSize,gridSize));
-    update();
+    initializeEnemy2DView();
+    connect(enemy.get(), &Enemy::dead, this, &XEnemyView2D::onDefeated);
 }
+
+void XEnemyView2D::onDefeated()
+{
+    if(currentState != Dying){
+        setState(Dying);
+    }
+}
+
