@@ -29,6 +29,19 @@ InputController::InputController(QObject* parent) : QObject(parent)
 
 bool InputController::eventFilter(QObject *obj, QEvent *event)
 {
+    if(!obj->objectName().compare("lineEdit")){
+        qDebug() << obj->objectName() << " - " << event->type();
+    }
+
+    if(!obj->objectName().compare("lineEdit")){
+        if (event->type() == QEvent::KeyPress) {
+            QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
+            int key = keyEvent->key();
+            qDebug() << key;
+            return false;
+        }
+    }
+
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
         int key = keyEvent->key();
@@ -107,7 +120,8 @@ bool InputController::eventFilter(QObject *obj, QEvent *event)
         return true; // Consume the event
     }
 
-    return QObject::eventFilter(obj, event); // Pass unhandled events to the base class
+    return false;
+    //return QObject::eventFilter(obj, event); // Pass unhandled events to the base class
 }
 
 // Check if input uniqly matches with one of the commands

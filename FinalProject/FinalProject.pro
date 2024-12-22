@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     Controller/enemycontroller.cpp \
     Controller/inputcontroller.cpp \
+    Controller/levelcontroller.cpp \
     Controller/penemycontroller.cpp \
     Controller/playercontroller.cpp \
     Controller/xenemycontroller.cpp \
@@ -38,9 +39,11 @@ SOURCES += \
 HEADERS += \
     Controller/enemycontroller.h \
     Controller/inputcontroller.h \
+    Controller/levelcontroller.h \
     Controller/penemycontroller.h \
     Controller/playercontroller.h \
     Controller/xenemycontroller.h \
+    Level.h \
     Model/worldrevised.h \
     Model/xenemy.h \
     View/enemyview2d.h \

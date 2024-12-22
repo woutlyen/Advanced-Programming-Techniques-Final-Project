@@ -21,6 +21,8 @@ public:
                               std::size_t gridSize = 32,
                               std::size_t imageGridSize = 32);
 
+    QGraphicsScene* makeScene();
+
 private:
     QPixmap recolorGrayscalePixmap(const QPixmap& pixmap);
     QColor darkGreen{0, 50, 0};  // Dark green color

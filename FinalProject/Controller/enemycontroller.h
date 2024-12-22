@@ -11,6 +11,7 @@ public:
     enum Position { Up, Down, Left, Right };
 
     EnemyController();
+    bool checkForEnemy(Position pos);
     bool checkForEnemy(std::vector<std::unique_ptr<Enemy>>& enemies, std::unique_ptr<Player>& protagonist, int width, int height, Position pos);
 
 };
