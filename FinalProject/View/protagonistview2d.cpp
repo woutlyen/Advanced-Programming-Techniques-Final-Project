@@ -28,7 +28,7 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Player> &protagonist,
 
     dyingPixmaps = extractFrames(":/images/player_sprites/player_die");
 
-    currentDirection = Front,
+    currentDirection = Player::Front,
 
 
     // Set the initial pixmap
@@ -137,11 +137,11 @@ void ProtagonistView2D::onHealthChanged(int health)
         glowAnimation->setEndValue(0.0);        // Fade back to normal
         glowAnimation->start(QPropertyAnimation::DeleteWhenStopped);
     }
-    else {
+
+    else{
         // Switch to fighting state
         setState(Fighting);
     }
-
 }
 
 void ProtagonistView2D::onEnergyChanged(int energy)
@@ -155,7 +155,6 @@ void ProtagonistView2D::onEnergyChanged(int energy)
 void ProtagonistView2D::onDirectionChanged(Player::Direction dir)
 {
     currentDirection = dir;
-    qDebug() << "new direction is: " << currentDirection;
 }
 
 
@@ -225,14 +224,33 @@ void ProtagonistView2D::checkHealthPackCollision()
 {
     // Get a list of all items the protagonist is colliding with
     QList<QGraphicsItem*> collidingItems = scene()->collidingItems(this);
-
+    qDebug() << "check";
     for (QGraphicsItem* item : collidingItems) {
         // Check if the item is a HealthPackView2D
         HealthPackView2D* healthPack = dynamic_cast<HealthPackView2D*>(item);
         if (healthPack) {
             // Trigger the health pack animation
             healthPack->playPickupAnimation();
+
+            // Trigger the healing glow effect on the player
+            setHealingGlow();
             break;
         }
     }
+}
+
+void ProtagonistView2D::setHealingGlow(){
+    // Add a glow effect
+    QGraphicsColorizeEffect* glowEffect = new QGraphicsColorizeEffect(this);
+    glowEffect->setColor(Qt::darkRed); // Green indicates healing
+    glowEffect->setStrength(0.0);    // Start with no glow
+    setGraphicsEffect(glowEffect);
+
+    // Animate the glow effect
+    QPropertyAnimation* glowAnimation = new QPropertyAnimation(glowEffect, "strength", this);
+    glowAnimation->setDuration(500); // Half a second
+    glowAnimation->setStartValue(0.0);
+    glowAnimation->setKeyValueAt(0.5, 1.0); // Peak glow in the middle
+    glowAnimation->setEndValue(0.0);        // Fade back to normal
+    glowAnimation->start(QPropertyAnimation::DeleteWhenStopped);
 }

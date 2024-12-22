@@ -177,7 +177,7 @@ void GameController::generateLevel(int levelNumber)
 
 void GameController::moveProtagonistUp() {
     playerController.updatePlayerDirection(protagonist.at(currentLevel), Player::Back);
-    if (!enemyController.checkForEnemy(enemies.at(currentLevel), protagonist.at(currentLevel), width.at(currentLevel), heigth.at(currentLevel), EnemyController::Position::Up)){
+    if (!enemyController.checkForEnemy(enemies.at(currentLevel), protagonist.at(currentLevel), width.at(currentLevel), height.at(currentLevel), EnemyController::Position::Up)){
         playerController.moveUp(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel));
         playerController.checkForHealthPack(protagonist.at(currentLevel), healthPacks.at(currentLevel));
         if (checkForPrevLevel() || checkForNextLevel()){

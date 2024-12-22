@@ -49,7 +49,7 @@ void PlayerController::checkForHealthPack(std::unique_ptr<Player> &protagonist, 
 
     for(auto& healthPack : healthPacks){
         if(healthPack->getXPos() == X && healthPack->getYPos() == Y && healthPack->getValue() != 0){
-            heal(protagonist, 25.0f);
+            heal(protagonist, 100.0f);
             addEnergy(protagonist, 25.0f);
             healthPack->setValue(0.0f);
             break;
@@ -74,7 +74,7 @@ void PlayerController::useEnergy(std::unique_ptr<Player> &protagonist, float ene
 
 void PlayerController::addEnergy(std::unique_ptr<Player> &protagonist, float energy)
 {
-    protagonist->setEnergy(std::max(0.0f, protagonist->getEnergy() + energy));
+    protagonist->setEnergy(std::min(100.0f, protagonist->getEnergy() + energy));
 }
 
 void PlayerController::updatePlayerDirection(std::unique_ptr<Player>& protagonist, Player::Direction dir){

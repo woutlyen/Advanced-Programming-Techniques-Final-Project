@@ -11,7 +11,7 @@ bool EnemyController::checkForEnemy(std::vector<std::unique_ptr<Enemy> > &enemie
     case(Up):
         if (Y > 0){
             for(auto& enemy : enemies){
-                if(enemy->getXPos() == X+1 && enemy->getYPos() == Y && !enemy->getDefeated()){
+                if(enemy->getXPos() == X && enemy->getYPos() == Y-1 && !enemy->getDefeated()){
                     attack(enemy, protagonist);
                     return true;
                 }
@@ -21,7 +21,7 @@ bool EnemyController::checkForEnemy(std::vector<std::unique_ptr<Enemy> > &enemie
     case(Down):
         if (Y < height-1){
             for(auto& enemy : enemies){
-                if(enemy->getXPos() == X+1 && enemy->getYPos() == Y && !enemy->getDefeated()){
+                if(enemy->getXPos() == X && enemy->getYPos() == Y+1 && !enemy->getDefeated()){
                     attack(enemy, protagonist);
                     return true;
                 }
@@ -31,7 +31,7 @@ bool EnemyController::checkForEnemy(std::vector<std::unique_ptr<Enemy> > &enemie
     case(Left):
         if (X > 0){
             for(auto& enemy : enemies){
-                if(enemy->getXPos() == X+1 && enemy->getYPos() == Y && !enemy->getDefeated()){
+                if(enemy->getXPos() == X-1 && enemy->getYPos() == Y && !enemy->getDefeated()){
                     attack(enemy, protagonist);
                     return true;
                 }
@@ -49,6 +49,8 @@ bool EnemyController::checkForEnemy(std::vector<std::unique_ptr<Enemy> > &enemie
         }
         return false;
     };
+
+
 
 }
 

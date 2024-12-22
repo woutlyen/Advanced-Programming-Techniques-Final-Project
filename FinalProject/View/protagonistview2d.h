@@ -14,8 +14,7 @@ public:
     ProtagonistView2D(const std::unique_ptr<Player>& protagonist, std::size_t gridSize);
 
 private:
-    enum Direction {Front, Back, Left, Right};
-    Direction currentDirection;
+    Player::Direction currentDirection;
     void updateDirection(Player::Direction);
 
     int getNrOfFramesIdle() const override{ return idlePixmaps_front.size();}
@@ -42,6 +41,7 @@ private:
     // Pixmaps for dying animation
     std::vector<QPixmap> dyingPixmaps;
     void setAnimation() override;
+    void setHealingGlow();
 
 private slots:
     void onPositionChanged(int x, int y); // Updates the protagonist's position
