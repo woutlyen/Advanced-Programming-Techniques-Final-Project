@@ -17,6 +17,7 @@ public:
     void moveRight(std::unique_ptr<Player>& protagonist, std::vector<std::unique_ptr<Tile>>& tiles, int width);
     void checkForHealthPack(std::unique_ptr<Player>& protagonist, std::vector<std::unique_ptr<Tile>>& healthPacks);
 
+    void updatePlayerDirection(std::unique_ptr<Player> &protagonist, Player::Direction dir);
 };
 
 #endif // PLAYERCONTROLLER_H

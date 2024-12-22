@@ -19,11 +19,10 @@ public:
 
 private:
     std::size_t gridSize{};
-    enum Direction {Front, Back, Left, Right};
     enum AnimationState { Idle, Walking, Fighting, Dying }; // Animation states
     AnimationState currentState;                 // Current animation state
-    Direction currentDirection;
-
+    Player::Direction currentDirection;
+    void updateDirection(Player::Direction);
     QPropertyAnimation* movementAnimation; // Animation for position movement
     QTimer* animationTimer;                // Timer for cycling pixmaps
     // Pixmaps for idle animation
@@ -57,7 +56,7 @@ private slots:
     void onHealthChanged(int health);    // Updates the protagonist's visual representation
     void onEnergyChanged(int energy);    // Updates the protagonist's visual representation
     void updateAnimationFrame(); // Update animation frame
-    void updateDirection(int curX, int curY, int newX, int newY);
+    void onDirectionChanged(Player::Direction dir);
 
 };
 

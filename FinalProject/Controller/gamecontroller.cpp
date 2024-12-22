@@ -174,14 +174,10 @@ void GameController::generateLevel(int levelNumber)
 
 }
 
-void GameController::moveProtagonistUp() {
-    /*static size_t pos{0};
-    if (pos < enemies[0].size()){
-        enemies[0].at(pos).get()->setDefeated(true);
-        pos++;
-    }*/
 
-    if (!enemyController.checkForEnemy(enemies.at(currentLevel), protagonist.at(currentLevel), width.at(currentLevel), height.at(currentLevel), EnemyController::Position::Up)){
+void GameController::moveProtagonistUp() {
+    playerController.updatePlayerDirection(protagonist.at(currentLevel), Player::Back);
+    if (!enemyController.checkForEnemy(enemies.at(currentLevel), protagonist.at(currentLevel), width.at(currentLevel), heigth.at(currentLevel), EnemyController::Position::Up)){
         playerController.moveUp(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel));
         playerController.checkForHealthPack(protagonist.at(currentLevel), healthPacks.at(currentLevel));
         if (checkForPrevLevel() || checkForNextLevel()){
@@ -190,7 +186,9 @@ void GameController::moveProtagonistUp() {
     }
 }
 
+
 void GameController::moveProtagonistDown() {
+    playerController.updatePlayerDirection(protagonist.at(currentLevel), Player::Front);
     if (!enemyController.checkForEnemy(enemies.at(currentLevel), protagonist.at(currentLevel), width.at(currentLevel), height.at(currentLevel), EnemyController::Position::Down)) {
         playerController.moveDown(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel), height.at(currentLevel));
         playerController.checkForHealthPack(protagonist.at(currentLevel), healthPacks.at(currentLevel));
@@ -201,6 +199,7 @@ void GameController::moveProtagonistDown() {
 }
 
 void GameController::moveProtagonistLeft() {
+    playerController.updatePlayerDirection(protagonist.at(currentLevel), Player::Left);
     if (!enemyController.checkForEnemy(enemies.at(currentLevel), protagonist.at(currentLevel), width.at(currentLevel), height.at(currentLevel), EnemyController::Position::Left)) {
         playerController.moveLeft(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel));
         playerController.checkForHealthPack(protagonist.at(currentLevel), healthPacks.at(currentLevel));
@@ -211,6 +210,7 @@ void GameController::moveProtagonistLeft() {
 }
 
 void GameController::moveProtagonistRight() {
+    playerController.updatePlayerDirection(protagonist.at(currentLevel), Player::Right);
     if (!enemyController.checkForEnemy(enemies.at(currentLevel), protagonist.at(currentLevel), width.at(currentLevel), height.at(currentLevel), EnemyController::Position::Right)) {
         playerController.moveRight(protagonist.at(currentLevel), tiles.at(currentLevel), width.at(currentLevel));
         playerController.checkForHealthPack(protagonist.at(currentLevel), healthPacks.at(currentLevel));

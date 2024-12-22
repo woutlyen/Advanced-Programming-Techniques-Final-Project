@@ -57,3 +57,6 @@ void PlayerController::checkForHealthPack(std::unique_ptr<Player> &protagonist, 
     }
 }
 
+void PlayerController::updatePlayerDirection(std::unique_ptr<Player>& protagonist, Player::Direction dir){
+    protagonist->setDirection(dir);
+}
