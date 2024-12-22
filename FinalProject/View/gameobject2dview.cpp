@@ -50,7 +50,6 @@ void GameObject2DView::updateCurrentFrameIndex()
 {
     switch (currentState) {
     case Idle:
-        qDebug() << &currentFrameIndex << currentFrameIndex <<" being updated of " << getNrOfFramesIdle();
         currentFrameIndex = (currentFrameIndex + 1) % getNrOfFramesIdle();
         break;
     case Walking:
