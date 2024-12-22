@@ -1,5 +1,4 @@
 #include "enemycontroller.h"
-#include "qdebug.h"
 
 EnemyController::EnemyController() {}
 
@@ -12,7 +11,7 @@ bool EnemyController::checkForEnemy(std::vector<std::unique_ptr<Enemy> > &enemie
     case(Up):
         if (Y > 0){
             for(auto& enemy : enemies){
-                if(enemy->getXPos() == X && enemy->getYPos() == Y-1){
+                if(enemy->getXPos() == X+1 && enemy->getYPos() == Y && !enemy->getDefeated()){
                     attack(enemy, protagonist);
                     return true;
                 }
@@ -22,7 +21,7 @@ bool EnemyController::checkForEnemy(std::vector<std::unique_ptr<Enemy> > &enemie
     case(Down):
         if (Y < height-1){
             for(auto& enemy : enemies){
-                if(enemy->getXPos() == X && enemy->getYPos() == Y+1){
+                if(enemy->getXPos() == X+1 && enemy->getYPos() == Y && !enemy->getDefeated()){
                     attack(enemy, protagonist);
                     return true;
                 }
@@ -32,7 +31,7 @@ bool EnemyController::checkForEnemy(std::vector<std::unique_ptr<Enemy> > &enemie
     case(Left):
         if (X > 0){
             for(auto& enemy : enemies){
-                if(enemy->getXPos() == X-1 && enemy->getYPos() == Y){
+                if(enemy->getXPos() == X+1 && enemy->getYPos() == Y && !enemy->getDefeated()){
                     attack(enemy, protagonist);
                     return true;
                 }
@@ -42,7 +41,7 @@ bool EnemyController::checkForEnemy(std::vector<std::unique_ptr<Enemy> > &enemie
     case(Right):
         if (X < width -1){
             for(auto& enemy : enemies){
-                if(enemy->getXPos() == X+1 && enemy->getYPos() == Y){
+                if(enemy->getXPos() == X+1 && enemy->getYPos() == Y && !enemy->getDefeated()){
                     attack(enemy, protagonist);
                     return true;
                 }
@@ -55,23 +54,8 @@ bool EnemyController::checkForEnemy(std::vector<std::unique_ptr<Enemy> > &enemie
 
 void EnemyController::attack(std::unique_ptr<Enemy> &enemy, std::unique_ptr<Player> &protagonist)
 {
-    if(!enemy->getDefeated()){
-        if(PEnemy* penemyType = dynamic_cast<PEnemy *>(enemy.get()))
-        {
-            qDebug() << "p enemy";
-            penemyType->poison();
-        }
-        else if(Enemy* enemyType = dynamic_cast<Enemy *>(enemy.get()))
-        {
-            qDebug() << "normal enemy";
-            protagonist->setHealth(protagonist->getHealth()-enemy->getValue());
-            enemy->setDefeated(true);
-
-        }
-    }
-    else{
-        qDebug()<<"enemy is ded";
-    }
-
+    qDebug() << "Enemy attacks!";
+    protagonist->setHealth(protagonist->getHealth()-enemy->getValue());
+    enemy->setDefeated(true);
 }
 
