@@ -46,7 +46,7 @@ void EnemyView2D::initializeEnemy2DView()
     // Configure the animation timer
     animationTimer->setInterval(240); // Frame switch interval (in milliseconds)
     animationTimer->start();
-    GameObject2DView::connectAnimationTimer();
+    connectAnimationTimer();
 
 }
 

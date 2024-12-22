@@ -30,7 +30,7 @@ protected:
     std::vector<QPixmap> extractFrames(const QString &fileDir);
     void updateCurrentFrameIndex();
     virtual void setAnimation() = 0;
-    virtual void connectAnimationTimer();
+    void connectAnimationTimer();
 
 protected slots:
     void updateAnimationFrame(); // Update animation frame

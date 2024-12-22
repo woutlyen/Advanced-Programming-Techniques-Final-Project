@@ -47,7 +47,7 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Player> &protagonist,
     // Configure the animation timer
     animationTimer->setInterval(120); // Frame switch interval (in milliseconds)
     animationTimer->start();
-    GameObject2DView::connectAnimationTimer();
+    connectAnimationTimer();
     connect(movementAnimation, &QPropertyAnimation::finished, this, [this]() {
         if (currentState == Walking) {
             animationTimer->setInterval(120);
@@ -55,6 +55,10 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Player> &protagonist,
             setState(Idle); // Switch to idle when movement finishes
         }
     });
+
+    // check for healthpackcollisions
+    connect(animationTimer, &QTimer::timeout, this, &ProtagonistView2D::checkHealthPackCollision);
+
 }
 
 void ProtagonistView2D::onPositionChanged(int x, int y)
@@ -139,15 +143,6 @@ void ProtagonistView2D::onHealthChanged(int health)
     }
 
 }
-
-
-void ProtagonistView2D::connectAnimationTimer()
-{
-    GameObject2DView::connectAnimationTimer();
-    connect(animationTimer, &QTimer::timeout, this, &ProtagonistView2D::checkHealthPackCollision);
-}
-    
-
 
 void ProtagonistView2D::onEnergyChanged(int energy)
 {
