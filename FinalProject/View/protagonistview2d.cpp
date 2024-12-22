@@ -36,9 +36,10 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Player> &protagonist,
     setPos(gridSize*protagonist->getXPos(), gridSize*protagonist->getYPos());
 
     // Connect signalsc & slots
-    connect(protagonist.get(), &Protagonist::posChanged, this, &ProtagonistView2D::onPositionChanged);
-    connect(protagonist.get(), &Protagonist::healthChanged, this, &ProtagonistView2D::onHealthChanged);
-    connect(protagonist.get(), &Protagonist::energyChanged, this, &ProtagonistView2D::onEnergyChanged);
+    connect(protagonist.get(), &Player::posChanged, this, &ProtagonistView2D::onPositionChanged);
+    connect(protagonist.get(), &Player::healthChanged, this, &ProtagonistView2D::onHealthChanged);
+    connect(protagonist.get(), &Player::energyChanged, this, &ProtagonistView2D::onEnergyChanged);
+    connect(protagonist.get(), &Player::directionChanged, this, &ProtagonistView2D::onDirectionChanged);
 
     // Configure the movement animation
     movementAnimation->setDuration(480); // Animation duration (in milliseconds)
@@ -63,7 +64,6 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Player> &protagonist,
 
 void ProtagonistView2D::onPositionChanged(int x, int y)
 {
-    updateDirection(pos().x(), pos().y(), x, y);
     // Switch to walking state
     setState(Walking);
 
@@ -152,22 +152,12 @@ void ProtagonistView2D::onEnergyChanged(int energy)
     }
 }
 
-void ProtagonistView2D::updateDirection(int curX, int curY, int newX, int newY)
+void ProtagonistView2D::onDirectionChanged(Player::Direction dir)
 {
-
-    if((curX > (newX * gridSize ))&& (curY == (newY * gridSize))){
-        currentDirection = Left;
-    }
-    else if((curX < (newX * gridSize ))&& (curY == (newY * gridSize))){
-        currentDirection = Right;
-    }
-    else if(curY > (newY * gridSize)){
-        currentDirection = Back;
-    }
-    else{
-        currentDirection = Front;
-    }
+    currentDirection = dir;
+    qDebug() << "new direction is: " << currentDirection;
 }
+
 
 void ProtagonistView2D::setAnimation()
 {
@@ -175,16 +165,16 @@ void ProtagonistView2D::setAnimation()
     case Idle:
         animationTimer->setInterval(180);
         switch(currentDirection){
-        case Front:
+        case Player::Front:
             setPixmap(idlePixmaps_front[currentFrameIndex]);
             break;
-        case Back:
+        case Player::Back:
             setPixmap(idlePixmaps_back[currentFrameIndex]);
             break;
-        case Left:
+        case Player::Left:
             setPixmap(idlePixmaps_left[currentFrameIndex]);
             break;
-        case Right:
+        case Player::Right:
             setPixmap(idlePixmaps_right[currentFrameIndex]);
             break;
         }
@@ -193,16 +183,16 @@ void ProtagonistView2D::setAnimation()
     case Walking:
         animationTimer->setInterval(90);
         switch(currentDirection){
-        case Front:
+        case Player::Front:
             setPixmap(walkingPixmaps_front[currentFrameIndex]);
             break;
-        case Back:
+        case Player::Back:
             setPixmap(walkingPixmaps_back[currentFrameIndex]);
             break;
-        case Left:
+        case Player::Left:
             setPixmap(walkingPixmaps_left[currentFrameIndex]);
             break;
-        case Right:
+        case Player::Right:
             setPixmap(walkingPixmaps_right[currentFrameIndex]);
             break;
         }
@@ -211,16 +201,16 @@ void ProtagonistView2D::setAnimation()
     case Fighting:
         animationTimer->setInterval(120);
         switch(currentDirection){
-        case Front:
+        case Player::Front:
             setPixmap(fightingPixmaps_front[currentFrameIndex]);
             break;
-        case Back:
+        case Player::Back:
             setPixmap(fightingPixmaps_back[currentFrameIndex]);
             break;
-        case Left:
+        case Player::Left:
             setPixmap(fightingPixmaps_left[currentFrameIndex]);
             break;
-        case Right:
+        case Player::Right:
             setPixmap(fightingPixmaps_right[currentFrameIndex]);
             break;
         }

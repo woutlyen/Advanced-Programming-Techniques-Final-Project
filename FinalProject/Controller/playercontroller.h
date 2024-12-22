@@ -20,6 +20,7 @@ public:
     void heal(std::unique_ptr<Player>& protagonist, float hp);
     void useEnergy(std::unique_ptr<Player>& protagonist, float energy);
     void addEnergy(std::unique_ptr<Player>& protagonist, float energy);
+    void updatePlayerDirection(std::unique_ptr<Player> &protagonist, Player::Direction dir);
 };
 
 #endif // PLAYERCONTROLLER_H

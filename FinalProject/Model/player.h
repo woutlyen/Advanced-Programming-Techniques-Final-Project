@@ -4,6 +4,7 @@
 
 class Player : public Protagonist
 {
+    Q_OBJECT
 public:
     Player();
     enum Direction {Front, Back, Left, Right};
@@ -11,6 +12,9 @@ public:
 
 private:
     Direction currentDirection;
+
+signals:
+    void directionChanged(Direction dir);
 };
 
 #endif // PLAYER_H

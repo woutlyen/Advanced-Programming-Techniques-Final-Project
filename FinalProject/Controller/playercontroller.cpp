@@ -77,3 +77,6 @@ void PlayerController::addEnergy(std::unique_ptr<Player> &protagonist, float ene
     protagonist->setEnergy(std::max(0.0f, protagonist->getEnergy() + energy));
 }
 
+void PlayerController::updatePlayerDirection(std::unique_ptr<Player>& protagonist, Player::Direction dir){
+    protagonist->setDirection(dir);
+}

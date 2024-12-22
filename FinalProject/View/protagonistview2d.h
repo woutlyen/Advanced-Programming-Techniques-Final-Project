@@ -16,6 +16,7 @@ public:
 private:
     enum Direction {Front, Back, Left, Right};
     Direction currentDirection;
+    void updateDirection(Player::Direction);
 
     int getNrOfFramesIdle() const override{ return idlePixmaps_front.size();}
     int getNrOfFramesWalking() const override{ return walkingPixmaps_front.size();}
@@ -46,7 +47,7 @@ private slots:
     void onPositionChanged(int x, int y); // Updates the protagonist's position
     void onHealthChanged(int health);    // Updates the protagonist's visual representation
     void onEnergyChanged(int energy);    // Updates the protagonist's visual representation
-    void updateDirection(int curX, int curY, int newX, int newY);
+    void onDirectionChanged(Player::Direction dir);
     void checkHealthPackCollision();
 };
 
