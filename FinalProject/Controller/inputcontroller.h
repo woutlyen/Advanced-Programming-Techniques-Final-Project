@@ -24,9 +24,9 @@ private:
     QMap<QString, std::shared_ptr<Command>> commands;
 
     void registerCommands();
-    void executeCommand(const QString& input);
-    void parseGotoCommand(const QString& input);
-    void processTextCommand(int key);
+    void executeCommand(const QString& input) const;
+    void parseGotoCommand(const QString& input) const;
+    void processTextCommand(const int key) const;
 };
 
 #endif // INPUTCONTROLLER_H

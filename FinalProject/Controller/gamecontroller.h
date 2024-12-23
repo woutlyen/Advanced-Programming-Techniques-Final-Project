@@ -15,7 +15,7 @@ class GameController : public QObject {
 
   public:
     GameController(QObject *parent = nullptr);
-    void start(QString& filePath);
+    void start(const QString& filePath);
 
   private:
 

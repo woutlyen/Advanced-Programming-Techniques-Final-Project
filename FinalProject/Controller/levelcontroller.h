@@ -17,10 +17,10 @@ public:
     LevelController& operator=(const LevelController&) = delete;
 
     // Level management functions
-    void initializeLevels(QString& filePath);
+    void initializeLevels(const QString& filePath);
     Level& getCurrentLevel();
-    size_t getCurrentLevelNr();
-    void setCurrentLevelNr(size_t levelNumber);
+    size_t getCurrentLevelNr() const;
+    void setCurrentLevelNr(const size_t levelNumber);
     std::vector<Level>& getAllLevels();
 
 private:
@@ -28,7 +28,7 @@ private:
     LevelController() = default;
 
     // Functions
-    void fetchLevels(QString& filePath);
+    void fetchLevels(const QString& filePath);
     void generateLevels();
     void generateLevel(Level& level);
 

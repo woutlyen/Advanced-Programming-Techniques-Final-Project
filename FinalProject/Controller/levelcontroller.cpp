@@ -11,7 +11,7 @@ LevelController& LevelController::getInstance() {
 }
 
 // Add a level to the controller
-void LevelController::initializeLevels(QString &FilePath) {
+void LevelController::initializeLevels(const QString &FilePath) {
     fetchLevels(FilePath);
     generateLevels();
 }
@@ -22,12 +22,12 @@ Level& LevelController::getCurrentLevel() {
 }
 
 // Get the current level Nr
-size_t LevelController::getCurrentLevelNr() {
+size_t LevelController::getCurrentLevelNr() const{
     return currentLevelIndex;
 }
 
 // Set the current level Nr
-void LevelController::setCurrentLevelNr(size_t levelNumber) {
+void LevelController::setCurrentLevelNr(const size_t levelNumber) {
     if (levelNumber >= 0 && levelNumber < levels.size()){
         currentLevelIndex = levelNumber;
     }
@@ -38,7 +38,7 @@ std::vector<Level>& LevelController::getAllLevels() {
     return levels;
 }
 
-void LevelController::fetchLevels(QString &filePath)
+void LevelController::fetchLevels(const QString &filePath)
 {
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {

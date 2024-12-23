@@ -4,9 +4,7 @@
 
 #include <QApplication>
 
-PlayerController::PlayerController() {}
-
-void PlayerController::moveUp(){
+void PlayerController::moveUp() const{
     LevelController& levelController = LevelController::getInstance();
     Level& level = levelController.getCurrentLevel();
 
@@ -19,7 +17,7 @@ void PlayerController::moveUp(){
     }
 }
 
-void PlayerController::moveDown(){
+void PlayerController::moveDown() const{
     LevelController& levelController = LevelController::getInstance();
     Level& level = levelController.getCurrentLevel();
 
@@ -32,7 +30,7 @@ void PlayerController::moveDown(){
     }
 }
 
-void PlayerController::moveLeft(){
+void PlayerController::moveLeft() const{
     LevelController& levelController = LevelController::getInstance();
     Level& level = levelController.getCurrentLevel();
 
@@ -45,7 +43,7 @@ void PlayerController::moveLeft(){
     }
 }
 
-void PlayerController::moveRight(){
+void PlayerController::moveRight() const{
     LevelController& levelController = LevelController::getInstance();
     Level& level = levelController.getCurrentLevel();
 
@@ -58,7 +56,7 @@ void PlayerController::moveRight(){
     }
 }
 
-void PlayerController::checkForHealthPack()
+void PlayerController::checkForHealthPack() const
 {
     LevelController& levelController = LevelController::getInstance();
     Level& level = levelController.getCurrentLevel();
@@ -76,7 +74,7 @@ void PlayerController::checkForHealthPack()
     }
 }
 
-bool PlayerController::checkForPrevLevel()
+bool PlayerController::checkForPrevLevel() const
 {
     LevelController& levelController = LevelController::getInstance();
     Level& level = levelController.getCurrentLevel();
@@ -92,7 +90,7 @@ bool PlayerController::checkForPrevLevel()
     return false;
 }
 
-bool PlayerController::checkForNextLevel()
+bool PlayerController::checkForNextLevel() const
 {
     LevelController& levelController = LevelController::getInstance();
     Level& level = levelController.getCurrentLevel();

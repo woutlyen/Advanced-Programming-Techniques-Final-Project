@@ -116,7 +116,7 @@ void InputController::registerCommands()
     commands["help"] = std::make_shared<HelpCommand>();
 }
 
-void InputController::executeCommand(const QString &input)
+void InputController::executeCommand(const QString &input) const
 {
     if (input.isEmpty()){
         return;
@@ -133,7 +133,7 @@ void InputController::executeCommand(const QString &input)
     }
 }
 
-void InputController::parseGotoCommand(const QString &input)
+void InputController::parseGotoCommand(const QString &input) const
 {
     QStringList parts = input.split(" ", Qt::SkipEmptyParts);
     if (parts.size() == 3) {
@@ -153,7 +153,7 @@ void InputController::parseGotoCommand(const QString &input)
     }
 }
 
-void InputController::processTextCommand(int key)
+void InputController::processTextCommand(const int key) const
 {
     MainWindow * mainWindow = static_cast<MainWindow*>(QApplication::activeWindow());
 

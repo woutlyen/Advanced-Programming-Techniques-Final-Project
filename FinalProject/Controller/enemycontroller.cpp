@@ -1,9 +1,7 @@
 #include "enemycontroller.h"
 #include "Controller/levelcontroller.h"
 
-EnemyController::EnemyController() {}
-
-bool EnemyController::checkForEnemy(Position pos)
+bool EnemyController::checkForEnemy(const Position pos) const
 {
     LevelController& levelController = LevelController::getInstance();
     Level& level = levelController.getCurrentLevel();

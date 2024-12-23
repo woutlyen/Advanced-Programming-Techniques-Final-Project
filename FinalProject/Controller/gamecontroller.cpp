@@ -11,7 +11,7 @@ GameController::GameController(QObject *parent) : QObject(parent) {
 
 }
 
-void GameController::start(QString& filePath)
+void GameController::start(const QString& filePath)
 {
     LevelController& levelController = LevelController::getInstance();
     levelController.initializeLevels(filePath);
