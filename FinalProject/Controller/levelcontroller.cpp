@@ -144,5 +144,5 @@ void LevelController::generateLevel(Level &level)
     level.height = world.getRows();
 
     level.scenes2D = worldView2D.makeScene();
-    level.scenesText = worldView2D.makeScene();
+    level.scenesText = worldViewText.makeScene();
 }

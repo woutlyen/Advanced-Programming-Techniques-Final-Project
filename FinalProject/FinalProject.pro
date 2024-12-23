@@ -72,6 +72,7 @@ HEADERS += \
     View/protagonistview2d.h \
     View/protagonistviewtext.h \
     View/statusbar2d.h \
+    View/worldview.h \
     View/worldview2d.h \
     View/worldviewtext.h \
     View/xenemyview2d.h \

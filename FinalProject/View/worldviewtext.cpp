@@ -1,19 +1,15 @@
 #include "worldviewtext.h"
-#include "Model/player.h"
+#include "Controller/levelcontroller.h"
 #include "View/enemyviewtext.h"
 #include "View/healthpackviewtext.h"
-#include "qgraphicsitem.h"
-#include <QObject>
-#include <iostream>
-
-#include "View/enemyview2d.h"
-#include "View/healthpackview2d.h"
 #include "View/protagonistviewtext.h"
-#include "qgraphicsscene.h"
 
-WorldViewText::WorldViewText() {}
+QGraphicsScene *WorldViewText::makeScene() const {
+    LevelController& levelController = LevelController::getInstance();
+    Level& level = levelController.getCurrentLevel();
+    int rows = level.height;
+    int columns = level.width;
 
-QGraphicsScene *WorldViewText::makeScene(std::vector<std::unique_ptr<Enemy>> &enemies, std::vector<std::unique_ptr<Tile>> &healthPacks, std::unique_ptr<Player> &protagonist, int rows, int columns, QString filename, std::size_t gridSize) {
     QGraphicsScene *scene = new QGraphicsScene();
 
     QFont font("Monospace");
@@ -26,10 +22,10 @@ QGraphicsScene *WorldViewText::makeScene(std::vector<std::unique_ptr<Enemy>> &en
     double boxHeight = boxSize.boundingRect().height();
 
     auto bgText = scene->addText("", font);
-    bgText->setHtml(pixmapToString(QPixmap(filename)));
+    bgText->setHtml(pixmapToString(QPixmap(level.data_map)));
     bgText->setPos(boxWidth/4, boxHeight/2);
     auto bgText2 = scene->addText("", font);
-    bgText2->setHtml(pixmapToString(QPixmap(filename)));
+    bgText2->setHtml(pixmapToString(QPixmap(level.data_map)));
     bgText2->setPos(boxWidth/4, boxHeight/3);
 
     // Get the size of one tile for positioning other elements
@@ -77,11 +73,11 @@ QGraphicsScene *WorldViewText::makeScene(std::vector<std::unique_ptr<Enemy>> &en
     /*prot->setPen(QColor(255, 205, 0));*/
     /*prot->setPos(width * protagonist->getXPos() + width / 2, height * protagonist->getXPos() + height / 2);*/
 
-    for (auto &enemy : enemies) {
+    for (auto &enemy : level.enemies) {
         scene->addItem(new EnemyViewText(enemy, width, height, font));
     }
 
-    for (auto &pack : healthPacks) {
+    for (auto &pack : level.healthPacks) {
         scene->addItem(new HealthPackViewText(pack, width, height, font));
     }
 
@@ -94,23 +90,12 @@ QGraphicsScene *WorldViewText::makeScene(std::vector<std::unique_ptr<Enemy>> &en
     /*    }*/
     /*}*/
 
-    scene->addItem(new ProtagonistViewText(protagonist, width, height, font));
-
-    /*
-    healthBar = new StatusBar2D(10, 10, Qt::green);
-    energyBar = new StatusBar2D(10, 40, Qt::green);
-
-    QObject::connect(protagonist.get(), &Protagonist::healthChanged, healthBar, &StatusBar2D::updateBar);
-    QObject::connect(protagonist.get(), &Protagonist::energyChanged, energyBar, &StatusBar2D::updateBar);
-
-    scene->addItem(healthBar);
-    scene->addItem(energyBar);
-    */
+    scene->addItem(new ProtagonistViewText(level.protagonist, width, height, font));
 
     return scene;
 }
 
-QString WorldViewText::pixmapToString(const QPixmap &pixmap) {
+QString WorldViewText::pixmapToString(const QPixmap &pixmap) const {
 
     QString bgText;
     QColor bgColor;
@@ -147,32 +132,4 @@ QString WorldViewText::pixmapToString(const QPixmap &pixmap) {
     return bgText;
 }
 
-QPixmap WorldViewText::recolorGrayscalePixmap(const QPixmap &pixmap) {
-    // Convert the QPixmap to QImage for pixel manipulation
-    QImage image = pixmap.toImage();
 
-    // Ensure the image is in a format we can manipulate
-    image = image.convertToFormat(QImage::Format_ARGB32);
-
-    // Loop through each pixel
-    for (int y = 0; y/2 < image.height(); ++y) {
-        for (int x = 0; x < image.width(); ++x) {
-            // Get the current pixel color
-            QColor color = QColor(image.pixel(x, y/2));
-
-            // Calculate the intensity (grayscale value)
-            int intensity = qGray(color.red(), color.green(), color.blue()); // Convert to grayscale intensity (0-255)
-
-            // Interpolate between darkGreen and lightGreen based on intensity
-            int red = darkGreen.red() + (lightGreen.red() - darkGreen.red()) * intensity / 255;
-            int green = darkGreen.green() + (lightGreen.green() - darkGreen.green()) * intensity / 255;
-            int blue = darkGreen.blue() + (lightGreen.blue() - darkGreen.blue()) * intensity / 255;
-
-            // Set the new color
-            image.setPixelColor(x, y, QColor(red, green, blue));
-        }
-    }
-
-    // Convert the modified QImage back to QPixmap
-    return QPixmap::fromImage(image);
-}

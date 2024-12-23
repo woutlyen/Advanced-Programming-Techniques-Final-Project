@@ -39,10 +39,9 @@ InputController::InputController(QObject* parent) : QObject(parent)
 
 bool InputController::eventFilter(QObject *obj, QEvent *event)
 {
-    if(!obj->objectName().compare("lineEdit")){
+    /*if(!obj->objectName().compare("lineEdit")){
         qDebug() << obj->objectName() << " - " << event->type();
-
-    }
+    }*/
 
     MainWindow * mainWindow = static_cast<MainWindow*>(QApplication::activeWindow());
 
