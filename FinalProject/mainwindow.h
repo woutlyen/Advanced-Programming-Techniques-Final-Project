@@ -22,6 +22,8 @@ class MainWindow : public QMainWindow {
     void updateConnections();
     ~MainWindow();
 
+    Ui::MainWindow *ui;
+
   public slots:
     void zoomIn();
     void zoomOut();
@@ -31,7 +33,6 @@ private slots:
     void updateEnergyBar(int value);
     void updateHealthBar(int value);
 private:
-    Ui::MainWindow *ui;
     const double zoomFactor {1.15};  // Factor to zoom in/out by
     int currentZoomLevel {0};     // Track zoom level (to prevent over-zooming)
 

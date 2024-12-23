@@ -15,7 +15,8 @@ public:
     void moveLeft();
     void moveRight();
     void checkForHealthPack();
-
+    bool checkForPrevLevel();
+    bool checkForNextLevel();
 };
 
 #endif // PLAYERCONTROLLER_H

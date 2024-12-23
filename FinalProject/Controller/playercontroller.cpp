@@ -1,5 +1,8 @@
 #include "playercontroller.h"
 #include "Controller/levelcontroller.h"
+#include "mainwindow.h"
+
+#include <QApplication>
 
 PlayerController::PlayerController() {}
 
@@ -71,5 +74,37 @@ void PlayerController::checkForHealthPack()
             break;
         }
     }
+}
+
+bool PlayerController::checkForPrevLevel()
+{
+    LevelController& levelController = LevelController::getInstance();
+    Level& level = levelController.getCurrentLevel();
+
+    MainWindow * mainWindow = static_cast<MainWindow*>(QApplication::activeWindow());
+
+    if(level.protagonist->getXPos() == level.prev_level_x_pos && level.protagonist->getYPos() == level.prev_level_y_pos){
+        levelController.setCurrentLevelNr(levelController.getCurrentLevelNr() -1);
+        mainWindow->setScene();
+        mainWindow->updateConnections();
+        return true;
+    }
+    return false;
+}
+
+bool PlayerController::checkForNextLevel()
+{
+    LevelController& levelController = LevelController::getInstance();
+    Level& level = levelController.getCurrentLevel();
+
+    MainWindow * mainWindow = static_cast<MainWindow*>(QApplication::activeWindow());
+
+    if(level.protagonist->getXPos() == level.next_level_x_pos && level.protagonist->getYPos() == level.next_level_y_pos){
+        levelController.setCurrentLevelNr(levelController.getCurrentLevelNr() +1);
+        mainWindow->setScene();
+        mainWindow->updateConnections();
+        return true;
+    }
+    return false;
 }
 
