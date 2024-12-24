@@ -21,6 +21,8 @@ public:
     void useEnergy(std::unique_ptr<Player>& protagonist, float energy);
     void addEnergy(std::unique_ptr<Player>& protagonist, float energy);
     void updatePlayerDirection(std::unique_ptr<Player> &protagonist, Player::Direction dir);
+    void poisoned(std::unique_ptr<Player> &protagonist, float poisonLevel);
+    void checkForPoison(std::unique_ptr<Player>& protagonist, std::vector<std::unique_ptr<Tile>>& poisonedTiles);
 };
 
 #endif // PLAYERCONTROLLER_H

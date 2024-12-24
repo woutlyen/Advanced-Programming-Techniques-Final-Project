@@ -49,6 +49,8 @@ private slots:
     void onEnergyChanged(int energy);    // Updates the protagonist's visual representation
     void onDirectionChanged(Player::Direction dir);
     void checkHealthPackCollision();
+    void setPoisonEffect();
+
 };
 
 #endif // PROTAGONISTVIEW2D_H

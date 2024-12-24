@@ -80,3 +80,22 @@ void PlayerController::addEnergy(std::unique_ptr<Player> &protagonist, float ene
 void PlayerController::updatePlayerDirection(std::unique_ptr<Player>& protagonist, Player::Direction dir){
     protagonist->setDirection(dir);
 }
+
+void PlayerController::poisoned(std::unique_ptr<Player>& protagonist,float poisonLevel)
+{
+    protagonist->setPoisoned();
+    takeDamage(protagonist, poisonLevel);
+}
+
+void PlayerController::checkForPoison(std::unique_ptr<Player> &protagonist, std::vector<std::unique_ptr<Tile> > &poisonedTiles)
+{
+    int X = protagonist->getXPos();
+    int Y = protagonist->getYPos();
+
+    for(auto& poisonedTile : poisonedTiles){
+        if(poisonedTile->getXPos() == X && poisonedTile->getYPos() == Y && poisonedTile->getValue() != 0){
+            poisoned(protagonist, poisonedTile->getValue());
+            break;
+        }
+    }
+}

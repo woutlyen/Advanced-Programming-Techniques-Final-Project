@@ -40,6 +40,8 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Player> &protagonist,
     connect(protagonist.get(), &Player::healthChanged, this, &ProtagonistView2D::onHealthChanged);
     connect(protagonist.get(), &Player::energyChanged, this, &ProtagonistView2D::onEnergyChanged);
     connect(protagonist.get(), &Player::directionChanged, this, &ProtagonistView2D::onDirectionChanged);
+    connect(protagonist.get(), &Player::poisoned, this, &ProtagonistView2D::setPoisonEffect);
+
 
     // Configure the movement animation
     movementAnimation->setDuration(480); // Animation duration (in milliseconds)
@@ -224,7 +226,6 @@ void ProtagonistView2D::checkHealthPackCollision()
 {
     // Get a list of all items the protagonist is colliding with
     QList<QGraphicsItem*> collidingItems = scene()->collidingItems(this);
-    qDebug() << "check";
     for (QGraphicsItem* item : collidingItems) {
         // Check if the item is a HealthPackView2D
         HealthPackView2D* healthPack = dynamic_cast<HealthPackView2D*>(item);
@@ -253,4 +254,20 @@ void ProtagonistView2D::setHealingGlow(){
     glowAnimation->setKeyValueAt(0.5, 1.0); // Peak glow in the middle
     glowAnimation->setEndValue(0.0);        // Fade back to normal
     glowAnimation->start(QPropertyAnimation::DeleteWhenStopped);
+}
+
+void ProtagonistView2D::setPoisonEffect()
+{
+    QGraphicsColorizeEffect* poisonEffect = new QGraphicsColorizeEffect(this);
+    poisonEffect->setColor(QColor(83, 0, 128));
+    poisonEffect->setStrength(0.0);
+    setGraphicsEffect(poisonEffect);
+
+    QPropertyAnimation* poisonAnimation = new QPropertyAnimation(poisonEffect, "strength", this);
+    poisonAnimation->setDuration(500);
+    poisonAnimation->setStartValue(0.0);
+    poisonAnimation->setEndValue(1.0);
+    poisonAnimation->setEasingCurve(QEasingCurve::InOutQuad);
+    poisonAnimation->setLoopCount(4);
+    poisonAnimation->start(QPropertyAnimation::DeleteWhenStopped);
 }
