@@ -1,6 +1,7 @@
 #ifndef PLAYERCONTROLLER_H
 #define PLAYERCONTROLLER_H
 
+#include "Model/player.h"
 #include <QObject>
 #include <world.h>
 
@@ -9,11 +10,10 @@ class PlayerController : public QObject
     Q_OBJECT
 
 public:
-    PlayerController();
-    void takeDamage(std::unique_ptr<Player>& protagonist, float damage);
-    void heal(std::unique_ptr<Player>& protagonist, float hp);
-    void useEnergy(std::unique_ptr<Player>& protagonist, float energy);
-    void addEnergy(std::unique_ptr<Player>& protagonist, float energy);
+    void takeDamage(float damage);
+    void heal(float hp);
+    void useEnergy(float energy);
+    void addEnergy(float energy);
     void moveUp() const;
     void moveDown() const;
     void moveLeft() const;
@@ -21,9 +21,9 @@ public:
     void checkForHealthPack() const;
     bool checkForPrevLevel() const;
     bool checkForNextLevel() const;
-    void updatePlayerDirection(std::unique_ptr<Player> &protagonist, Player::Direction dir);
-    void poisoned(std::unique_ptr<Player> &protagonist, float poisonLevel);
-    void checkForPoison(std::unique_ptr<Player>& protagonist, std::vector<std::unique_ptr<Tile>>& poisonedTiles);
+    void updatePlayerDirection(Player::Direction dir);
+    void poisoned(float poisonLevel);
+    void checkForPoison(std::vector<std::unique_ptr<Tile>>& poisonedTiles);
 };
 
 #endif // PLAYERCONTROLLER_H

@@ -8,6 +8,7 @@ void MoveUpCommand::execute() {
     EnemyController enemyController;
     PlayerController playerController;
 
+    playerController.updatePlayerDirection(Player::Back);
     if (!enemyController.checkForEnemy(EnemyController::Position::Up)){
         playerController.moveUp();
         playerController.checkForHealthPack();

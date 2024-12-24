@@ -2,6 +2,7 @@
 #define ENEMYCONTROLLER_H
 
 #include <world.h>
+#include "Model/player.h"
 #include "qdebug.h"
 
 class EnemyController
@@ -9,10 +10,10 @@ class EnemyController
 public:
     enum Position { Up, Down, Left, Right };
 
-    bool checkForEnemy(const Position pos) const;
+    bool checkForEnemy(const Position pos);
 
 protected:
-    virtual void attack(std::unique_ptr<Enemy> &enemy, std::unique_ptr<Player> &protagonist);
+    virtual void attack(std::unique_ptr<Enemy> &enemy);
 };
 
 #endif // ENEMYCONTROLLER_H

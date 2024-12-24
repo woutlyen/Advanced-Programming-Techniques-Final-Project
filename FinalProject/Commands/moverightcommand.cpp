@@ -8,6 +8,7 @@ void MoveRightCommand::execute() {
     EnemyController enemyController;
     PlayerController playerController;
 
+    playerController.updatePlayerDirection(Player::Right);
     if (!enemyController.checkForEnemy(EnemyController::Position::Right)) {
         playerController.moveRight();
         playerController.checkForHealthPack();

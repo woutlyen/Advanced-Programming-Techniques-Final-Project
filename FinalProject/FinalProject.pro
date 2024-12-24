@@ -20,9 +20,7 @@ SOURCES += \
     Controller/enemycontroller.cpp \
     Controller/inputcontroller.cpp \
     Controller/levelcontroller.cpp \
-    Controller/penemycontroller.cpp \
     Controller/playercontroller.cpp \
-    Controller/xenemycontroller.cpp \
     Model/worldrevised.cpp \
     Model/xenemy.cpp \
     View/enemyview2d.cpp \
@@ -58,9 +56,7 @@ HEADERS += \
     Controller/enemycontroller.h \
     Controller/inputcontroller.h \
     Controller/levelcontroller.h \
-    Controller/penemycontroller.h \
     Controller/playercontroller.h \
-    Controller/xenemycontroller.h \
     Level.h \
     Model/worldrevised.h \
     Model/xenemy.h \
