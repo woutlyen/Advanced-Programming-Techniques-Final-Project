@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "Controller/levelcontroller.h"
 #include "ui_mainwindow.h"
 #include <QScrollBar>
 
@@ -51,10 +52,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 }
 
-void MainWindow::setScene(QGraphicsScene *scene2D, QGraphicsScene *sceneText)
+void MainWindow::setScene()
 {
-    ui->graphicsView2D->setScene(scene2D);
-    ui->graphicsViewText->setScene(sceneText);
+    LevelController& levelController = LevelController::getInstance();
+    ui->graphicsView2D->setScene(levelController.getCurrentLevel().scenes2D);
+    ui->graphicsViewText->setScene(levelController.getCurrentLevel().scenesText);
 }
 
 void MainWindow::setScale(double sx, double sy) {
@@ -71,14 +73,16 @@ void MainWindow::setScale(double sx, double sy) {
 }
 
 
-void MainWindow::updateConnections(std::unique_ptr<Player> &protagonist)
+void MainWindow::updateConnections()
 {
-    disconnect(this, nullptr, nullptr, nullptr);
-    connect(protagonist.get(), &Protagonist::healthChanged, this, &MainWindow::updateHealthBar);
-    connect(protagonist.get(), &Protagonist::energyChanged, this, &MainWindow::updateEnergyBar);
+    LevelController& levelController = LevelController::getInstance();
 
-    updateEnergyBar(static_cast<int>(protagonist->getEnergy()));
-    updateHealthBar(static_cast<int>(protagonist->getHealth()));
+    disconnect(this, nullptr, nullptr, nullptr);
+    connect(levelController.getCurrentLevel().protagonist.get(), &Protagonist::healthChanged, this, &MainWindow::updateHealthBar);
+    connect(levelController.getCurrentLevel().protagonist.get(), &Protagonist::energyChanged, this, &MainWindow::updateEnergyBar);
+
+    updateEnergyBar(static_cast<int>(levelController.getCurrentLevel().protagonist->getEnergy()));
+    updateHealthBar(static_cast<int>(levelController.getCurrentLevel().protagonist->getHealth()));
 }
 
 MainWindow::~MainWindow() {

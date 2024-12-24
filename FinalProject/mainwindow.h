@@ -17,10 +17,12 @@ class MainWindow : public QMainWindow {
 
   public:
     MainWindow(QWidget *parent = nullptr);
-    void setScene(QGraphicsScene *scene2D, QGraphicsScene *sceneText);
+    void setScene();
     void setScale(double sx, double sy);
-    void updateConnections(std::unique_ptr<Player> &protagonist);
+    void updateConnections();
     ~MainWindow();
+
+    Ui::MainWindow *ui;
 
   public slots:
     void zoomIn();
@@ -31,7 +33,6 @@ private slots:
     void updateEnergyBar(int value);
     void updateHealthBar(int value);
 private:
-    Ui::MainWindow *ui;
     const double zoomFactor {1.15};  // Factor to zoom in/out by
     int currentZoomLevel {0};     // Track zoom level (to prevent over-zooming)
 
