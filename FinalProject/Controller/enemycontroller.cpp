@@ -1,18 +1,14 @@
 #include "enemycontroller.h"
-#include "Controller/levelcontroller.h"
 
 bool EnemyController::checkForEnemy(const Position pos)
 {
-    LevelController& levelController = LevelController::getInstance();
-    Level& level = levelController.getCurrentLevel();
-
-    int X = level.protagonist->getXPos();
-    int Y = level.protagonist->getYPos();
+    int X = getCurrentLevel().protagonist->getXPos();
+    int Y = getCurrentLevel().protagonist->getYPos();
 
     switch(pos){
     case(Up):
         if (Y > 0){
-            for(auto& enemy : level.enemies){
+            for(auto& enemy : getCurrentLevel().enemies){
                 if(enemy->getXPos() == X && enemy->getYPos() == Y-1){
                     attack(enemy);
                     return true;
@@ -21,8 +17,8 @@ bool EnemyController::checkForEnemy(const Position pos)
         }
         return false;
     case(Down):
-        if (Y < level.height-1){
-            for(auto& enemy : level.enemies){
+        if (Y < getCurrentLevel().height-1){
+            for(auto& enemy : getCurrentLevel().enemies){
                 if(enemy->getXPos() == X && enemy->getYPos() == Y+1){
                     attack(enemy);
                     return true;
@@ -32,7 +28,7 @@ bool EnemyController::checkForEnemy(const Position pos)
         return false;
     case(Left):
         if (X > 0){
-            for(auto& enemy : level.enemies){
+            for(auto& enemy : getCurrentLevel().enemies){
                 if(enemy->getXPos() == X-1 && enemy->getYPos() == Y){
                     attack(enemy);
                     return true;
@@ -41,8 +37,8 @@ bool EnemyController::checkForEnemy(const Position pos)
         }
         return false;
     case(Right):
-        if (X < level.width -1){
-            for(auto& enemy : level.enemies){
+        if (X < getCurrentLevel().width -1){
+            for(auto& enemy : getCurrentLevel().enemies){
                 if(enemy->getXPos() == X+1 && enemy->getYPos() == Y){
                     attack(enemy);
                     return true;
@@ -55,17 +51,13 @@ bool EnemyController::checkForEnemy(const Position pos)
 
 void EnemyController::attack(std::unique_ptr<Enemy> &enemy)
 {
-    LevelController& levelController = LevelController::getInstance();
-    Level& level = levelController.getCurrentLevel();
-
-
     if(PEnemy* penemy = dynamic_cast<PEnemy *>(enemy.get())){
         qDebug() << "PEnemy attacks!";
         penemy->poison();
     }
     else{
         qDebug() << "Enemy attacks!";
-        level.protagonist->setHealth(level.protagonist->getHealth()-enemy->getValue());
+        getCurrentLevel().protagonist->setHealth(getCurrentLevel().protagonist->getHealth()-enemy->getValue());
         enemy->setDefeated(true);
     }
 
