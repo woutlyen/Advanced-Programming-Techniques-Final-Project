@@ -2,10 +2,10 @@
 #define ENEMYCONTROLLER_H
 
 #include <world.h>
-#include "Model/player.h"
-#include "qdebug.h"
+#include "Controller/gameobjectcontroller.h"
+#include <QDebug>
 
-class EnemyController
+class EnemyController: public GameObjectController
 {
 public:
     enum Position { Up, Down, Left, Right };

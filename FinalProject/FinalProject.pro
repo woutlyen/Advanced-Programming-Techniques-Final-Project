@@ -18,6 +18,7 @@ SOURCES += \
     Commands/moveupcommand.cpp \
     Commands/takenearesthealthpackcommand.cpp \
     Controller/enemycontroller.cpp \
+    Controller/gameobjectcontroller.cpp \
     Controller/inputcontroller.cpp \
     Controller/levelcontroller.cpp \
     Controller/playercontroller.cpp \
@@ -54,6 +55,7 @@ HEADERS += \
     Commands/moveupcommand.h \
     Commands/takenearesthealthpackcommand.h \
     Controller/enemycontroller.h \
+    Controller/gameobjectcontroller.h \
     Controller/inputcontroller.h \
     Controller/levelcontroller.h \
     Controller/playercontroller.h \

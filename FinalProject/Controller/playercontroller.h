@@ -1,13 +1,12 @@
 #ifndef PLAYERCONTROLLER_H
 #define PLAYERCONTROLLER_H
 
+#include "Controller/gameobjectcontroller.h"
 #include "Model/player.h"
-#include <QObject>
 #include <world.h>
 
-class PlayerController : public QObject
+class PlayerController : public GameObjectController
 {
-    Q_OBJECT
 
 public:
     void takeDamage(float damage);
@@ -24,6 +23,9 @@ public:
     void updatePlayerDirection(Player::Direction dir);
     void poisoned(float poisonLevel);
     void checkForPoison(std::vector<std::unique_ptr<Tile>>& poisonedTiles);
+
+private:
+
 };
 
 #endif // PLAYERCONTROLLER_H
