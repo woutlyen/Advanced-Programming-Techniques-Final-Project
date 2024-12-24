@@ -9,8 +9,17 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Commands/attacknearestenemycommand.cpp \
+    Commands/gotocommand.cpp \
+    Commands/helpcommand.cpp \
+    Commands/movedowncommand.cpp \
+    Commands/moveleftcommand.cpp \
+    Commands/moverightcommand.cpp \
+    Commands/moveupcommand.cpp \
+    Commands/takenearesthealthpackcommand.cpp \
     Controller/enemycontroller.cpp \
     Controller/inputcontroller.cpp \
+    Controller/levelcontroller.cpp \
     Controller/penemycontroller.cpp \
     Controller/playercontroller.cpp \
     Controller/xenemycontroller.cpp \
@@ -37,11 +46,22 @@ SOURCES += \
 
 
 HEADERS += \
+    Commands/attacknearestenemycommand.h \
+    Commands/command.h \
+    Commands/gotocommand.h \
+    Commands/helpcommand.h \
+    Commands/movedowncommand.h \
+    Commands/moveleftcommand.h \
+    Commands/moverightcommand.h \
+    Commands/moveupcommand.h \
+    Commands/takenearesthealthpackcommand.h \
     Controller/enemycontroller.h \
     Controller/inputcontroller.h \
+    Controller/levelcontroller.h \
     Controller/penemycontroller.h \
     Controller/playercontroller.h \
     Controller/xenemycontroller.h \
+    Level.h \
     Model/worldrevised.h \
     Model/xenemy.h \
     View/enemyview2d.h \
@@ -54,6 +74,7 @@ HEADERS += \
     View/protagonistview2d.h \
     View/protagonistviewtext.h \
     View/statusbar2d.h \
+    View/worldview.h \
     View/worldview2d.h \
     View/worldviewtext.h \
     View/xenemyview2d.h \
