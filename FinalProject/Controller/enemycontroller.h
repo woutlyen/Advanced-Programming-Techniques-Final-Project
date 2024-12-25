@@ -11,9 +11,6 @@ public:
     enum Position { Up, Down, Left, Right };
 
     bool checkForEnemy(const Position pos);
-
-protected:
-    virtual void attack(std::unique_ptr<Enemy> &enemy);
 };
 
 #endif // ENEMYCONTROLLER_H
