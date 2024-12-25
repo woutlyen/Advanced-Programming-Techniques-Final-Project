@@ -1,14 +1,14 @@
 #include "enemyview2d.h"
 
-EnemyView2D::EnemyView2D(const std::unique_ptr<Enemy> &enemy, std::size_t gridSize)
+EnemyView2D::EnemyView2D(const std::unique_ptr<EnemyWrapper> &enemy, std::size_t gridSize)
     : GameObject2DView(gridSize), enemy(enemy) {
 
     initializeEnemy2DView();
     // Connect signals & slots
-    connect(enemy.get(), &Enemy::dead, this, &EnemyView2D::onDefeated);
+    connect(enemy.get(), &EnemyWrapper::dead, this, &EnemyView2D::onDefeated);
 }
 
-EnemyView2D::EnemyView2D(const std::unique_ptr<Enemy> &enemy, std::size_t gridSize, bool isDerivedClass)
+EnemyView2D::EnemyView2D(const std::unique_ptr<EnemyWrapper> &enemy, std::size_t gridSize, bool isDerivedClass)
     : GameObject2DView(gridSize), enemy(enemy) {
 }
 

@@ -8,7 +8,7 @@
 class PEnemyView2D: public EnemyView2D
 {
 public:
-    PEnemyView2D(const std::unique_ptr<Enemy> &enemy, std::size_t gridSize);
+    PEnemyView2D(const std::unique_ptr<EnemyWrapper> &enemy, std::size_t gridSize);
 
 private:
     int getNrOfFramesIdle() const override{ return idlePixmaps.size();}

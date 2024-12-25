@@ -29,7 +29,7 @@ QGraphicsScene *WorldView2D::makeScene() const
     // Create and add enemy views
     for (const auto& enemy : level.enemies) {
 
-        if (dynamic_cast<PEnemy*>(enemy.get())) {
+        if (dynamic_cast<PEnemyWrapper*>(enemy.get())) {
             // If the enemy is of type PEnemy
             scene->addItem(new PEnemyView2D(enemy, level.grid_size));
         } else if (dynamic_cast<XEnemy*>(enemy.get())) {

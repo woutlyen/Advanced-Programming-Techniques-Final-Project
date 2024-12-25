@@ -10,7 +10,7 @@ bool EnemyController::checkForEnemy(const Position pos)
         if (Y > 0){
             for(auto& enemy : getCurrentLevel().enemies){
                 if(enemy->getXPos() == X && enemy->getYPos() == Y-1){
-                    attack(enemy);
+                    enemy->attack();
                     return true;
                 }
             }
@@ -20,7 +20,7 @@ bool EnemyController::checkForEnemy(const Position pos)
         if (Y < getCurrentLevel().height-1){
             for(auto& enemy : getCurrentLevel().enemies){
                 if(enemy->getXPos() == X && enemy->getYPos() == Y+1){
-                    attack(enemy);
+                    enemy->attack();
                     return true;
                 }
             }
@@ -30,7 +30,7 @@ bool EnemyController::checkForEnemy(const Position pos)
         if (X > 0){
             for(auto& enemy : getCurrentLevel().enemies){
                 if(enemy->getXPos() == X-1 && enemy->getYPos() == Y){
-                    attack(enemy);
+                    enemy->attack();
                     return true;
                 }
             }
@@ -40,7 +40,7 @@ bool EnemyController::checkForEnemy(const Position pos)
         if (X < getCurrentLevel().width -1){
             for(auto& enemy : getCurrentLevel().enemies){
                 if(enemy->getXPos() == X+1 && enemy->getYPos() == Y){
-                    attack(enemy);
+                    enemy->attack();
                     return true;
                 }
             }
@@ -49,18 +49,18 @@ bool EnemyController::checkForEnemy(const Position pos)
     };
 }
 
-void EnemyController::attack(std::unique_ptr<Enemy> &enemy)
-{
-    if(PEnemy* penemy = dynamic_cast<PEnemy *>(enemy.get())){
-        qDebug() << "PEnemy attacks!";
-        penemy->poison();
-    }
-    else{
-        qDebug() << "Enemy attacks!";
-        getCurrentLevel().protagonist->setHealth(getCurrentLevel().protagonist->getHealth()-enemy->getValue());
-        enemy->setDefeated(true);
-    }
+// void EnemyController::attack(std::unique_ptr<Enemy> &enemy)
+// {
+//     if(PEnemy* penemy = dynamic_cast<PEnemy *>(enemy.get())){
+//         qDebug() << "PEnemy attacks!";
+//         penemy->poison();
+//     }
+//     else{
+//         qDebug() << "Enemy attacks!";
+//         getCurrentLevel().protagonist->setHealth(getCurrentLevel().protagonist->getHealth()-enemy->getValue());
+//         enemy->setDefeated(true);
+//     }
 
 
-}
+// }
 

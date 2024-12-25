@@ -3,7 +3,7 @@
 #include "qpen.h"
 #include "qtimer.h"
 
-EnemyViewText::EnemyViewText(const std::unique_ptr<Enemy> &enemy, double tileWidth, double tileHeight, QFont font, QGraphicsItem *parent)
+EnemyViewText::EnemyViewText(const std::unique_ptr<EnemyWrapper> &enemy, double tileWidth, double tileHeight, QFont font, QGraphicsItem *parent)
     : QObject(),
       QGraphicsSimpleTextItem(parent),
       animationTimer(new QTimer(this)) {

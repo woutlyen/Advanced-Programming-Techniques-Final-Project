@@ -1,6 +1,7 @@
 #ifndef ENEMYVIEW2D_H
 #define ENEMYVIEW2D_H
 
+#include "Model/enemywrapper.h"
 #include "View/gameobject2dview.h"
 #include <world.h>
 
@@ -8,12 +9,12 @@ class EnemyView2D : public GameObject2DView
 {
     Q_OBJECT
 public:
-    EnemyView2D(const std::unique_ptr<Enemy>& enemy, std::size_t gridSize);
-    EnemyView2D(const std::unique_ptr<Enemy>& enemy, std::size_t gridSize, bool isDerivedClass);
+    EnemyView2D(const std::unique_ptr<EnemyWrapper>& enemy, std::size_t gridSize);
+    EnemyView2D(const std::unique_ptr<EnemyWrapper>& enemy, std::size_t gridSize, bool isDerivedClass);
     virtual ~EnemyView2D() = default;
 
 protected:
-    const std::unique_ptr<Enemy> &enemy;
+    const std::unique_ptr<EnemyWrapper> &enemy;
     std::vector<QPixmap> idlePixmaps;
     std::vector<QPixmap> fightingPixmaps;
     std::vector<QPixmap> dyingPixmaps;

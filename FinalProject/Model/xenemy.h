@@ -1,10 +1,10 @@
 #ifndef XENEMY_H
 #define XENEMY_H
 
-#include "Model/enemyrevised.h"
+#include "Model/enemywrapper.h"
 #include <world.h>
 
-class XEnemy: public EnemyRevised
+class XEnemy: public EnemyWrapper
 {
 public:
     XEnemy(int xPosition, int yPosition, float strength);

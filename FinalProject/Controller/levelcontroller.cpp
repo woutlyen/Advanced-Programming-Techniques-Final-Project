@@ -135,6 +135,7 @@ void LevelController::generateLevel(Level &level)
     world.createWorld(level.data_map, level.enemyNr, level.healthpacks);
     level.tiles = world.getTiles();
     level.enemies = world.getEnemies();
+
     level.healthPacks = world.getHealthPacks();
     auto pro = world.getProtagonist();
     auto player = std::move(*reinterpret_cast<std::unique_ptr<Player>*>(&pro));

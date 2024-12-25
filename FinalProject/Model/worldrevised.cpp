@@ -11,7 +11,9 @@ void WorldRevised::createWorld(QString filename, unsigned int nrOfEnemies, unsig
 {
     //use World to generate HP & E & PE
     World::createWorld(filename,nrOfEnemies, nrOfHealthpacks, pRatio);
-    enemies = World::getEnemies();
+
+    convertToEnemyWrapper(World::getEnemies());
+
     world.load(filename);
 
     //generate XEnemies
@@ -27,7 +29,7 @@ void WorldRevised::createWorld(QString filename, unsigned int nrOfEnemies, unsig
     int XEnemyCounter = (int)(xRatio*(float)nrOfEnemies);
 
     for (size_t i = 0; i < enemies.size(); i++){
-        if(typeid(enemies.at(i).get()) == typeid(Enemy*)){
+        if(typeid(enemies.at(i).get()) == typeid(EnemyWrapper*)){
             int xPos = enemies.at(i)->getXPos();
             int yPos = enemies.at(i)->getYPos();
             float val = enemies.at(i)->getValue();
@@ -60,9 +62,21 @@ void WorldRevised::createWorld(QString filename, unsigned int nrOfEnemies, unsig
 
 }
 
-std::vector<std::unique_ptr<Enemy>> WorldRevised::getEnemies()
+std::vector<std::unique_ptr<EnemyWrapper>> WorldRevised::getEnemies()
 {
     if (world.isNull())
         throw "No enemies created yet";
     return std::move(enemies);
+}
+
+void WorldRevised::convertToEnemyWrapper(std::vector<std::unique_ptr<Enemy>> oldEnemies)
+{
+    for (auto& enemy : oldEnemies) {
+        if(PEnemy* penemy = dynamic_cast<PEnemy *>(enemy.get())){
+            enemies.push_back(std::make_unique<PEnemyWrapper>(std::move(enemy)));
+        }
+        else{
+            enemies.push_back(std::make_unique<EnemyWrapper>(std::move(enemy)));
+        }
+    }
 }
