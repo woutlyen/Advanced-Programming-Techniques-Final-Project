@@ -5,10 +5,12 @@
 #include <QApplication>
 
 void PlayerController::moveUp() const{
-    auto& protagonist = getCurrentLevel().protagonist;
+    auto& level = getCurrentLevel();
+    auto& protagonist = level.protagonist;
+
 
     if (protagonist->getYPos() > 0 && protagonist->getEnergy() >= 1){
-        float val = (getCurrentLevel().tiles.at((protagonist->getYPos()-1) * getCurrentLevel().width + protagonist->getXPos())->getValue());
+        float val = (level.tiles.at((protagonist->getYPos()-1) * level.width + protagonist->getXPos())->getValue());
         if (val != std::numeric_limits<float>::infinity()){
             protagonist->setEnergy(protagonist->getEnergy() - val);
             protagonist->setYPos(protagonist->getYPos()-1);
@@ -17,10 +19,11 @@ void PlayerController::moveUp() const{
 }
 
 void PlayerController::moveDown() const{
-    auto& protagonist = getCurrentLevel().protagonist;
+    auto& level = getCurrentLevel();
+    auto& protagonist = level.protagonist;
 
-    if (protagonist->getYPos() < getCurrentLevel().height-1 && protagonist->getEnergy() >= 1){
-        float val = (getCurrentLevel().tiles.at((protagonist->getYPos()+1) * getCurrentLevel().width + protagonist->getXPos())->getValue());
+    if (protagonist->getYPos() < level.height-1 && protagonist->getEnergy() >= 1){
+        float val = (level.tiles.at((protagonist->getYPos()+1) * level.width + protagonist->getXPos())->getValue());
         if (val != std::numeric_limits<float>::infinity()){
             protagonist->setEnergy(protagonist->getEnergy() - val);
             protagonist->setYPos(protagonist->getYPos()+1);
@@ -29,10 +32,11 @@ void PlayerController::moveDown() const{
 }
 
 void PlayerController::moveLeft() const{
-    auto& protagonist = getCurrentLevel().protagonist;
+    auto& level = getCurrentLevel();
+    auto& protagonist = level.protagonist;
 
     if (protagonist->getXPos() > 0 && protagonist->getEnergy() >= 1){
-        float val = (getCurrentLevel().tiles.at(protagonist->getYPos() * getCurrentLevel().width + protagonist->getXPos() -1)->getValue());
+        float val = (level.tiles.at(protagonist->getYPos() * level.width + protagonist->getXPos() -1)->getValue());
         if (val != std::numeric_limits<float>::infinity()){
             protagonist->setEnergy(protagonist->getEnergy() - val);
             protagonist->setXPos(protagonist->getXPos()-1);
@@ -41,10 +45,11 @@ void PlayerController::moveLeft() const{
 }
 
 void PlayerController::moveRight() const{
-    auto& protagonist = getCurrentLevel().protagonist;
+    auto& level = getCurrentLevel();
+    auto& protagonist = level.protagonist;
 
-    if (protagonist->getXPos() < getCurrentLevel().width-1 && protagonist->getEnergy() >= 1){
-        float val = (getCurrentLevel().tiles.at(protagonist->getYPos() * getCurrentLevel().width + protagonist->getXPos() +1)->getValue());
+    if (protagonist->getXPos() < level.width-1 && protagonist->getEnergy() >= 1){
+        float val = (level.tiles.at(protagonist->getYPos() * level.width + protagonist->getXPos() +1)->getValue());
         if (val != std::numeric_limits<float>::infinity()){
             protagonist->setEnergy(protagonist->getEnergy() - val);
             protagonist->setXPos(protagonist->getXPos()+1);
@@ -114,10 +119,12 @@ void PlayerController::checkForPoison(std::vector<std::unique_ptr<Tile> > &poiso
 
 bool PlayerController::checkForPrevLevel() const
 {
+    auto& level = getCurrentLevel();
+    auto& protagonist = level.protagonist;
     LevelController& levelController = LevelController::getInstance();
     MainWindow * mainWindow = static_cast<MainWindow*>(QApplication::activeWindow());
 
-    if(getCurrentLevel().protagonist->getXPos() == getCurrentLevel().prev_level_x_pos && getCurrentLevel().protagonist->getYPos() == getCurrentLevel().prev_level_y_pos){
+    if(protagonist->getXPos() == level.prev_level_x_pos && protagonist->getYPos() == level.prev_level_y_pos){
         levelController.setCurrentLevelNr(levelController.getCurrentLevelNr() -1);
         mainWindow->setScene();
         mainWindow->updateConnections();
@@ -128,10 +135,12 @@ bool PlayerController::checkForPrevLevel() const
 
 bool PlayerController::checkForNextLevel() const
 {
+    auto& level = getCurrentLevel();
+    auto& protagonist = level.protagonist;
     LevelController& levelController = LevelController::getInstance();
     MainWindow * mainWindow = static_cast<MainWindow*>(QApplication::activeWindow());
 
-    if(getCurrentLevel().protagonist->getXPos() == getCurrentLevel().next_level_x_pos && getCurrentLevel().protagonist->getYPos() == getCurrentLevel().next_level_y_pos){
+    if(protagonist->getXPos() == level.next_level_x_pos && protagonist->getYPos() == level.next_level_y_pos){
         levelController.setCurrentLevelNr(levelController.getCurrentLevelNr() +1);
         mainWindow->setScene();
         mainWindow->updateConnections();

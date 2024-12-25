@@ -2,13 +2,16 @@
 
 bool EnemyController::checkForEnemy(const Position pos)
 {
-    int X = getCurrentLevel().protagonist->getXPos();
-    int Y = getCurrentLevel().protagonist->getYPos();
+    auto& level = getCurrentLevel();
+    auto& enemies = level.enemies;
+
+    int X = level.protagonist->getXPos();
+    int Y = level.protagonist->getYPos();
 
     switch(pos){
     case(Up):
         if (Y > 0){
-            for(auto& enemy : getCurrentLevel().enemies){
+            for(auto& enemy : enemies){
                 if(enemy->getXPos() == X && enemy->getYPos() == Y-1){
                     enemy->attack();
                     return true;
@@ -17,8 +20,8 @@ bool EnemyController::checkForEnemy(const Position pos)
         }
         return false;
     case(Down):
-        if (Y < getCurrentLevel().height-1){
-            for(auto& enemy : getCurrentLevel().enemies){
+        if (Y < level.height-1){
+            for(auto& enemy : enemies){
                 if(enemy->getXPos() == X && enemy->getYPos() == Y+1){
                     enemy->attack();
                     return true;
@@ -28,7 +31,7 @@ bool EnemyController::checkForEnemy(const Position pos)
         return false;
     case(Left):
         if (X > 0){
-            for(auto& enemy : getCurrentLevel().enemies){
+            for(auto& enemy : enemies){
                 if(enemy->getXPos() == X-1 && enemy->getYPos() == Y){
                     enemy->attack();
                     return true;
@@ -37,8 +40,8 @@ bool EnemyController::checkForEnemy(const Position pos)
         }
         return false;
     case(Right):
-        if (X < getCurrentLevel().width -1){
-            for(auto& enemy : getCurrentLevel().enemies){
+        if (X < level.width -1){
+            for(auto& enemy : enemies){
                 if(enemy->getXPos() == X+1 && enemy->getYPos() == Y){
                     enemy->attack();
                     return true;
