@@ -5,6 +5,7 @@
 
 class PEnemyWrapper : public EnemyWrapper
 {
+    Q_OBJECT
 public:
     PEnemyWrapper(std::unique_ptr<Enemy> enemy);
     ~PEnemyWrapper() override = default;
