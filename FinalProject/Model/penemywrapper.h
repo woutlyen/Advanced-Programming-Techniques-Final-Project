@@ -9,7 +9,7 @@ public:
     PEnemyWrapper(std::unique_ptr<Enemy> enemy);
     ~PEnemyWrapper() override = default;
 
-    void attack() override;
+    void attack(std::unique_ptr<Player> &player) override;
     [[nodiscard]] float getPoisonLevel() const noexcept {return static_cast<PEnemy*>(wrappedEnemy.get())->getPoisonLevel();};
     void setPoisonLevel(float value) noexcept {static_cast<PEnemy*>(wrappedEnemy.get())->setPoisonLevel(value);};
     std::string serialize() noexcept override{return static_cast<PEnemy*>(wrappedEnemy.get())->serialize();};

@@ -5,9 +5,9 @@ PEnemyWrapper::PEnemyWrapper(std::unique_ptr<Enemy> enemy): EnemyWrapper(std::mo
     wrappedEnemy = std::move(wrappedPEnemy);
 }
 
-void PEnemyWrapper::attack()
+void PEnemyWrapper::attack(std::unique_ptr<Player> &player)
 {
-    if(!EnemyWrapper::getDefeated()){
+    if(!getDefeated()){
         qDebug() << "PEnemy attacks!";
         poison();
     }

@@ -4,10 +4,11 @@ EnemyWrapper::EnemyWrapper(std::unique_ptr<Enemy> enemy): wrappedEnemy(std::move
 
 EnemyWrapper::EnemyWrapper(int xPosition, int yPosition, float strength): wrappedEnemy(std::make_unique<Enemy>(xPosition, yPosition, strength)){}
 
-void EnemyWrapper::attack()
+void EnemyWrapper::attack(std::unique_ptr<Player> &player)
 {
-    if(!wrappedEnemy->getDefeated()){
+    if(!getDefeated()){
         qDebug() << "Enemy attacks!";
-        wrappedEnemy->setDefeated(true);
+        player->takeDamage(getValue());
+        setDefeated(true);
     }
 }

@@ -1,5 +1,6 @@
 #ifndef ENEMYWRAPPER_H
 #define ENEMYWRAPPER_H
+#include "Model/player.h"
 #include "world.h"
 #include <QDebug>
 
@@ -21,9 +22,7 @@ public:
     [[nodiscard]] int getYPos() const noexcept {return wrappedEnemy->getYPos();};
     [[nodiscard]] float getValue() const noexcept {return wrappedEnemy->getValue();} ;
     void setValue(float newValue) noexcept {wrappedEnemy->setValue(newValue);};
-
-
-    virtual void attack();
+    virtual void attack(std::unique_ptr<Player> &player);
 protected slots:
     void onWrappedEnemyDied(){emit dead();};
 

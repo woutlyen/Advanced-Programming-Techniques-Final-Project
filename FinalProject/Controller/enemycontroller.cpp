@@ -4,16 +4,17 @@ bool EnemyController::checkForEnemy(const Position pos)
 {
     auto& level = getCurrentLevel();
     auto& enemies = level.enemies;
+    auto& protagonist = level.protagonist;
 
-    int X = level.protagonist->getXPos();
-    int Y = level.protagonist->getYPos();
+    int X = protagonist->getXPos();
+    int Y = protagonist->getYPos();
 
     switch(pos){
     case(Up):
         if (Y > 0){
             for(auto& enemy : enemies){
                 if(enemy->getXPos() == X && enemy->getYPos() == Y-1){
-                    enemy->attack();
+                    enemy->attack(protagonist);
                     return true;
                 }
             }
@@ -23,7 +24,7 @@ bool EnemyController::checkForEnemy(const Position pos)
         if (Y < level.height-1){
             for(auto& enemy : enemies){
                 if(enemy->getXPos() == X && enemy->getYPos() == Y+1){
-                    enemy->attack();
+                    enemy->attack(protagonist);
                     return true;
                 }
             }
@@ -33,7 +34,7 @@ bool EnemyController::checkForEnemy(const Position pos)
         if (X > 0){
             for(auto& enemy : enemies){
                 if(enemy->getXPos() == X-1 && enemy->getYPos() == Y){
-                    enemy->attack();
+                    enemy->attack(protagonist);
                     return true;
                 }
             }
@@ -43,7 +44,7 @@ bool EnemyController::checkForEnemy(const Position pos)
         if (X < level.width -1){
             for(auto& enemy : enemies){
                 if(enemy->getXPos() == X+1 && enemy->getYPos() == Y){
-                    enemy->attack();
+                    enemy->attack(protagonist);
                     return true;
                 }
             }
@@ -51,19 +52,4 @@ bool EnemyController::checkForEnemy(const Position pos)
         return false;
     };
 }
-
-// void EnemyController::attack(std::unique_ptr<Enemy> &enemy)
-// {
-//     if(PEnemy* penemy = dynamic_cast<PEnemy *>(enemy.get())){
-//         qDebug() << "PEnemy attacks!";
-//         penemy->poison();
-//     }
-//     else{
-//         qDebug() << "Enemy attacks!";
-//         getCurrentLevel().protagonist->setHealth(getCurrentLevel().protagonist->getHealth()-enemy->getValue());
-//         enemy->setDefeated(true);
-//     }
-
-
-// }
 

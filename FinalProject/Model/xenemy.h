@@ -10,7 +10,7 @@ public:
     XEnemy(int xPosition, int yPosition, float strength);
 
 private:
-    void attack() override;
+    void attack(std::unique_ptr<Player> &player) override;
 };
 
 #endif // XENEMY_H

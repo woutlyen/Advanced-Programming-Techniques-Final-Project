@@ -9,7 +9,8 @@ XEnemy::XEnemy(int xPosition, int yPosition, float strength)
     qDebug() << "XEnemy intialized!";
 }
 
-void XEnemy::attack()
+void XEnemy::attack(std::unique_ptr<Player> &player)
 {
     qDebug() << "XEnemy attacks!";
+    setDefeated(true);
 }

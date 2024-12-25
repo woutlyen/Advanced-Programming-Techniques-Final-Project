@@ -81,7 +81,7 @@ void PlayerController::updatePlayerDirection(Player::Direction dir){
 void PlayerController::poisoned(float poisonLevel)
 {
     getCurrentLevel().protagonist->setPoisoned();
-    takeDamage(poisonLevel);
+    getCurrentLevel().protagonist->takeDamage(poisonLevel);
 }
 
 void PlayerController::checkForPoison(std::vector<std::unique_ptr<Tile> > &poisonedTiles)
