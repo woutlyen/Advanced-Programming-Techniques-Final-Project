@@ -9,10 +9,6 @@ class PlayerController : public GameObjectController
 {
 
 public:
-    void takeDamage(float damage);
-    void heal(float hp);
-    void useEnergy(float energy);
-    void addEnergy(float energy);
     void moveUp() const;
     void moveDown() const;
     void moveLeft() const;

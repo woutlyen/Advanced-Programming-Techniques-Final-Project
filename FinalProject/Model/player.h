@@ -11,10 +11,13 @@ public:
     void setDirection(Direction dir);
     void setPoisoned(){emit poisoned(), isPoisoned=true;};
     bool isPoisoned {false};
+    void takeDamage(float damage);
+    void heal(float hp);
+    void useEnergy(float energy);
+    void addEnergy(float energy);
 
 private:
     Direction currentDirection;
-
 
 signals:
     void directionChanged(Direction dir);

@@ -74,26 +74,6 @@ void PlayerController::checkForHealthPack() const
     }
 }
 
-void PlayerController::takeDamage(float damage)
-{
-    getCurrentLevel().protagonist->setHealth(std::max(0.0f, getCurrentLevel().protagonist->getHealth() - damage));
-}
-
-void PlayerController::heal(float hp)
-{
-    getCurrentLevel().protagonist->setHealth(std::min(100.0f, getCurrentLevel().protagonist->getHealth() + hp));
-}
-
-void PlayerController::useEnergy(float energy)
-{
-    getCurrentLevel().protagonist->setEnergy(std::max(0.0f, getCurrentLevel().protagonist->getEnergy() - energy));
-}
-
-void PlayerController::addEnergy(float energy)
-{
-    getCurrentLevel().protagonist->setEnergy(std::min(100.0f, getCurrentLevel().protagonist->getEnergy() + energy));
-}
-
 void PlayerController::updatePlayerDirection(Player::Direction dir){
     getCurrentLevel().protagonist->setDirection(dir);
 }
