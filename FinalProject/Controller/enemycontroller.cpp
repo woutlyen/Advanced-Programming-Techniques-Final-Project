@@ -52,3 +52,18 @@ bool EnemyController::checkForEnemy(const Position pos)
     };
 }
 
+void EnemyController::attack(std::unique_ptr<Enemy> &enemy)
+{
+    if(PEnemy* penemy = dynamic_cast<PEnemy *>(enemy.get())){
+        qDebug() << "PEnemy attacks!";
+        penemy->poison();
+    }
+    else{
+        qDebug() << "Enemy attacks!";
+        getCurrentLevel().protagonist->setHealth(getCurrentLevel().protagonist->getHealth()-enemy->getValue());
+        enemy->setDefeated(true);
+    }
+
+
+}
+
