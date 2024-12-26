@@ -28,6 +28,7 @@ struct Level {
     int next_level_y_pos;
 
     std::vector<std::unique_ptr<Tile>> tiles;
+    std::vector<std::unique_ptr<Tile>> poisonedTiles;
     std::vector<std::unique_ptr<EnemyWrapper>> enemies;
     std::vector<std::unique_ptr<Tile>> healthPacks;
     std::unique_ptr<Player> protagonist;

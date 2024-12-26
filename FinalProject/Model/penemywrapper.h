@@ -16,11 +16,17 @@ public:
     std::string serialize() noexcept override{return static_cast<PEnemy*>(wrappedEnemy.get())->serialize();};
     bool poison(){return static_cast<PEnemy*>(wrappedEnemy.get())->poison();};
 
+    bool getPoisonStarted() const;
+    void setPoisonStarted(bool newPoisonStarted);
+
+private:
+    bool poisonStarted{false};
 public slots:
     void poisonLevelUpdatedWrappedPenemy(int value){emit poisonLevelUpdated(value);};
 
 signals:
     void poisonLevelUpdated(int value);
+    void startPoison(int value);
 };
 
 #endif // PENEMYWRAPPER_H

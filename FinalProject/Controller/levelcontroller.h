@@ -5,9 +5,12 @@
 #include "Model/worldrevised.h"
 #include "View/worldview2d.h"
 #include "View/worldviewtext.h"
+#include <QPixmap>
+#include <QColor>
 
-class LevelController
+class LevelController: public QObject
 {
+    Q_OBJECT
 public:
     // Static method to get the singleton instance
     static LevelController& getInstance();
@@ -22,7 +25,12 @@ public:
     size_t getCurrentLevelNr() const;
     void setCurrentLevelNr(const size_t levelNumber);
     std::vector<Level>& getAllLevels();
+    void generatePoisonedTiles(int xPos, int yPos, int expansionStage);
+    void addPoisonedTile(int x, int y);
+    QGraphicsEllipseItem* generatePoisonedCircle(int x, int y, int value);
+    void removePoisonedCircle(QGraphicsEllipseItem* poisonCircle);
 
+    void setPEnemyConnection(PEnemyWrapper* penemy);
 private:
     // Private constructor
     LevelController() = default;
@@ -39,6 +47,10 @@ private:
     WorldRevised world;
     WorldView2D worldView2D;
     WorldViewText worldViewText;
+
+private slots:
+    void updatePoisonedTileValue(int poisonLevel);
+    void clearPoisonedTiles();
 };
 
 #endif // LEVELCONTROLLER_H

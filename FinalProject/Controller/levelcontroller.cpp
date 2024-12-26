@@ -1,4 +1,6 @@
 #include "levelcontroller.h"
+#include "qgraphicsitem.h"
+#include "qtimer.h"
 
 #include <QFile>
 #include <QXmlStreamReader>
@@ -146,4 +148,67 @@ void LevelController::generateLevel(Level &level)
 
     level.scenes2D = worldView2D.makeScene();
     level.scenesText = worldViewText.makeScene();
+}
+
+void LevelController::updatePoisonedTileValue(int poisonLevel)
+{
+    for (auto& tile : getCurrentLevel().poisonedTiles) {
+        tile->setValue(poisonLevel);
+    }
+}
+
+void LevelController::generatePoisonedTiles(int xPos, int yPos, int expansionStage)
+{
+    switch(expansionStage){
+    case 1:
+        addPoisonedTile(xPos + 1, yPos);
+        addPoisonedTile(xPos - 1, yPos);
+        addPoisonedTile(xPos, yPos + 1);
+        addPoisonedTile(xPos, yPos - 1);
+        QTimer::singleShot(2000, this, [this, xPos, yPos]() {generatePoisonedTiles(xPos, yPos, 2);});
+        break;
+    case 2:
+        addPoisonedTile(xPos + 2, yPos);
+        addPoisonedTile(xPos - 2, yPos);
+        addPoisonedTile(xPos, yPos + 2);
+        addPoisonedTile(xPos, yPos - 2);
+        addPoisonedTile(xPos - 1, yPos - 1);
+        addPoisonedTile(xPos + 1, yPos - 1);
+        addPoisonedTile(xPos + 1, yPos + 1);
+        addPoisonedTile(xPos - 1, yPos + 1);
+        break;
+    }
+}
+
+void LevelController::addPoisonedTile(int x, int y)
+{
+    for (auto& tile : getCurrentLevel().tiles) {
+        if (tile->getXPos() == x && tile->getYPos() == y) {
+            auto poisonedTile = std::make_unique<Tile>(x,y, tile->getValue());
+            getCurrentLevel().poisonedTiles.push_back(std::move(poisonedTile));
+        }
+    }
+}
+
+QGraphicsEllipseItem *LevelController::generatePoisonedCircle(int x, int y, int value)
+{
+    return worldView2D.addPoisonCircle(x ,y, 3*getCurrentLevel().grid_size, getCurrentLevel().scenes2D, value);
+}
+
+void LevelController::removePoisonedCircle(QGraphicsEllipseItem *poisonCircle)
+{
+    if(poisonCircle){
+        worldView2D.removePoisonCircle(poisonCircle, getCurrentLevel().scenes2D);
+    }
+}
+
+void LevelController::clearPoisonedTiles()
+{
+    getCurrentLevel().poisonedTiles.clear();
+}
+
+void LevelController::setPEnemyConnection(PEnemyWrapper* penemy)
+{
+    connect(penemy, &PEnemyWrapper::poisonLevelUpdated, this, &LevelController::updatePoisonedTileValue);
+    connect(penemy, &PEnemyWrapper::dead, this, &LevelController::clearPoisonedTiles);
 }

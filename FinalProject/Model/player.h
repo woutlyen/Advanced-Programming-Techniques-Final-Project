@@ -10,7 +10,7 @@ public:
     enum Direction {Front, Back, Left, Right};
     void setDirection(Direction dir);
     void setPoisoned(){emit poisoned(), isPoisoned=true;};
-    bool isPoisoned {false};
+    bool getPoisoned(){return isPoisoned;};
     void takeDamage(float damage);
     void heal(float hp);
     void useEnergy(float energy);
@@ -18,6 +18,7 @@ public:
 
 private:
     Direction currentDirection;
+    bool isPoisoned {false};
 
 signals:
     void directionChanged(Direction dir);

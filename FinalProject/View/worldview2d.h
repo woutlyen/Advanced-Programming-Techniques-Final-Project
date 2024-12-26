@@ -10,6 +10,9 @@ class WorldView2D: public WorldView
 {
 public:
     QGraphicsScene* makeScene() const override;
+    QGraphicsEllipseItem* addPoisonCircle(int x, int y, int radius, QGraphicsScene* scene, int value);
+    void removePoisonCircle(QGraphicsEllipseItem* poisonCircle, QGraphicsScene* scene);
+
 };
 
 #endif // WORLDVIEW2D_H

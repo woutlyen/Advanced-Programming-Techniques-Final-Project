@@ -12,6 +12,7 @@
 
 #include <QGraphicsScene>
 
+
 QGraphicsScene *WorldView2D::makeScene() const
 {
     LevelController& levelController = LevelController::getInstance();
@@ -19,7 +20,9 @@ QGraphicsScene *WorldView2D::makeScene() const
 
     QGraphicsScene* scene = new QGraphicsScene();
 
-    scene->addPixmap(QPixmap(level.visual_map))->setScale(level.grid_size/level.visual_grid_size);
+    QGraphicsPixmapItem* map = scene->addPixmap(QPixmap(level.visual_map));
+    map->setScale(level.grid_size/level.visual_grid_size);
+    map->setZValue(-1);
 
     // Create and add health views
     for (const auto& healthPack : level.healthPacks) {
@@ -47,4 +50,23 @@ QGraphicsScene *WorldView2D::makeScene() const
 
     return scene;
 
+}
+
+QGraphicsEllipseItem* WorldView2D::addPoisonCircle(int x, int y, int radius,QGraphicsScene* scene, int value)
+{
+    QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem(x - radius/3, y - radius/3, radius, radius);
+
+    ellipse->setBrush(QColor(83, 0, 128, (value*255)/(100)));
+    ellipse->setPen(Qt::NoPen);
+    ellipse->setZValue(-0.5);
+    scene->addItem(ellipse);
+
+    return ellipse;
+}
+
+void WorldView2D::removePoisonCircle(QGraphicsEllipseItem *poisonCircle, QGraphicsScene *scene)
+{
+    scene->removeItem(poisonCircle);
+    qDebug() << "removed";
+    delete poisonCircle;
 }

@@ -256,6 +256,11 @@ void ProtagonistView2D::setHealingGlow(){
     glowAnimation->start(QPropertyAnimation::DeleteWhenStopped);
 }
 
+void ProtagonistView2D::removeAllEffects()
+{
+    setGraphicsEffect(nullptr);
+}
+
 void ProtagonistView2D::setPoisonEffect()
 {
     QGraphicsColorizeEffect* poisonEffect = new QGraphicsColorizeEffect(this);
@@ -268,6 +273,7 @@ void ProtagonistView2D::setPoisonEffect()
     poisonAnimation->setStartValue(0.0);
     poisonAnimation->setEndValue(1.0);
     poisonAnimation->setEasingCurve(QEasingCurve::InOutQuad);
-    poisonAnimation->setLoopCount(4);
+    poisonAnimation->setLoopCount(5);
+
     poisonAnimation->start(QPropertyAnimation::DeleteWhenStopped);
 }

@@ -1,4 +1,4 @@
-#include "gamecontroller.h"
+ #include "gamecontroller.h"
 #include "Controller/levelcontroller.h"
 
 GameController::GameController(QObject *parent) : QObject(parent) {

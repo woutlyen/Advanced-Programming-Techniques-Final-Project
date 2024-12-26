@@ -27,6 +27,7 @@ protected:
     virtual QString getDyingPixmapsPath() const { return ":/images/enemy_sprites/enemy_die"; }
     void setAnimation() override;
     void initializeEnemy2DView();
+
 private slots:
     virtual void onDefeated();
 };

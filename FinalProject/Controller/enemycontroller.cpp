@@ -15,6 +15,7 @@ bool EnemyController::checkForEnemy(const Position pos)
             for(auto& enemy : enemies){
                 if(enemy->getXPos() == X && enemy->getYPos() == Y-1){
                     enemy->attack(protagonist);
+                    checkPlayerPoisoned(protagonist, enemy);
                     return true;
                 }
             }
@@ -25,6 +26,7 @@ bool EnemyController::checkForEnemy(const Position pos)
             for(auto& enemy : enemies){
                 if(enemy->getXPos() == X && enemy->getYPos() == Y+1){
                     enemy->attack(protagonist);
+                    checkPlayerPoisoned(protagonist, enemy);
                     return true;
                 }
             }
@@ -35,6 +37,7 @@ bool EnemyController::checkForEnemy(const Position pos)
             for(auto& enemy : enemies){
                 if(enemy->getXPos() == X-1 && enemy->getYPos() == Y){
                     enemy->attack(protagonist);
+                    checkPlayerPoisoned(protagonist, enemy);
                     return true;
                 }
             }
@@ -45,11 +48,22 @@ bool EnemyController::checkForEnemy(const Position pos)
             for(auto& enemy : enemies){
                 if(enemy->getXPos() == X+1 && enemy->getYPos() == Y){
                     enemy->attack(protagonist);
+                    checkPlayerPoisoned(protagonist, enemy);
                     return true;
                 }
             }
         }
         return false;
     };
+}
+
+void EnemyController::checkPlayerPoisoned(std::unique_ptr<Player> &protagonist, std::unique_ptr<EnemyWrapper> &enemy)
+{
+    if(PEnemyWrapper* penemy = dynamic_cast<PEnemyWrapper *>(enemy.get())){
+        if(protagonist->getPoisoned() && penemy->getPoisonStarted()){
+            LevelController::getInstance().setPEnemyConnection(penemy);
+            LevelController::getInstance().generatePoisonedTiles(penemy->getXPos(), penemy->getYPos(), 1);
+        }
+    }
 }
 
