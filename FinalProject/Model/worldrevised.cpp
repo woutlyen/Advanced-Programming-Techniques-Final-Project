@@ -13,6 +13,7 @@ void WorldRevised::createWorld(QString filename, unsigned int nrOfEnemies, unsig
     World::createWorld(filename,nrOfEnemies, nrOfHealthpacks, pRatio);
 
     convertToEnemyWrapper(World::getEnemies());
+    convertToPlayerWrapper(World::getProtagonist());
 
     world.load(filename);
 
@@ -69,6 +70,13 @@ std::vector<std::unique_ptr<EnemyWrapper>> WorldRevised::getEnemies()
     return std::move(enemies);
 }
 
+std::unique_ptr<Player> WorldRevised::getPlayer()
+{
+    if (world.isNull())
+        throw "No player created yet";
+    return std::move(player);
+}
+
 void WorldRevised::convertToEnemyWrapper(std::vector<std::unique_ptr<Enemy>> oldEnemies)
 {
     for (auto& enemy : oldEnemies) {
@@ -79,4 +87,9 @@ void WorldRevised::convertToEnemyWrapper(std::vector<std::unique_ptr<Enemy>> old
             enemies.push_back(std::make_unique<EnemyWrapper>(std::move(enemy)));
         }
     }
+}
+
+void WorldRevised::convertToPlayerWrapper(std::unique_ptr<Protagonist> oldPlayer)
+{
+    player = std::make_unique<Player>(std::move(oldPlayer));
 }

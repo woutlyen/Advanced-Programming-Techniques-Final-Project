@@ -78,8 +78,8 @@ void MainWindow::updateConnections()
     LevelController& levelController = LevelController::getInstance();
 
     disconnect(this, nullptr, nullptr, nullptr);
-    connect(levelController.getCurrentLevel().protagonist.get(), &Protagonist::healthChanged, this, &MainWindow::updateHealthBar);
-    connect(levelController.getCurrentLevel().protagonist.get(), &Protagonist::energyChanged, this, &MainWindow::updateEnergyBar);
+    connect(levelController.getCurrentLevel().protagonist.get(), &Player::healthChanged, this, &MainWindow::updateHealthBar);
+    connect(levelController.getCurrentLevel().protagonist.get(), &Player::energyChanged, this, &MainWindow::updateEnergyBar);
 
     updateEnergyBar(static_cast<int>(levelController.getCurrentLevel().protagonist->getEnergy()));
     updateHealthBar(static_cast<int>(levelController.getCurrentLevel().protagonist->getHealth()));

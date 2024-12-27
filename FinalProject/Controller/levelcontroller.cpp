@@ -139,9 +139,7 @@ void LevelController::generateLevel(Level &level)
     level.enemies = world.getEnemies();
 
     level.healthPacks = world.getHealthPacks();
-    auto pro = world.getProtagonist();
-    auto player = std::move(*reinterpret_cast<std::unique_ptr<Player>*>(&pro));
-    player->initialize();
+    auto player = world.getPlayer();
     player->setPos(level.xpos, level.ypos);
     level.protagonist = std::move(player);
     level.width = world.getCols();

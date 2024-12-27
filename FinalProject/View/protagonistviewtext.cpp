@@ -26,9 +26,9 @@ ProtagonistViewText::ProtagonistViewText(const std::unique_ptr<Player> &protagon
     setPos(tileWidth * protagonist->getXPos() + tileWidth / 2, tileHeight * protagonist->getYPos() + tileHeight / 2);
 
     // Connect signalsc & slots
-    connect(protagonist.get(), &Protagonist::posChanged, this, &ProtagonistViewText::onPositionChanged);
-    connect(protagonist.get(), &Protagonist::healthChanged, this, &ProtagonistViewText::onHealthChanged);
-    connect(protagonist.get(), &Protagonist::energyChanged, this, &ProtagonistViewText::onEnergyChanged);
+    connect(protagonist.get(), &Player::posChanged, this, &ProtagonistViewText::onPositionChanged);
+    connect(protagonist.get(), &Player::healthChanged, this, &ProtagonistViewText::onHealthChanged);
+    connect(protagonist.get(), &Player::energyChanged, this, &ProtagonistViewText::onEnergyChanged);
 
     // Configure the movement animation
     movementAnimation->setDuration(480); // Animation duration (in milliseconds)

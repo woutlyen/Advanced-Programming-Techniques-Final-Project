@@ -2,7 +2,14 @@
 #include "qdebug.h"
 #include "qtimer.h"
 
-Player::Player():currentDirection{Front} {}
+Player::Player(std::unique_ptr<Protagonist> protagonist): wrappedPlayer(std::move(protagonist)), currentDirection{Front} {
+    connect(wrappedPlayer.get(), &Protagonist::energyChanged, this, &Player::energyChangedWrapped);
+    connect(wrappedPlayer.get(), &Protagonist::healthChanged, this, &Player::healthChangedWrapped);
+    connect(wrappedPlayer.get(), &Protagonist::posChanged, this, &Player::posChangedWrapped);
+
+    poisonTimer = new QTimer(this);
+    connect(poisonTimer, &QTimer::timeout, this, &Player::poisonDamage);
+}
 
 void Player::setDirection(Direction dir)
 {
@@ -41,12 +48,6 @@ void Player::useEnergy(float energy)
 void Player::addEnergy(float energy)
 {
     setEnergy(std::min(100.0f, getEnergy() + energy));
-}
-
-void Player::initialize()
-{
-    poisonTimer = new QTimer(this);
-    connect(poisonTimer, &QTimer::timeout, this, &Player::poisonDamage);
 }
 
 void Player::poisonDamage()
