@@ -10,6 +10,7 @@ CONFIG += c++20
 
 SOURCES += \
     Commands/attacknearestenemycommand.cpp \
+    Commands/autoplaycommand.cpp \
     Commands/gotocommand.cpp \
     Commands/helpcommand.cpp \
     Commands/movedowncommand.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
     Controller/gameobjectcontroller.cpp \
     Controller/inputcontroller.cpp \
     Controller/levelcontroller.cpp \
+    Controller/pathfindercontroller.cpp \
     Controller/playercontroller.cpp \
     Model/enemywrapper.cpp \
     Model/node.cpp \
@@ -49,6 +51,7 @@ SOURCES += \
 
 HEADERS += \
     Commands/attacknearestenemycommand.h \
+    Commands/autoplaycommand.h \
     Commands/command.h \
     Commands/gotocommand.h \
     Commands/helpcommand.h \
@@ -61,6 +64,7 @@ HEADERS += \
     Controller/gameobjectcontroller.h \
     Controller/inputcontroller.h \
     Controller/levelcontroller.h \
+    Controller/pathfindercontroller.h \
     Controller/playercontroller.h \
     Level.h \
     Model/enemywrapper.h \

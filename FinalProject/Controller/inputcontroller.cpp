@@ -1,5 +1,6 @@
 #include "inputcontroller.h"
 #include "Commands/attacknearestenemycommand.h"
+#include "Commands/autoplaycommand.h"
 #include "Commands/gotocommand.h"
 #include "Commands/helpcommand.h"
 #include "Commands/movedowncommand.h"
@@ -79,6 +80,8 @@ bool InputController::eventFilter(QObject *obj, QEvent *event)
                 case Qt::Key_Z: executeCommand("up"); break;    // Z = W = Move Up
                 case Qt::Key_Q: executeCommand("left"); break;  // Q = A = Move Left
 
+                case Qt::Key_P: executeCommand("attack"); break;
+                case Qt::Key_H: executeCommand("take"); break;
                 default: break; // Ignore other keys
             }
         }
@@ -111,9 +114,10 @@ void InputController::registerCommands()
     commands["right"] = std::make_shared<MoveRightCommand>();
     commands["down"] = std::make_shared<MoveDownCommand>();
     commands["left"] = std::make_shared<MoveLeftCommand>();
-    commands["attack"] = std::make_shared<AttackNearestEnemyCommand>();
+    commands["attack"] = std::make_shared<AutoPlayCommand>();
     commands["take"] = std::make_shared<TakeNearestHealthPackCommand>();
     commands["help"] = std::make_shared<HelpCommand>();
+    commands["autoplay"] = std::make_shared<HelpCommand>();
 }
 
 void InputController::executeCommand(const QString &input) const
