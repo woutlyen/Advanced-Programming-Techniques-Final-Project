@@ -2,7 +2,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++17
+CONFIG += c++20
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -23,6 +23,7 @@ SOURCES += \
     Controller/levelcontroller.cpp \
     Controller/playercontroller.cpp \
     Model/enemywrapper.cpp \
+    Model/node.cpp \
     Model/penemywrapper.cpp \
     Model/worldrevised.cpp \
     Model/xenemy.cpp \
@@ -63,6 +64,7 @@ HEADERS += \
     Controller/playercontroller.h \
     Level.h \
     Model/enemywrapper.h \
+    Model/node.h \
     Model/penemywrapper.h \
     Model/worldrevised.h \
     Model/xenemy.h \
