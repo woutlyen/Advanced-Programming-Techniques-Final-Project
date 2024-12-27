@@ -92,12 +92,6 @@
         <file>images/player_sprites/player_walk_right/1.png</file>
         <file>levels.xml</file>
         <file>levels_test.xml</file>
-        <file>images/xenemy_sprites/xenemy_attack/1.png</file>
-        <file>images/xenemy_sprites/xenemy_attack/2.png</file>
-        <file>images/xenemy_sprites/xenemy_attack/3.png</file>
-        <file>images/xenemy_sprites/xenemy_attack/4.png</file>
-        <file>images/xenemy_sprites/xenemy_attack/5.png</file>
-        <file>images/xenemy_sprites/xenemy_attack/6.png</file>
         <file>images/xenemy_sprites/xenemy_die/1.png</file>
         <file>images/xenemy_sprites/xenemy_die/2.png</file>
         <file>images/xenemy_sprites/xenemy_die/3.png</file>
@@ -142,5 +136,36 @@
         <file>images/enemy_sprites/enemy_idle/3.png</file>
         <file>images/enemy_sprites/enemy_idle/4.png</file>
         <file>images/enemy_sprites/enemy_idle/5.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/5.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/6.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/7.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/8.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/9.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/10.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/11.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/12.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/13.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/14.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/15.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/16.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/17.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/18.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/19.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/20.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/21.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/22.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/23.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/24.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/25.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/26.png</file>
+        <file>images/xenemy_sprites/xenemy_transform/27.png</file>
+        <file>images/xenemy_sprites/xenemy_idle/1.png</file>
+        <file>images/xenemy_sprites/xenemy_idle/2.png</file>
+        <file>images/xenemy_sprites/xenemy_idle/3.png</file>
+        <file>images/xenemy_sprites/xenemy_idle/4.png</file>
+        <file>images/xenemy_sprites/xenemy_idle/5.png</file>
+        <file>images/xenemy_sprites/xenemy_idle/6.png</file>
+        <file>images/xenemy_sprites/xenemy_attack/24.png</file>
+        <file>images/xenemy_sprites/xenemy_attack/25.png</file>
     </qresource>
 </RCC>
