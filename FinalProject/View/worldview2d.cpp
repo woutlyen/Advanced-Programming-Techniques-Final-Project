@@ -67,6 +67,5 @@ QGraphicsEllipseItem* WorldView2D::addPoisonCircle(int x, int y, int radius,QGra
 void WorldView2D::removePoisonCircle(QGraphicsEllipseItem *poisonCircle, QGraphicsScene *scene)
 {
     scene->removeItem(poisonCircle);
-    qDebug() << "removed";
     delete poisonCircle;
 }

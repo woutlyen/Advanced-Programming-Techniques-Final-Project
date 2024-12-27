@@ -5,16 +5,21 @@
 MoveRightCommand::MoveRightCommand() {}
 
 void MoveRightCommand::execute() {
-    EnemyController enemyController;
-    PlayerController playerController;
 
     playerController.updatePlayerDirection(Player::Right);
+
     if (!enemyController.checkForEnemy(EnemyController::Position::Right)) {
         playerController.moveRight();
         playerController.checkForHealthPack();
-        playerController.checkForPoison();
         if (playerController.checkForPrevLevel() || playerController.checkForNextLevel()){
             playerController.moveRight();
         }
     }
+    else{
+        playerController.startFight();
+    }
+
+    playerController.checkForPoison();
+
+
 }

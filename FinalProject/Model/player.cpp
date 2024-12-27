@@ -55,7 +55,7 @@ void Player::poisonDamage()
 
     if (poisonDurationRemaining > 0)
     {
-        takeDamage(5);
+        takeDamage(1);
         --poisonDurationRemaining;
 
         if (poisonDurationRemaining == 0)

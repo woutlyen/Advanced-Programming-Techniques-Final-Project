@@ -8,7 +8,6 @@
 
 class PlayerController : public GameObjectController
 {
-
 public:
     void moveUp() const;
     void moveDown() const;
@@ -18,7 +17,11 @@ public:
     bool checkForPrevLevel() const;
     bool checkForNextLevel() const;
     void updatePlayerDirection(Player::Direction dir);
-    void checkForPoison();
+    void startFight();
+
+public slots:
+    bool checkForPoison();
+
 
 private:
     QTimer* poisonTimer = new QTimer(this);

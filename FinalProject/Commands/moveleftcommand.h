@@ -2,6 +2,8 @@
 #define MOVELEFTCOMMAND_H
 
 #include "command.h"
+#include "qobject.h"
+#include "qtmetamacros.h"
 
 class MoveLeftCommand : public Command
 {

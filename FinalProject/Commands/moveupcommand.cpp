@@ -1,20 +1,26 @@
 #include "moveupcommand.h"
 #include "Controller/enemycontroller.h"
 #include "Controller/playercontroller.h"
+#include <QTimer>
 
 MoveUpCommand::MoveUpCommand() {}
 
 void MoveUpCommand::execute() {
-    EnemyController enemyController;
-    PlayerController playerController;
 
     playerController.updatePlayerDirection(Player::Back);
+    playerController.checkForPoison();
+
     if (!enemyController.checkForEnemy(EnemyController::Position::Up)){
         playerController.moveUp();
         playerController.checkForHealthPack();
-        playerController.checkForPoison();
         if (playerController.checkForPrevLevel() || playerController.checkForNextLevel()){
             playerController.moveUp();
         }
     }
+    else{
+        playerController.startFight();
+    }
+
+    playerController.checkForPoison();
+
 }

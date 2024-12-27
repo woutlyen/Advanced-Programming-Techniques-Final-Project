@@ -78,7 +78,7 @@ void PlayerController::updatePlayerDirection(Player::Direction dir){
     getCurrentLevel().protagonist->setDirection(dir);
 }
 
-void PlayerController::checkForPoison()
+bool PlayerController::checkForPoison()
 {
     auto& protagonist = getCurrentLevel().protagonist;
     int X = protagonist->getXPos();
@@ -88,9 +88,16 @@ void PlayerController::checkForPoison()
         if(poisonedTile->getXPos() == X && poisonedTile->getYPos() == Y && poisonedTile->getValue() != 0){
             protagonist->setPoisoned(true);
             protagonist->takeDamage(poisonedTile->getValue());
-            break;
+            QTimer::singleShot(1000, this, &PlayerController::checkForPoison);
+            return true;
         }
     }
+    return false;
+}
+
+void PlayerController::startFight()
+{
+    getCurrentLevel().protagonist->attack();
 }
 
 bool PlayerController::checkForPrevLevel() const

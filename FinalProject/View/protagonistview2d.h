@@ -51,6 +51,7 @@ private slots:
     void checkHealthPackCollision();
     void setPoisonEffect();
     void removeAllEffects();
+    void onPlayerAttack();
 
 
 };

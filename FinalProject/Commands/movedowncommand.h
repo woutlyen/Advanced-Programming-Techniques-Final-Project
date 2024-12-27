@@ -2,6 +2,7 @@
 #define MOVEDOWNCOMMAND_H
 
 #include "command.h"
+#include "qobject.h"
 
 class MoveDownCommand : public Command
 {

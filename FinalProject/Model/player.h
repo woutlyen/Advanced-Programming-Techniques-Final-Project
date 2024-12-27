@@ -15,6 +15,7 @@ public:
     void heal(float hp);
     void useEnergy(float energy);
     void addEnergy(float energy);
+    void attack(){emit playerAttack();};
 
     void setXPos(int newPos) noexcept {wrappedPlayer->setXPos(newPos);}
     void setYPos(int newPos) noexcept {wrappedPlayer->setYPos(newPos);}
@@ -30,6 +31,7 @@ public:
     void setValue(float newValue) noexcept {wrappedPlayer->setValue(newValue);};
     [[nodiscard]] int getXPos() const noexcept {return wrappedPlayer->getXPos();};
     [[nodiscard]] int getYPos() const noexcept {return wrappedPlayer->getYPos();};
+
 private:
     Direction currentDirection;
     bool isPoisoned {false};
@@ -48,6 +50,8 @@ signals:
     void directionChanged(Direction dir);
     void poisoned();
     void poisonedOver();
+
+    void playerAttack();
 
 private slots:
     void poisonDamage();

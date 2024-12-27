@@ -45,4 +45,5 @@ void PEnemyView2D::onDefeated()
 void PEnemyView2D::onPoisonLevelValueUpdated(int value)
 {
     poisonCircle->setBrush(QColor(83, 0, 128, (value*255)/(100)));
+    setState(Fighting);
 }

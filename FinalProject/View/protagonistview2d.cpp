@@ -42,6 +42,7 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Player> &protagonist,
     connect(protagonist.get(), &Player::directionChanged, this, &ProtagonistView2D::onDirectionChanged);
     connect(protagonist.get(), &Player::poisoned, this, &ProtagonistView2D::setPoisonEffect);
     connect(protagonist.get(), &Player::poisonedOver, this, &ProtagonistView2D::removeAllEffects);
+    connect(protagonist.get(), &Player::playerAttack, this, &ProtagonistView2D::onPlayerAttack);
 
 
 
@@ -140,11 +141,6 @@ void ProtagonistView2D::onHealthChanged(int health)
         glowAnimation->setKeyValueAt(0.5, 1.0); // Peak glow in the middle
         glowAnimation->setEndValue(0.0);        // Fade back to normal
         glowAnimation->start(QPropertyAnimation::DeleteWhenStopped);
-    }
-
-    else{
-        // Switch to fighting state
-        setState(Fighting);
     }
 }
 
@@ -261,6 +257,11 @@ void ProtagonistView2D::setHealingGlow(){
 void ProtagonistView2D::removeAllEffects()
 {
     setGraphicsEffect(nullptr);
+}
+
+void ProtagonistView2D::onPlayerAttack()
+{
+    setState(Fighting);
 }
 
 void ProtagonistView2D::setPoisonEffect()
