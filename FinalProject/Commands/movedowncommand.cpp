@@ -12,6 +12,7 @@ void MoveDownCommand::execute() {
     if (!enemyController.checkForEnemy(EnemyController::Position::Down)) {
         playerController.moveDown();
         playerController.checkForHealthPack();
+        playerController.checkForPoison();
         if (playerController.checkForPrevLevel() || playerController.checkForNextLevel()){
             playerController.moveDown();
         }

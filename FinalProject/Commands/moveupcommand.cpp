@@ -12,6 +12,7 @@ void MoveUpCommand::execute() {
     if (!enemyController.checkForEnemy(EnemyController::Position::Up)){
         playerController.moveUp();
         playerController.checkForHealthPack();
+        playerController.checkForPoison();
         if (playerController.checkForPrevLevel() || playerController.checkForNextLevel()){
             playerController.moveUp();
         }

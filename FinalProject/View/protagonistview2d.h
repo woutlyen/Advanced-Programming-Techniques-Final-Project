@@ -42,7 +42,6 @@ private:
     std::vector<QPixmap> dyingPixmaps;
     void setAnimation() override;
     void setHealingGlow();
-    void removeAllEffects();
 
 private slots:
     void onPositionChanged(int x, int y); // Updates the protagonist's position
@@ -51,6 +50,8 @@ private slots:
     void onDirectionChanged(Player::Direction dir);
     void checkHealthPackCollision();
     void setPoisonEffect();
+    void removeAllEffects();
+
 
 };
 

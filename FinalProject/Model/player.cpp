@@ -1,13 +1,26 @@
 #include "player.h"
+#include "qdebug.h"
+#include "qtimer.h"
 
-Player::Player(): currentDirection{Front} {
-
-}
+Player::Player():currentDirection{Front} {}
 
 void Player::setDirection(Direction dir)
 {
     currentDirection = dir;
     emit directionChanged(currentDirection);
+}
+
+void Player::setPoisoned(bool value)
+{
+    isPoisoned = value;
+    if(isPoisoned){
+        emit poisoned();
+        poisonDurationRemaining = 3;
+        if (!poisonTimer->isActive())
+        {
+            poisonTimer->start(1000);
+        }
+    }
 }
 
 void Player::takeDamage(float damage)
@@ -28,4 +41,28 @@ void Player::useEnergy(float energy)
 void Player::addEnergy(float energy)
 {
     setEnergy(std::min(100.0f, getEnergy() + energy));
+}
+
+void Player::initialize()
+{
+    poisonTimer = new QTimer(this);
+    connect(poisonTimer, &QTimer::timeout, this, &Player::poisonDamage);
+}
+
+void Player::poisonDamage()
+{
+
+    if (poisonDurationRemaining > 0)
+    {
+        takeDamage(5);
+        --poisonDurationRemaining;
+
+        if (poisonDurationRemaining == 0)
+        {
+            poisonTimer->stop();
+            setPoisoned(false);
+            emit poisonedOver();
+        }
+    }
+
 }

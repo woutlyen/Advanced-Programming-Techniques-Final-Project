@@ -41,6 +41,8 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Player> &protagonist,
     connect(protagonist.get(), &Player::energyChanged, this, &ProtagonistView2D::onEnergyChanged);
     connect(protagonist.get(), &Player::directionChanged, this, &ProtagonistView2D::onDirectionChanged);
     connect(protagonist.get(), &Player::poisoned, this, &ProtagonistView2D::setPoisonEffect);
+    connect(protagonist.get(), &Player::poisonedOver, this, &ProtagonistView2D::removeAllEffects);
+
 
 
     // Configure the movement animation

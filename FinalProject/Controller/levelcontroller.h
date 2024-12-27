@@ -29,7 +29,6 @@ public:
     void addPoisonedTile(int x, int y);
     QGraphicsEllipseItem* generatePoisonedCircle(int x, int y, int value);
     void removePoisonedCircle(QGraphicsEllipseItem* poisonCircle);
-
     void setPEnemyConnection(PEnemyWrapper* penemy);
 private:
     // Private constructor

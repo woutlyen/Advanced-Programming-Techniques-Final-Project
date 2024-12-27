@@ -78,20 +78,16 @@ void PlayerController::updatePlayerDirection(Player::Direction dir){
     getCurrentLevel().protagonist->setDirection(dir);
 }
 
-void PlayerController::poisoned(float poisonLevel)
+void PlayerController::checkForPoison()
 {
-    getCurrentLevel().protagonist->setPoisoned();
-    getCurrentLevel().protagonist->takeDamage(poisonLevel);
-}
+    auto& protagonist = getCurrentLevel().protagonist;
+    int X = protagonist->getXPos();
+    int Y = protagonist->getYPos();
 
-void PlayerController::checkForPoison(std::vector<std::unique_ptr<Tile> > &poisonedTiles)
-{
-    int X = getCurrentLevel().protagonist->getXPos();
-    int Y = getCurrentLevel().protagonist->getYPos();
-
-    for(auto& poisonedTile : poisonedTiles){
+    for(auto& poisonedTile : getCurrentLevel().poisonedTiles){
         if(poisonedTile->getXPos() == X && poisonedTile->getYPos() == Y && poisonedTile->getValue() != 0){
-            poisoned(poisonedTile->getValue());
+            protagonist->setPoisoned(true);
+            protagonist->takeDamage(poisonedTile->getValue());
             break;
         }
     }

@@ -3,6 +3,7 @@
 
 #include "Controller/gameobjectcontroller.h"
 #include "Model/player.h"
+#include "qtimer.h"
 #include <world.h>
 
 class PlayerController : public GameObjectController
@@ -17,11 +18,11 @@ public:
     bool checkForPrevLevel() const;
     bool checkForNextLevel() const;
     void updatePlayerDirection(Player::Direction dir);
-    void poisoned(float poisonLevel);
-    void checkForPoison(std::vector<std::unique_ptr<Tile>>& poisonedTiles);
+    void checkForPoison();
 
 private:
-
+    QTimer* poisonTimer = new QTimer(this);
+    int poisonDurationRemaining = 3;
 };
 
 #endif // PLAYERCONTROLLER_H
