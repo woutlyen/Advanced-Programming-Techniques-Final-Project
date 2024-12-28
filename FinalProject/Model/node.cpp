@@ -1,4 +1,4 @@
 #include "node.h"
 
-Node::Node(int x, int y, int value): Tile(x, y, value), prev{nullptr} {}
+Node::Node(int x, int y, float value): Tile(x, y, value), prev{nullptr} {}
 

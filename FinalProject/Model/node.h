@@ -6,7 +6,7 @@
 class Node : public Tile
 {
 public:
-    Node(int x, int y, int value);
+    Node(int x, int y, float value);
     float f;
     float g;
     float h;
