@@ -147,7 +147,7 @@ void ProtagonistView2D::onHealthChanged(int health)
 void ProtagonistView2D::onEnergyChanged(int energy)
 {
     // Switch to dying state if energy reaches 0
-    if (energy <= 0 && currentState != Dying) {
+    if (energy <= 1 && currentState != Dying) {
         setState(Dying);
     }
 }

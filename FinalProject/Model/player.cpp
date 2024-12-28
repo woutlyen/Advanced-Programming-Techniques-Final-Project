@@ -50,6 +50,16 @@ void Player::addEnergy(float energy)
     setEnergy(std::min(100.0f, getEnergy() + energy));
 }
 
+bool Player::getAlive() const
+{
+    return alive;
+}
+
+void Player::setAlive(bool newAlive)
+{
+    alive = newAlive;
+}
+
 void Player::poisonDamage()
 {
 

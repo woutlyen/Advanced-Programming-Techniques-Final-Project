@@ -24,7 +24,7 @@ public:
     void setHealth(float value) noexcept {wrappedPlayer->setHealth(value);}
 
     [[nodiscard]] float getEnergy() const noexcept {return wrappedPlayer->getEnergy();}
-    void setEnergy(float value) noexcept {wrappedPlayer->setEnergy(value);}
+    void setEnergy(float value) noexcept {wrappedPlayer->setEnergy(value); if(value < 1){setAlive(false);}}
     [[nodiscard]] std::string serialize() noexcept{return wrappedPlayer->serialize();};
 
     [[nodiscard]] float getValue() const noexcept {return wrappedPlayer->getValue();} ;
@@ -32,12 +32,17 @@ public:
     [[nodiscard]] int getXPos() const noexcept {return wrappedPlayer->getXPos();};
     [[nodiscard]] int getYPos() const noexcept {return wrappedPlayer->getYPos();};
 
+    bool getAlive() const;
+    void setAlive(bool newAlive);
+
 private:
     Direction currentDirection;
     bool isPoisoned {false};
     QTimer* poisonTimer;
     int poisonDurationRemaining;
     std::unique_ptr<Protagonist> wrappedPlayer;
+
+    bool alive;
 
 
 
