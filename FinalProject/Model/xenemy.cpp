@@ -15,7 +15,7 @@ void XEnemy::attack(std::unique_ptr<Player> &player)
         setTransformed(true);
     }
     else{
-        if(hitCount < 3){
+        if(hitCount < 2){
             hitCount++;
             player->takeDamage(getValue());
         }
