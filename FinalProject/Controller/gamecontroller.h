@@ -3,6 +3,7 @@
 
 #include "Controller/enemycontroller.h"
 #include "Controller/inputcontroller.h"
+#include "Controller/pathfindercontroller.h"
 #include "Controller/playercontroller.h"
 #include "mainwindow.h"
 
@@ -24,10 +25,25 @@ class GameController : public QObject {
     PlayerController playerController;
     EnemyController enemyController;
     InputController inputController;
+    PathfinderController pathfinderController;
+
+    bool isAutoplay{false};
+    bool onPath{false};
+    std::vector<int> path;
+    int pathIndex{0};
+    void sendMoveCommand(int move);
+    bool isTileWalkable(int x, int y);
+    bool isAutoplayRunning{false};
+    bool movingToEnemy{false};
+
+    QTimer* autoplayTimer = new QTimer(this);
 
   private slots:
     void onZoomInEvent();
     void onZoomOutEvent();
+    void onAutoPlay();
+    void autoplay();
+
 };
 
 

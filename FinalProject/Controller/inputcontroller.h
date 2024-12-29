@@ -11,10 +11,12 @@ class InputController : public QObject
     Q_OBJECT
 public:
     InputController(QObject* parent = nullptr);
+    void executeCommand(const QString& input) const;
 
 signals:
     void zoomIn();
     void zoomOut();
+    void autoplay();
 
 protected:
     bool eventFilter(QObject* obj, QEvent* event) override;
@@ -24,7 +26,6 @@ private:
     QMap<QString, std::shared_ptr<Command>> commands;
 
     void registerCommands();
-    void executeCommand(const QString& input) const;
     void parseGotoCommand(const QString& input) const;
     void processTextCommand(const int key) const;
 };

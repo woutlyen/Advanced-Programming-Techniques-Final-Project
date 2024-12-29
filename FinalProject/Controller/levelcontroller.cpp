@@ -211,3 +211,8 @@ void LevelController::setPEnemyConnection(PEnemyWrapper* penemy)
     connect(penemy, &PEnemyWrapper::poisonLevelUpdated, this, &LevelController::updatePoisonedTileValue);
     connect(penemy, &PEnemyWrapper::dead, this, &LevelController::clearPoisonedTiles);
 }
+
+float LevelController::getTileValue(int x, int y)
+{
+    return getCurrentLevel().tiles.at((y * getCurrentLevel().width) + x)->getValue();
+}

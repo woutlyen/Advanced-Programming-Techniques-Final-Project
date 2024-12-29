@@ -10,7 +10,6 @@ CONFIG += c++20
 
 SOURCES += \
     Commands/attacknearestenemycommand.cpp \
-    Commands/autoplaycommand.cpp \
     Commands/gotocommand.cpp \
     Commands/helpcommand.cpp \
     Commands/movedowncommand.cpp \
@@ -51,7 +50,6 @@ SOURCES += \
 
 HEADERS += \
     Commands/attacknearestenemycommand.h \
-    Commands/autoplaycommand.h \
     Commands/command.h \
     Commands/gotocommand.h \
     Commands/helpcommand.h \
@@ -106,3 +104,7 @@ DEPENDPATH += $$PWD/../worldlib_source
 
 RESOURCES += \
     images.qrc
+
+QMAKE_CXXFLAGS += -fconcepts-diagnostics-depth=200
+
+DISTFILES +=

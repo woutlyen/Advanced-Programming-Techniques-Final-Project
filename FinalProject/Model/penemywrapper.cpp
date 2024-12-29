@@ -16,6 +16,9 @@ void PEnemyWrapper::attack(std::unique_ptr<Player> &player)
         emit startPoison(getPoisonLevel());
         poison();
     }
+    else if(getPoisonStarted()){
+        setValue(getValue() - 10.0f);
+    }
 }
 
 bool PEnemyWrapper::getPoisonStarted() const

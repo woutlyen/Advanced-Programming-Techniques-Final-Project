@@ -4,8 +4,8 @@
     <number>1</number>
     <xpos>0</xpos>
     <ypos>22</ypos>
-    <enemies>20</enemies>
-    <healthpacks>5</healthpacks>
+    <enemies>4</enemies>
+    <healthpacks>10</healthpacks>
     <pratio>0.25</pratio>
     <xratio>0.25</xratio>
     <visual_map>:/world_images/map.png</visual_map>

@@ -1,6 +1,5 @@
 #include "inputcontroller.h"
 #include "Commands/attacknearestenemycommand.h"
-#include "Commands/autoplaycommand.h"
 #include "Commands/gotocommand.h"
 #include "Commands/helpcommand.h"
 #include "Commands/movedowncommand.h"
@@ -28,6 +27,8 @@ InputController::InputController(QObject* parent) : QObject(parent)
     rateLimitTimers[Qt::Key_Left] = rateLimitTimers[Qt::Key_W];
     rateLimitTimers[Qt::Key_Down] = rateLimitTimers[Qt::Key_W];
     rateLimitTimers[Qt::Key_Right] = rateLimitTimers[Qt::Key_W];
+
+    rateLimitTimers[Qt::Key_P] = rateLimitTimers[Qt::Key_W];
 
     // Set interval for rate-limiting
     for (auto& timer : rateLimitTimers) {
@@ -67,22 +68,22 @@ bool InputController::eventFilter(QObject *obj, QEvent *event)
 
             // Emit the appropriate signal
             switch (key) {
-                case Qt::Key_Up:   executeCommand("up"); break;
-                case Qt::Key_Left: executeCommand("left"); break;
-                case Qt::Key_Down: executeCommand("down"); break;
-                case Qt::Key_Right:executeCommand("right"); break;
+            case Qt::Key_Up:   executeCommand("up"); break;
+            case Qt::Key_Left: executeCommand("left"); break;
+            case Qt::Key_Down: executeCommand("down"); break;
+            case Qt::Key_Right:executeCommand("right"); break;
 
-                case Qt::Key_W: executeCommand("up"); break;    // W = Move Up
-                case Qt::Key_A: executeCommand("left"); break;  // A = Move Left
-                case Qt::Key_S: executeCommand("down"); break;  // S = Move Down
-                case Qt::Key_D: executeCommand("right"); break; // D = Move Right
+            case Qt::Key_W: executeCommand("up"); break;    // W = Move Up
+            case Qt::Key_A: executeCommand("left"); break;  // A = Move Left
+            case Qt::Key_S: executeCommand("down"); break;  // S = Move Down
+            case Qt::Key_D: executeCommand("right"); break; // D = Move Right
 
-                case Qt::Key_Z: executeCommand("up"); break;    // Z = W = Move Up
-                case Qt::Key_Q: executeCommand("left"); break;  // Q = A = Move Left
+            case Qt::Key_Z: executeCommand("up"); break;    // Z = W = Move Up
+            case Qt::Key_Q: executeCommand("left"); break;  // Q = A = Move Left
 
-                case Qt::Key_P: executeCommand("attack"); break;
-                case Qt::Key_H: executeCommand("take"); break;
-                default: break; // Ignore other keys
+            case Qt::Key_P: emit autoplay(); break;
+
+            default: break; // Ignore other keys
             }
         }
 
@@ -114,7 +115,6 @@ void InputController::registerCommands()
     commands["right"] = std::make_shared<MoveRightCommand>();
     commands["down"] = std::make_shared<MoveDownCommand>();
     commands["left"] = std::make_shared<MoveLeftCommand>();
-    commands["attack"] = std::make_shared<AutoPlayCommand>();
     commands["take"] = std::make_shared<TakeNearestHealthPackCommand>();
     commands["help"] = std::make_shared<HelpCommand>();
     commands["autoplay"] = std::make_shared<HelpCommand>();
@@ -169,7 +169,7 @@ void InputController::processTextCommand(const int key) const
         mainWindow->ui->lineEdit->clear();
         break;
 
-    // Check for matches and autocomplete if a match is found
+        // Check for matches and autocomplete if a match is found
     case Qt::Key_Tab:
 
         if(mainWindow->ui->lineEdit->text().isEmpty()){

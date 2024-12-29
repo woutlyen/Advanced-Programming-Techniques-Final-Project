@@ -4,6 +4,7 @@
 #include <vector>
 #include "pathfinder_class.h"
 #include "world.h"
+#include "Model/node.h"
 
 class PathfinderController
 {
@@ -15,13 +16,17 @@ public:
     helper_func<Tile> manhattanDistanceFunction = [](const Tile& next, const Tile& dest){
         return std::abs(next.getXPos() - dest.getXPos()) + std::abs(next.getYPos() - dest.getYPos());
     };
-
     float getHeuristicWeight() const;
     void setHeuristicWeight(float newHeuristicWeight);
-    void initializeNodes();
+    Comparator<Node> comparator = [](const Node& node, const Node& otherNode) {return node.f > otherNode.f;};
+
+
+    std::vector<Node> initializeNodes();
+    std::vector<int> calculatePath(const Tile& start, const Tile& end);
 
 private:
-    float heuristicWeight = 0.5f;
+    float heuristicWeight = 0.0f;
+
 
 };
 

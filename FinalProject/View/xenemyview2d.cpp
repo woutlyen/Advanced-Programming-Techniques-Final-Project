@@ -49,7 +49,13 @@ void XEnemyView2D::setAnimation()
 
 void XEnemyView2D::onDefeated()
 {
-    if(currentState != Dying){
+    if(!transformed){
+        transformed = true;
+        currentState = Dying;
+        currentFrameIndex = 0;
+        setAnimation();
+    }
+    else{
         setState(Dying);
     }
 }

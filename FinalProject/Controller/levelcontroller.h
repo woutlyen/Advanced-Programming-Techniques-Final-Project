@@ -30,6 +30,7 @@ public:
     QGraphicsEllipseItem* generatePoisonedCircle(int x, int y, int value);
     void removePoisonedCircle(QGraphicsEllipseItem* poisonCircle);
     void setPEnemyConnection(PEnemyWrapper* penemy);
+    float getTileValue(int x, int y);
 private:
     // Private constructor
     LevelController() = default;
