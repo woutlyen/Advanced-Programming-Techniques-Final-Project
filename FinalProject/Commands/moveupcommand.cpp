@@ -8,7 +8,6 @@ MoveUpCommand::MoveUpCommand() {}
 void MoveUpCommand::execute() {
 
     playerController.updatePlayerDirection(Player::Back);
-    playerController.checkForPoison();
 
     if (!enemyController.checkForEnemy(EnemyController::Position::Up)){
         playerController.moveUp();
@@ -19,8 +18,8 @@ void MoveUpCommand::execute() {
     }
     else{
         playerController.startFight();
+        playerController.checkForPoison();
     }
 
-    playerController.checkForPoison();
 
 }

@@ -84,14 +84,19 @@ bool PlayerController::checkForPoison()
     int X = protagonist->getXPos();
     int Y = protagonist->getYPos();
 
+    // As long as thare are poisonTiles, keep checking for poison every second
+    if(!getCurrentLevel().poisonedTiles.empty()){
+        QTimer::singleShot(1000, this, &PlayerController::checkForPoison);
+    }
+
     for(auto& poisonedTile : getCurrentLevel().poisonedTiles){
         if(poisonedTile->getXPos() == X && poisonedTile->getYPos() == Y && poisonedTile->getValue() != 0){
             protagonist->setPoisoned(true);
             protagonist->takeDamage(poisonedTile->getValue());
-            QTimer::singleShot(1000, this, &PlayerController::checkForPoison);
             return true;
         }
     }
+
     return false;
 }
 

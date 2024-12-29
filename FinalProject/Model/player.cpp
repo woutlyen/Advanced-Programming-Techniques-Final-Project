@@ -6,9 +6,6 @@ Player::Player(std::unique_ptr<Protagonist> protagonist): wrappedPlayer(std::mov
     connect(wrappedPlayer.get(), &Protagonist::energyChanged, this, &Player::energyChangedWrapped);
     connect(wrappedPlayer.get(), &Protagonist::healthChanged, this, &Player::healthChangedWrapped);
     connect(wrappedPlayer.get(), &Protagonist::posChanged, this, &Player::posChangedWrapped);
-
-    poisonTimer = new QTimer(this);
-    connect(poisonTimer, &QTimer::timeout, this, &Player::poisonDamage);
 }
 
 void Player::setDirection(Direction dir)
@@ -19,14 +16,8 @@ void Player::setDirection(Direction dir)
 
 void Player::setPoisoned(bool value)
 {
-    isPoisoned = value;
-    if(isPoisoned){
+    if(value){
         emit poisoned();
-        poisonDurationRemaining = 3;
-        if (!poisonTimer->isActive())
-        {
-            poisonTimer->start(1000);
-        }
     }
 }
 
@@ -60,20 +51,3 @@ void Player::setAlive(bool newAlive)
     alive = newAlive;
 }
 
-void Player::poisonDamage()
-{
-
-    if (poisonDurationRemaining > 0)
-    {
-        takeDamage(1);
-        --poisonDurationRemaining;
-
-        if (poisonDurationRemaining == 0)
-        {
-            poisonTimer->stop();
-            setPoisoned(false);
-            emit poisonedOver();
-        }
-    }
-
-}

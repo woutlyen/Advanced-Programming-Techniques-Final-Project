@@ -41,7 +41,6 @@ ProtagonistView2D::ProtagonistView2D(const std::unique_ptr<Player> &protagonist,
     connect(protagonist.get(), &Player::energyChanged, this, &ProtagonistView2D::onEnergyChanged);
     connect(protagonist.get(), &Player::directionChanged, this, &ProtagonistView2D::onDirectionChanged);
     connect(protagonist.get(), &Player::poisoned, this, &ProtagonistView2D::setPoisonEffect);
-    connect(protagonist.get(), &Player::poisonedOver, this, &ProtagonistView2D::removeAllEffects);
     connect(protagonist.get(), &Player::playerAttack, this, &ProtagonistView2D::onPlayerAttack);
 
 
@@ -254,11 +253,6 @@ void ProtagonistView2D::setHealingGlow(){
     glowAnimation->start(QPropertyAnimation::DeleteWhenStopped);
 }
 
-void ProtagonistView2D::removeAllEffects()
-{
-    setGraphicsEffect(nullptr);
-}
-
 void ProtagonistView2D::onPlayerAttack()
 {
     setState(Fighting);
@@ -274,9 +268,9 @@ void ProtagonistView2D::setPoisonEffect()
     QPropertyAnimation* poisonAnimation = new QPropertyAnimation(poisonEffect, "strength", this);
     poisonAnimation->setDuration(500);
     poisonAnimation->setStartValue(0.0);
-    poisonAnimation->setEndValue(1.0);
-    poisonAnimation->setEasingCurve(QEasingCurve::InOutQuad);
-    poisonAnimation->setLoopCount(5);
+    poisonAnimation->setKeyValueAt(0.5, 1.0); // Peak glow in the middle
+    poisonAnimation->setEndValue(0.0);        // Fade back to normal
+    poisonAnimation->setLoopCount(2);
 
     poisonAnimation->start(QPropertyAnimation::DeleteWhenStopped);
 }

@@ -17,9 +17,9 @@ void MoveLeftCommand::execute() {
     }
     else{
         playerController.startFight();
+        playerController.checkForPoison();
     }
 
-    playerController.checkForPoison();
 
 
 }
