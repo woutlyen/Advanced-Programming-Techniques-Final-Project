@@ -1,4 +1,6 @@
 #include "protagonistviewtext.h"
+#include "healthpackviewtext.h"
+#include "qgraphicseffect.h"
 
 #include <QGraphicsView>
 #include <QPropertyAnimation>
@@ -17,13 +19,14 @@ ProtagonistViewText::ProtagonistViewText(const std::unique_ptr<Player> &protagon
     this->font = font;
     this->pen = QPen(QColor(255, 255, 0));
 
-    QPropertyAnimation colorAnimation = new QPropertyAnimation(this, "pen");
-
     // Set the initial pixmap
-    setText(QString("P"));
+    setText(QString("{P}"));
     setFont(font);
     setPen(pen);
-    setPos(tileWidth * protagonist->getXPos() + tileWidth / 2, tileHeight * protagonist->getYPos() + tileHeight / 2);
+    setPos(tileWidth * protagonist->getXPos() + tileWidth / 4, tileHeight * protagonist->getYPos() + tileHeight / 2);
+    /*QTransform t;*/
+    /*t.scale(-1, 1);*/
+    /*setTransform(t);*/
 
     // Connect signalsc & slots
     connect(protagonist.get(), &Protagonist::posChanged, this, &ProtagonistViewText::onPositionChanged);
@@ -42,9 +45,11 @@ ProtagonistViewText::ProtagonistViewText(const std::unique_ptr<Player> &protagon
         if (currentState == Walking) {
             animationTimer->setInterval(100);
             setState(Idle); // Switch to idle when movement finishes
-            setText("P");
+            setText("{P}");
         }
     });
+
+    connect(animationTimer, &QTimer::timeout, this, &ProtagonistViewText::checkHealthPackCollision);
 }
 
 void ProtagonistViewText::onPositionChanged(int x, int y) {
@@ -56,21 +61,21 @@ void ProtagonistViewText::onPositionChanged(int x, int y) {
     animationTimer->setInterval(60);
 
     // Set the animation start (current position) and end (target position)
-    movementAnimation->setStartValue(pos());                                                               // Current position
-    movementAnimation->setEndValue(QPoint(tileWidth * x + tileWidth / 2, tileHeight * y + tileHeight / 2)); // Target position
+    movementAnimation->setStartValue(pos());                                                                // Current position
+    movementAnimation->setEndValue(QPoint(tileWidth * x + tileWidth / 4, tileHeight * y + tileHeight / 2)); // Target position
 
     // Start the movement animation and timer
     movementAnimation->start();
 
     /// Smoothly center the view on the protagonist
     if (scene() && !scene()->views().isEmpty()) {
-        QGraphicsView* view = scene()->views().first(); // Get the first associated view
+        QGraphicsView *view = scene()->views().first(); // Get the first associated view
         if (view) {
             // Get the zoom scale factor of the view
             qreal zoomScale = view->transform().m11(); // Assuming uniform scaling
 
             // Target protagonist's position in the scene
-            QPointF targetPosInScene = QPointF(tileWidth * x + tileWidth/2, tileHeight * y + tileHeight/2); // Target position
+            QPointF targetPosInScene = QPointF(tileWidth * x + tileWidth / 4, tileHeight * y + tileHeight / 2); // Target position
 
             // Calculate the center of the viewport in scene coordinates
             QPointF viewCenter = view->mapToScene(view->viewport()->rect().center());
@@ -84,8 +89,8 @@ void ProtagonistViewText::onPositionChanged(int x, int y) {
             int verticalTarget = view->verticalScrollBar()->value() + dy;
 
             // Create animations for vertical and horizontal scroll bars
-            QPropertyAnimation* scrollAnimation = new QPropertyAnimation(view->verticalScrollBar(), "value", this);
-            QPropertyAnimation* horizontalScrollAnimation = new QPropertyAnimation(view->horizontalScrollBar(), "value", this);
+            QPropertyAnimation *scrollAnimation = new QPropertyAnimation(view->verticalScrollBar(), "value", this);
+            QPropertyAnimation *horizontalScrollAnimation = new QPropertyAnimation(view->horizontalScrollBar(), "value", this);
 
             // Set up vertical scroll animation
             scrollAnimation->setDuration(460); // Duration in milliseconds
@@ -107,8 +112,13 @@ void ProtagonistViewText::onPositionChanged(int x, int y) {
 }
 
 void ProtagonistViewText::onHealthChanged(int health) {
-    // Switch to fighting state
-    setState(Fighting);
+    if (health == 100) {
+        // Add healing animation
+        setText("+P+");
+    } else {
+        // Switch to fighting state
+        setState(Fighting);
+    }
 }
 
 void ProtagonistViewText::onEnergyChanged(int energy) {
@@ -129,7 +139,7 @@ void ProtagonistViewText::setState(AnimationState newState) {
     // Update the pixmap for the new state
     switch (currentState) {
     case Idle:
-        setText("P");
+        setText("{P}");
         break;
     case Walking:
         break;
@@ -139,60 +149,85 @@ void ProtagonistViewText::setState(AnimationState newState) {
         break;
     }
 }
-
 void ProtagonistViewText::updateAnimationFrame() {
     switch (currentState) {
-        case Idle:
-            this->font.setItalic(false);
-            setFont(this->font);
-            currentFrameIndex = (currentFrameIndex + 1) % 16;
-            if (currentFrameIndex < 8) {
-                this->pen.setColor((QColor(255-16*currentFrameIndex, 255-16*currentFrameIndex, 0)));
-                this->pen.setWidth(1 + (2- currentFrameIndex/4));
-                setPen(this->pen);
-                
-            } else {
-                this->pen.setColor((QColor(127+16*(currentFrameIndex -8),127+ 16*(currentFrameIndex -8), 0)));
-                this->pen.setWidth((currentFrameIndex-8)/4);
-                setPen(this->pen);
-            }
-            update();
-             
-            // Cycle through idle frames
-            break;
-        case Walking:
-            // Cycle through walking frames
-            this->font.setItalic(true);
-            setFont(this->font);
-            break;
-        case Fighting:
-            // Play fighting frames once
-            if (text().toLower() == "p") {
-                setText("P/");
-            }
-            else if (text() == "P/") {
-                setText("P_");
-            }
-            else if (text() == "P_") {
-                setText("P");
-                setState(Idle);
-            }
+    case Idle:
+        font.setItalic(false);
+        setFont(font);
+        setText("{P}");
+        currentFrameIndex = (currentFrameIndex + 1) % 16;
+        if (currentFrameIndex < 8) {
+            this->pen.setColor((QColor(255 - 16 * currentFrameIndex, 255 - 16 * currentFrameIndex, 0)));
+            this->pen.setWidth(1 + (2 - currentFrameIndex / 4));
+            setPen(this->pen);
 
-            currentFrameIndex = (currentFrameIndex + 1) % 16;
-            if (currentFrameIndex < 8) {
-                this->pen.setColor((QColor(255-32*currentFrameIndex,0, 0)));
-                this->pen.setWidth((2- currentFrameIndex/4));
-                setPen(this->pen);
-                
-            } else {
-                this->pen.setColor((QColor(32*(currentFrameIndex -8),0, 0)));
-                this->pen.setWidth((currentFrameIndex-8)/4);
-                setPen(this->pen);
-            }
-            update();
+        } else {
+            this->pen.setColor((QColor(127 + 16 * (currentFrameIndex - 8), 127 + 16 * (currentFrameIndex - 8), 0)));
+            this->pen.setWidth((currentFrameIndex - 8) / 4);
+            setPen(this->pen);
+        }
+        update();
+
+        // Cycle through idle frames
+        break;
+    case Walking:
+        // Cycle through walking frames
+        font.setItalic(true);
+        setFont(font);
+        // Keep the same animation as idle
+        currentFrameIndex = (currentFrameIndex + 1) % 16;
+        if (currentFrameIndex < 8) {
+            this->pen.setColor((QColor(255 - 16 * currentFrameIndex, 255 - 16 * currentFrameIndex, 0)));
+            this->pen.setWidth(1 + (2 - currentFrameIndex / 4));
+            setPen(this->pen);
+
+        } else {
+            this->pen.setColor((QColor(127 + 16 * (currentFrameIndex - 8), 127 + 16 * (currentFrameIndex - 8), 0)));
+            this->pen.setWidth((currentFrameIndex - 8) / 4);
+            setPen(this->pen);
+        }
+        update();
+        break;
+    case Fighting:
+        // Play fighting frames once
+        if (text() == "{P}") {
+            setText("-P/");
+        } else if (text() == "-P/") {
+            setText("~P_");
+        } else if (text() == "~P_") {
+            setText("{P}");
+            setState(Idle);
+        }
+
+        currentFrameIndex = (currentFrameIndex + 1) % 16;
+        if (currentFrameIndex < 8) {
+            this->pen.setColor((QColor(255 - 32 * currentFrameIndex, 0, 0)));
+            this->pen.setWidth((2 - currentFrameIndex / 4));
+            setPen(this->pen);
+
+        } else {
+            this->pen.setColor((QColor(32 * (currentFrameIndex - 8), 0, 0)));
+            this->pen.setWidth((currentFrameIndex - 8) / 4);
+            setPen(this->pen);
+        }
+        update();
+        break;
+    case Dying:
+        // Play dying frames once
+        break;
+    }
+}
+
+void ProtagonistViewText::checkHealthPackCollision() {
+    // Get a list of all items the protagonist is colliding with
+    QList<QGraphicsItem *> collidingItems = scene()->collidingItems(this);
+    for (QGraphicsItem *item : collidingItems) {
+        // Check if the item is a HealthPackView2D
+        HealthPackViewText *healthPack = dynamic_cast<HealthPackViewText *>(item);
+        if (healthPack) {
+            // Trigger the health pack animation
+            healthPack->playPickupAnimation();
             break;
-        case Dying:
-            // Play dying frames once
-            break;
+        }
     }
 }

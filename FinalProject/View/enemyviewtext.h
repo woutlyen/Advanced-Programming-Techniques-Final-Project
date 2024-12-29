@@ -4,6 +4,7 @@
 #include "qfont.h"
 #include "qgraphicsitem.h"
 #include "qobject.h"
+#include "qpen.h"
 #include "world.h"
 class EnemyViewText : public QObject, public QGraphicsSimpleTextItem {
     Q_OBJECT
@@ -14,7 +15,9 @@ class EnemyViewText : public QObject, public QGraphicsSimpleTextItem {
   private:
     double tileWidth, tileHeight;
     QFont font;
+    QPen pen;
     QTimer *animationTimer;
+    int currentFrameIndex;
 
   private slots:
     void updateAnimationFrame();

@@ -1,8 +1,11 @@
 #include "worldviewtext.h"
 #include "Controller/levelcontroller.h"
+#include "Model/xenemy.h"
 #include "View/enemyviewtext.h"
 #include "View/healthpackviewtext.h"
+#include "View/penemyviewtext.h"
 #include "View/protagonistviewtext.h"
+#include "View/xenemyviewtext.h"
 #include "qobject.h"
 #include <iostream>
 
@@ -18,7 +21,8 @@ WorldViewText::WorldViewText() : QObject() {
     borders->setZValue(-1);
 
     // Make sure size is even, otherwise int divisions break
-    if (size % 2) --size;
+    if (size % 2)
+        --size;
 }
 
 QGraphicsScene *WorldViewText::makeScene() const {
@@ -97,13 +101,19 @@ QGraphicsScene *WorldViewText::makeScene() const {
     borders->setBrush(QBrush(QColor(150, 150, 100)));
     borders->setPos(width * xpos, height * ypos);
 
-    
     scene->addItem(borders);
-    
+
     for (auto &enemy : level.enemies) {
-        scene->addItem(new EnemyViewText(enemy, width, height, font));
+        if (dynamic_cast<PEnemy *>(enemy.get())) {
+            scene->addItem(new PEnemyViewText(enemy, width, height, font));
+        } else if (dynamic_cast<XEnemy *>(enemy.get())) {
+            scene->addItem(new XEnemyViewText(enemy, width, height, font));
+        } else {
+            scene->addItem(new EnemyViewText(enemy, width, height, font));
+        }
     }
 
+    // Create and add healthpacks
     for (auto &pack : level.healthPacks) {
         scene->addItem(new HealthPackViewText(pack, width, height, font));
     }
@@ -149,7 +159,7 @@ void WorldViewText::updateGrid(int xPos, int yPos) {
     int xBegin, yBegin;
     if (xPos - size / 2 < 0) {
         xBegin = 0;
-    } else if (xPos + size /2 > level.width) {
+    } else if (xPos + size / 2 > level.width) {
         xBegin = (level.width - size > 0) ? level.width - size : 0;
     } else {
         xBegin = xPos - size / 2;
@@ -157,7 +167,7 @@ void WorldViewText::updateGrid(int xPos, int yPos) {
 
     if (yPos - size / 2 < 0) {
         yBegin = 0;
-    } else if (yPos + size /2 > level.height) {
+    } else if (yPos + size / 2 > level.height) {
         yBegin = (level.height - size > 0) ? level.height - size : 0;
     } else {
         yBegin = yPos - size / 2;
@@ -166,10 +176,7 @@ void WorldViewText::updateGrid(int xPos, int yPos) {
     bgText1->setHtml(pixmapToString(QPixmap(level.visual_map).scaled(level.width * 4, level.height * 4), xPos, yPos));
     bgText1->setPos(boxWidth / 4 + width * xBegin, height * yBegin);
 
-
     borders->setPos(width * xBegin, height * yBegin);
-    
-    
 }
 
 QString WorldViewText::pixmapToString(const QPixmap &pixmap, int xPos, int yPos) const {
@@ -183,26 +190,26 @@ QString WorldViewText::pixmapToString(const QPixmap &pixmap, int xPos, int yPos)
     image = image.convertToFormat(QImage::Format_ARGB32);
 
     int xBegin, yBegin, xEnd, yEnd;
-    xBegin = xPos*4 - size*4/ 2;
-    yBegin = yPos*4 - size*4 / 2;
-    xEnd = xPos*4 + size*4 / 2;
-    yEnd = yPos*4 + size*4 / 2;
+    xBegin = xPos * 4 - size * 4 / 2;
+    yBegin = yPos * 4 - size * 4 / 2;
+    xEnd = xPos * 4 + size * 4 / 2;
+    yEnd = yPos * 4 + size * 4 / 2;
     if (xBegin < 0) {
         xBegin = 0;
-        xEnd = size*4;
+        xEnd = size * 4;
     }
     if (yBegin < 0) {
         yBegin = 0;
-        yEnd = size*4;
+        yEnd = size * 4;
     }
     if (xEnd > image.width()) {
-        xBegin = image.width() - size*4;
+        xBegin = image.width() - size * 4;
         if (xBegin < 0)
             xBegin = 0;
         xEnd = image.width();
     }
     if (yEnd > image.height()) {
-        yBegin = image.height() - size*4;
+        yBegin = image.height() - size * 4;
         if (yBegin < 0)
             yBegin = 0;
         yEnd = image.height();

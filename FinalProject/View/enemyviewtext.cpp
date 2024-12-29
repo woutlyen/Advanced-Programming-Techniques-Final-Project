@@ -6,19 +6,22 @@
 EnemyViewText::EnemyViewText(const std::unique_ptr<Enemy> &enemy, double tileWidth, double tileHeight, QFont font, QGraphicsItem *parent)
     : QObject(),
       QGraphicsSimpleTextItem(parent),
-      animationTimer(new QTimer(this)) {
+      animationTimer(new QTimer(this)),
+      currentFrameIndex{0} {
 
     this->tileWidth = tileWidth;
     this->tileHeight = tileHeight;
     this->font = font;
+    this->pen = QPen(QColor(60,180,120));
+    this->pen.setWidthF(1.5);
 
     // TODO: Add color
-    setText("E");
+    setText(".E.");
     setFont(this->font);
-    setPen(QColor(0, 255, 0));
-    setPos(tileWidth * enemy->getXPos() + tileWidth / 2, tileHeight * enemy->getYPos() + tileHeight / 2);
+    setPen(pen);
+    setPos(tileWidth * enemy->getXPos() + tileWidth / 4, tileHeight * enemy->getYPos() + tileHeight / 2);
 
-    animationTimer->setInterval(500);
+    animationTimer->setInterval(30);
     animationTimer->start();
 
     connect(animationTimer, &QTimer::timeout, this, &EnemyViewText::updateAnimationFrame);
@@ -26,10 +29,13 @@ EnemyViewText::EnemyViewText(const std::unique_ptr<Enemy> &enemy, double tileWid
 
 void EnemyViewText::updateAnimationFrame() {
 
-    // Switch if the font is bold or not
-    this->font.setUnderline(!this->font.underline());
-    setFont(this->font);
+    currentFrameIndex = (currentFrameIndex + 1) % 60;
+    if (currentFrameIndex < 30) {
+        setBrush((QColor(2 * currentFrameIndex, 6 * currentFrameIndex, 4 * currentFrameIndex)));
 
+    } else {
+        setBrush((QColor(60 - 2 * (currentFrameIndex - 30), 180 - 6 * (currentFrameIndex - 30), 120 - 4 * (currentFrameIndex - 30))));
+    }
     // Force the object to update
     update();
 }

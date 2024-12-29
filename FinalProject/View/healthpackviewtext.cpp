@@ -39,3 +39,21 @@ void HealthPackViewText::updateAnimationFrame() {
     beatCount = (++beatCount) % 4;
     animationTimer->setInterval((beatCount == 3) ? 600 : 200);
 }
+
+void HealthPackViewText::playPickupAnimation() {
+    QTimer *fadeTimer = new QTimer(this);
+    connect(fadeTimer, &QTimer::timeout, this, [this, fadeTimer]() {
+        double opacity = this->opacity();
+        if (opacity <= 0) {
+            // Diable timer
+            fadeTimer->stop();
+            fadeTimer->deleteLater();
+
+            // Remove item
+            delete this;
+        } else {
+            setOpacity(opacity - 0.02);
+        }
+    });
+    fadeTimer->start(30);
+}
