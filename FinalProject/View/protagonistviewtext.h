@@ -39,6 +39,7 @@ class ProtagonistViewText : public QObject, public QGraphicsSimpleTextItem {
     void onHealthChanged(int health);     // Updates the protagonist's visual representation
     void onEnergyChanged(int energy);     // Updates the protagonist's visual representation
     void updateAnimationFrame();          // Update animation frame
+    void checkHealthPackCollision();
 };
 
 #endif // PROTAGONISTVIEWTEXT_H
