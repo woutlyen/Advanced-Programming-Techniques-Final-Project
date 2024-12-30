@@ -38,7 +38,7 @@ private:
     Direction currentDirection;
     std::unique_ptr<Protagonist> wrappedPlayer;
 
-    bool alive;
+    bool alive{true};
 
 
 

@@ -25,7 +25,7 @@ public:
     std::vector<int> calculatePath(const Tile& start, const Tile& end);
 
 private:
-    float heuristicWeight = 0.0f;
+    float heuristicWeight = 100.0f;
 
 
 };
