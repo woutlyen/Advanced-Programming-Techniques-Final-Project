@@ -31,6 +31,8 @@ public:
     void removePoisonedCircle(QGraphicsEllipseItem* poisonCircle);
     void setPEnemyConnection(PEnemyWrapper* penemy);
     float getTileValue(int x, int y);
+    void showAutoplayPath(std::vector<int> path);
+    void clearAutoplayPath();
 private:
     // Private constructor
     LevelController() = default;

@@ -51,8 +51,10 @@ void GameController::autoplay()
                     isAutoplayRunning = false;
                     return;
                 }
+                path = convertPath(path);
                 movingToEnemy = false;
                 qDebug() << "Path to hp found " << path;
+                LevelController::getInstance().showAutoplayPath(path);
             }
             else{
                 path = pathfinderController.findNearestEnemy();
@@ -63,8 +65,10 @@ void GameController::autoplay()
                     isAutoplayRunning = false;
                     return;
                 }
-                qDebug() << "Path to enemies found "  << path;
+                path = convertPath(path);
                 movingToEnemy = true;
+                qDebug() << "Path to enemies found "  << path;
+                LevelController::getInstance().showAutoplayPath(path);
             }
 
             onPath = true;
@@ -108,69 +112,20 @@ void GameController::sendMoveCommand(int move)
     *     5 4 3
     */
 
-    auto & player = LevelController::getInstance().getCurrentLevel().protagonist;
     qDebug() << "Move is " << move;
 
     switch (move) {
     case 0:
         inputController.executeCommand("up");
         break;
-    case 1:
-        if(isTileWalkable(player->getXPos(), player->getYPos()-1)){
-            inputController.executeCommand("up");
-            path[pathIndex] = 0; // correcting to actual path movement
-            path.insert(path.begin() + pathIndex + 1, 2); //add right movement
-        }
-        else{
-            inputController.executeCommand("right");
-            path[pathIndex] = 2; // correcting to actual path movement
-            path.insert(path.begin() + pathIndex + 1, 0); //add up movement
-        }
-        break;
     case 2:
         inputController.executeCommand("right");
-        break;
-    case 3:
-        if(isTileWalkable(player->getXPos(), player->getYPos()+1)){
-            inputController.executeCommand("down");
-            path[pathIndex] = 4; // correcting to actual path movement
-            path.insert(path.begin() + pathIndex + 1, 2); //add right movement
-        }
-        else{
-            inputController.executeCommand("right");
-            path[pathIndex] = 2; // correcting to actual path movement
-            path.insert(path.begin() + pathIndex + 1, 4); //add down movement
-        }
         break;
     case 4:
         inputController.executeCommand("down");
         break;
-    case 5:
-        if(isTileWalkable(player->getXPos(), player->getYPos()+1)){
-            inputController.executeCommand("down");
-            path[pathIndex] = 4; // correcting to actual path movement
-            path.insert(path.begin() + pathIndex + 1, 6); //add left movement
-        }
-        else{
-            inputController.executeCommand("left");
-            path[pathIndex] = 6; // correcting to actual path movement
-            path.insert(path.begin() + pathIndex + 1, 4); //add down movement
-        }
-        break;
     case 6:
         inputController.executeCommand("left");
-        break;
-    case 7:
-        if(isTileWalkable(player->getXPos(), player->getYPos()-1)){
-            inputController.executeCommand("up");
-            path[pathIndex] = 0; // correcting to actual path movement
-            path.insert(path.begin() + pathIndex + 1, 6); //add left movement
-        }
-        else{
-            inputController.executeCommand("left");
-            path[pathIndex] = 6; // correcting to actual path movement
-            path.insert(path.begin() + pathIndex + 1, 0); //add up movement
-        }
         break;
     }
 }
@@ -181,6 +136,92 @@ bool GameController::isTileWalkable(int x, int y)
         return true;
     }
     return false;
+}
+
+std::vector<int> GameController::convertPath(std::vector<int> path)
+{
+    // Converting diagonal movements to up, down, left, right movements
+    /*
+    *     7 0 1
+    *     6   2
+    *     5 4 3
+    */
+
+    std::vector<int> convertedPath;
+    int x = LevelController::getInstance().getCurrentLevel().protagonist->getXPos();
+    int y = LevelController::getInstance().getCurrentLevel().protagonist->getYPos();
+
+    for (size_t i = 0; i < path.size(); i++){
+        switch (path[i]) {
+        case 0:
+            convertedPath.push_back(0);
+            y--;
+            break;
+        case 1:
+            if(isTileWalkable(x, y-1)){
+                convertedPath.push_back(0); //add up movement
+                convertedPath.push_back(2); //add right movement
+            }
+            else{
+                convertedPath.push_back(2); //add right movement
+                convertedPath.push_back(0); //add up movement
+            }
+            x++;
+            y--;
+            break;
+        case 2:
+            convertedPath.push_back(2);
+            x++;
+            break;
+        case 3:
+            if(isTileWalkable(x, y+1)){
+                convertedPath.push_back(4); //add down movement
+                convertedPath.push_back(2); //add right movement
+            }
+            else{
+                convertedPath.push_back(2); //add right movement
+                convertedPath.push_back(4); //add down movement
+            }
+            x++;
+            y++;
+            break;
+
+        case 4:
+            convertedPath.push_back(4); //add down movement
+            y++;
+            break;
+        case 5:
+            if(isTileWalkable(x, y+1)){
+                convertedPath.push_back(4); //add down movement
+                convertedPath.push_back(6);//add left movement
+            }
+            else{
+                convertedPath.push_back(6);//add left movement
+                convertedPath.push_back(4); //add down movement
+            }
+            x--;
+            y++;
+            break;
+        case 6:
+            convertedPath.push_back(6);//add left movement
+            x--;
+            break;
+        case 7:
+            if(isTileWalkable(x, y-1)){
+                convertedPath.push_back(0); //add up movement
+                convertedPath.push_back(6);//add left movement
+            }
+            else{
+                convertedPath.push_back(6);//add left movement
+                convertedPath.push_back(0); //add up movement
+            }
+            x--;
+            y--;
+            break;
+        }
+    }
+    qDebug() << "path converted from " << path << " to " << convertedPath;
+    return convertedPath;
 }
 
 void GameController::onZoomInEvent(){
@@ -202,6 +243,7 @@ void GameController::onAutoPlay()
     else{
         autoplayTimer->stop();
         isAutoplay = false;
+        LevelController::getInstance().clearAutoplayPath();
     }
 
 }

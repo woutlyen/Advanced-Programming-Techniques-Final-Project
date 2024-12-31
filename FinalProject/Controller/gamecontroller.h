@@ -33,6 +33,7 @@ class GameController : public QObject {
     int pathIndex{0};
     void sendMoveCommand(int move);
     bool isTileWalkable(int x, int y);
+    std::vector<int> convertPath(std::vector<int> path);
     bool isAutoplayRunning{false};
     bool movingToEnemy{false};
 

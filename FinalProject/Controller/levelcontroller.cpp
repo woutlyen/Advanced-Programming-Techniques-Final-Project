@@ -216,3 +216,13 @@ float LevelController::getTileValue(int x, int y)
 {
     return getCurrentLevel().tiles.at((y * getCurrentLevel().width) + x)->getValue();
 }
+
+void LevelController::showAutoplayPath(std::vector<int> path)
+{
+    worldView2D.visualizePath(getCurrentLevel().protagonist->getXPos(),getCurrentLevel().protagonist->getYPos(), getCurrentLevel().grid_size, path, getCurrentLevel().scenes2D);
+}
+
+void LevelController::clearAutoplayPath()
+{
+    worldView2D.removePathVisualization(getCurrentLevel().scenes2D);
+}
