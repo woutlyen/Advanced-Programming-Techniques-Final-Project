@@ -46,9 +46,7 @@ void GameController::autoplay()
 
                 if(path.empty()){
                     qDebug() << "No healthpacks left. Game Over!";
-                    player->setEnergy(0);
-                    isAutoplay = false;
-                    isAutoplayRunning = false;
+                    disableAutoplay();
                     return;
                 }
                 path = convertPath(path);
@@ -61,8 +59,7 @@ void GameController::autoplay()
 
                 if(path.empty()){
                     qDebug() << "No enemies left. Yay!";
-                    isAutoplay = false;
-                    isAutoplayRunning = false;
+                    disableAutoplay();
                     return;
                 }
                 path = convertPath(path);
@@ -88,8 +85,16 @@ void GameController::autoplay()
         }
 
         if(player->getXPos() == beforeX && player->getYPos() == beforeY){ // no movement due to enemy in the way
-            qDebug() << "repeating movement";
-            path.insert(path.begin() + pathIndex + 1, path[pathIndex]);
+            if(movingToEnemy && (player->getEnergy() < 25 || player->getHealth() < 25)){
+                qDebug() << "Not enough hp/ energy";
+                onPath = false;
+                isAutoplayRunning = false;
+                return;
+            }
+            else{
+                qDebug() << "repeating movement";
+                path.insert(path.begin() + pathIndex + 1, path[pathIndex]);
+            }
         }
 
         if(pathIndex < (int)path.size() - 1){
@@ -224,6 +229,14 @@ std::vector<int> GameController::convertPath(std::vector<int> path)
     return convertedPath;
 }
 
+void GameController::disableAutoplay()
+{
+    autoplayTimer->stop();
+    isAutoplay = false;
+    isAutoplayRunning = false;
+    LevelController::getInstance().clearAutoplayPath();
+}
+
 void GameController::onZoomInEvent(){
     mainWindow.zoomIn();
 }
@@ -241,9 +254,7 @@ void GameController::onAutoPlay()
         autoplay();
     }
     else{
-        autoplayTimer->stop();
-        isAutoplay = false;
-        LevelController::getInstance().clearAutoplayPath();
+        disableAutoplay();
     }
 
 }

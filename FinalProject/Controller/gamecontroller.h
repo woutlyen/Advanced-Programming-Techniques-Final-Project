@@ -36,7 +36,7 @@ class GameController : public QObject {
     std::vector<int> convertPath(std::vector<int> path);
     bool isAutoplayRunning{false};
     bool movingToEnemy{false};
-
+    void disableAutoplay();
     QTimer* autoplayTimer = new QTimer(this);
 
   private slots:
