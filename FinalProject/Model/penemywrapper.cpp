@@ -10,8 +10,8 @@ void PEnemyWrapper::attack(std::unique_ptr<Player> &player)
 {
     if(!getDefeated() && !getPoisonStarted()){
         qDebug() << "PEnemy attacks!";
-        player->takeDamage(getValue());
-        player->setPoisoned(true);
+        //player->takeDamage(getValue());
+        //player->setPoisoned(true);
         setPoisonStarted(true);
         emit startPoison(getPoisonLevel());
         poison();

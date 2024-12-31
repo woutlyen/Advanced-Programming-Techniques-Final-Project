@@ -25,8 +25,8 @@ public:
     size_t getCurrentLevelNr() const;
     void setCurrentLevelNr(const size_t levelNumber);
     std::vector<Level>& getAllLevels();
-    void generatePoisonedTiles(int xPos, int yPos, int expansionStage);
-    void addPoisonedTile(int x, int y);
+    void generatePoisonedTiles(int xPos, int yPos, int poisonLevel, int expansionStage);
+    void addPoisonedTile(int x, int y, int poisonLevel);
     QGraphicsEllipseItem* generatePoisonedCircle(int x, int y, int value);
     void removePoisonedCircle(QGraphicsEllipseItem* poisonCircle);
     void setPEnemyConnection(PEnemyWrapper* penemy);

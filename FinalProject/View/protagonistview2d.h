@@ -50,7 +50,6 @@ private slots:
     void onDirectionChanged(Player::Direction dir);
     void checkHealthPackCollision();
     void setPoisonEffect();
-    void removeAllEffects();
     void onPlayerAttack();
 
 

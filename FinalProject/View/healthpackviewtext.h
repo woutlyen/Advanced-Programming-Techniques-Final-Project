@@ -12,6 +12,7 @@ class HealthPackViewText : public QObject, public QGraphicsSimpleTextItem {
 
   public:
     HealthPackViewText(const std::unique_ptr<Tile> &healthPack, double tileWidth, double tileHeight, QFont font, QGraphicsItem *parent = nullptr);
+    void playPickupAnimation();
 
   private:
     double tileWidth, tileHeight;

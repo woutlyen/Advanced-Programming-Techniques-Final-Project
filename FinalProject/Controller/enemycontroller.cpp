@@ -14,8 +14,8 @@ bool EnemyController::checkForEnemy(const Position pos)
         if (Y > 0){
             for(auto& enemy : enemies){
                 if(enemy->getXPos() == X && enemy->getYPos() == Y-1 && !enemy->getDefeated()){
-                    enemy->attack(protagonist);
                     checkPoison(enemy);
+                    enemy->attack(protagonist);
                     return true;
                 }
             }
@@ -25,8 +25,8 @@ bool EnemyController::checkForEnemy(const Position pos)
         if (Y < level.height-1){
             for(auto& enemy : enemies){
                 if(enemy->getXPos() == X && enemy->getYPos() == Y+1 && !enemy->getDefeated()){
-                    enemy->attack(protagonist);
                     checkPoison(enemy);
+                    enemy->attack(protagonist);
                     return true;
                 }
             }
@@ -36,8 +36,8 @@ bool EnemyController::checkForEnemy(const Position pos)
         if (X > 0){
             for(auto& enemy : enemies){
                 if(enemy->getXPos() == X-1 && enemy->getYPos() == Y && !enemy->getDefeated()){
-                    enemy->attack(protagonist);
                     checkPoison(enemy);
+                    enemy->attack(protagonist);
                     return true;
                 }
             }
@@ -47,8 +47,8 @@ bool EnemyController::checkForEnemy(const Position pos)
         if (X < level.width -1){
             for(auto& enemy : enemies){
                 if(enemy->getXPos() == X+1 && enemy->getYPos() == Y && !enemy->getDefeated()){
-                    enemy->attack(protagonist);
                     checkPoison(enemy);
+                    enemy->attack(protagonist);
                     return true;
                 }
             }
@@ -60,9 +60,9 @@ bool EnemyController::checkForEnemy(const Position pos)
 void EnemyController::checkPoison(std::unique_ptr<EnemyWrapper> &enemy)
 {
     if(PEnemyWrapper* penemy = dynamic_cast<PEnemyWrapper *>(enemy.get())){
-        if(penemy->getPoisonStarted()){
+        if(!penemy->getPoisonStarted()){
             LevelController::getInstance().setPEnemyConnection(penemy);
-            LevelController::getInstance().generatePoisonedTiles(penemy->getXPos(), penemy->getYPos(), 1);
+            LevelController::getInstance().generatePoisonedTiles(penemy->getXPos(), penemy->getYPos(), penemy->getPoisonLevel(), 1);
         }
     }
 }

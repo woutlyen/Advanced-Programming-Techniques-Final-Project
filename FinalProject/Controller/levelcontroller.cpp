@@ -156,34 +156,34 @@ void LevelController::updatePoisonedTileValue(int poisonLevel)
     }
 }
 
-void LevelController::generatePoisonedTiles(int xPos, int yPos, int expansionStage)
+void LevelController::generatePoisonedTiles(int xPos, int yPos, int poisonLevel, int expansionStage)
 {
     switch(expansionStage){
     case 1:
-        addPoisonedTile(xPos + 1, yPos);
-        addPoisonedTile(xPos - 1, yPos);
-        addPoisonedTile(xPos, yPos + 1);
-        addPoisonedTile(xPos, yPos - 1);
-        QTimer::singleShot(2000, this, [this, xPos, yPos]() {generatePoisonedTiles(xPos, yPos, 2);});
+        addPoisonedTile(xPos + 1, yPos, poisonLevel);
+        addPoisonedTile(xPos - 1, yPos, poisonLevel);
+        addPoisonedTile(xPos, yPos + 1, poisonLevel);
+        addPoisonedTile(xPos, yPos - 1, poisonLevel);
+        QTimer::singleShot(2000, this, [this, xPos, yPos, poisonLevel]() {generatePoisonedTiles(xPos, yPos, poisonLevel, 2);});
         break;
     case 2:
-        addPoisonedTile(xPos + 2, yPos);
-        addPoisonedTile(xPos - 2, yPos);
-        addPoisonedTile(xPos, yPos + 2);
-        addPoisonedTile(xPos, yPos - 2);
-        addPoisonedTile(xPos - 1, yPos - 1);
-        addPoisonedTile(xPos + 1, yPos - 1);
-        addPoisonedTile(xPos + 1, yPos + 1);
-        addPoisonedTile(xPos - 1, yPos + 1);
+        addPoisonedTile(xPos + 2, yPos, poisonLevel);
+        addPoisonedTile(xPos - 2, yPos, poisonLevel);
+        addPoisonedTile(xPos, yPos + 2, poisonLevel);
+        addPoisonedTile(xPos, yPos - 2, poisonLevel);
+        addPoisonedTile(xPos - 1, yPos - 1, poisonLevel);
+        addPoisonedTile(xPos + 1, yPos - 1, poisonLevel);
+        addPoisonedTile(xPos + 1, yPos + 1, poisonLevel);
+        addPoisonedTile(xPos - 1, yPos + 1, poisonLevel);
         break;
     }
 }
 
-void LevelController::addPoisonedTile(int x, int y)
+void LevelController::addPoisonedTile(int x, int y, int poisonLevel)
 {
     for (auto& tile : getCurrentLevel().tiles) {
         if (tile->getXPos() == x && tile->getYPos() == y) {
-            auto poisonedTile = std::make_unique<Tile>(x,y, tile->getValue());
+            auto poisonedTile = std::make_unique<Tile>(x,y, poisonLevel);
             getCurrentLevel().poisonedTiles.push_back(std::move(poisonedTile));
         }
     }

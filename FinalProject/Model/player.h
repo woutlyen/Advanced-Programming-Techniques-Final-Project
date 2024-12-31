@@ -10,7 +10,6 @@ public:
     enum Direction {Front, Back, Left, Right};
     void setDirection(Direction dir);
     void setPoisoned(bool value);
-    bool getPoisoned(){return isPoisoned;};
     void takeDamage(float damage);
     void heal(float hp);
     void useEnergy(float energy);
@@ -37,12 +36,9 @@ public:
 
 private:
     Direction currentDirection;
-    bool isPoisoned {false};
-    QTimer* poisonTimer;
-    int poisonDurationRemaining;
     std::unique_ptr<Protagonist> wrappedPlayer;
 
-    bool alive;
+    bool alive{true};
 
 
 
@@ -54,12 +50,10 @@ signals:
 
     void directionChanged(Direction dir);
     void poisoned();
-    void poisonedOver();
 
     void playerAttack();
 
 private slots:
-    void poisonDamage();
     void posChangedWrapped(int x, int y){emit posChanged(x,y);};
     void healthChangedWrapped(int h){emit healthChanged(h);};
     void energyChangedWrapped(int e){emit energyChanged(e);};
