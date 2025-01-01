@@ -5,13 +5,14 @@ PathfinderController::PathfinderController() {}
 
 std::vector<int> PathfinderController::findNearestEnemy()
 {
-    int shortestDistance = std::numeric_limits<float>::infinity();
+    float shortestDistance = std::numeric_limits<float>::infinity();
 
     auto & player = LevelController::getInstance().getCurrentLevel().protagonist;
     auto & enemies = LevelController::getInstance().getCurrentLevel().enemies;
+    bool enemyFound = false;
 
     Tile playerPosition(player->getXPos(), player->getYPos(), 0.0f);
-    Tile nearestEnemyPosition{0,0,0.0f};
+    Tile nearestEnemyPosition{0,0,0};
 
     for(auto& enemy: enemies){
         if(enemy->getDefeated()){
@@ -27,12 +28,18 @@ std::vector<int> PathfinderController::findNearestEnemy()
         Tile enemyPosition(enemy->getXPos(), enemy->getYPos(), enemy->getValue());
         float distance = manhattanDistanceFunction(playerPosition, enemyPosition);
 
-        if(distance < shortestDistance){
+        if(distance <= shortestDistance){
             shortestDistance = distance;
             nearestEnemyPosition.setXPos(enemy->getXPos());
             nearestEnemyPosition.setYPos(enemy->getYPos());
+            enemyFound = true;
         }
     }
+
+    if(!enemyFound){
+        return {};
+    }
+
     qDebug() << "Player is at x: " << playerPosition.getXPos() << " And y: " << playerPosition.getYPos();
     qDebug() << "Going to enemy at x: " << nearestEnemyPosition.getXPos() << " And y: " << nearestEnemyPosition.getYPos();
     return calculatePath(playerPosition, nearestEnemyPosition);
@@ -40,10 +47,11 @@ std::vector<int> PathfinderController::findNearestEnemy()
 
 std::vector<int> PathfinderController::findNearestHealthPack()
 {
-    int shortestDistance = std::numeric_limits<float>::infinity();
+    float shortestDistance = std::numeric_limits<float>::infinity();
 
     auto & player = LevelController::getInstance().getCurrentLevel().protagonist;
     auto & healthpacks = LevelController::getInstance().getCurrentLevel().healthPacks;
+    bool healthpackFound = false;
 
     Tile playerPosition(player->getXPos(), player->getYPos(), 0.0f);
     Tile nearestHealthpackPosition{0,0,0.0f};
@@ -59,7 +67,12 @@ std::vector<int> PathfinderController::findNearestHealthPack()
             shortestDistance = distance;
             nearestHealthpackPosition.setXPos(healthpack->getXPos());
             nearestHealthpackPosition.setYPos(healthpack->getYPos());
+            healthpackFound = true;
         }
+    }
+
+    if(!healthpackFound){
+        return {};
     }
 
     qDebug() << "Player is at x: " << playerPosition.getXPos() << " And y: " << playerPosition.getYPos();
