@@ -8,8 +8,7 @@ int main(int argc, char *argv[]) {
     QString filePath = ":/levels.xml";
     //QString filePath = ":/levels_test.xml";
 
-    GameController gameController;
-    gameController.start(filePath);
+    GameController::getInstance().start(filePath);
 
     return a.exec();
 }

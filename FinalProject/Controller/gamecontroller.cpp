@@ -15,6 +15,12 @@ GameController::GameController(QObject *parent) : QObject(parent) {
 
 }
 
+
+GameController& GameController::getInstance() {
+    static GameController instance;
+    return instance;
+}
+
 void GameController::start(const QString& filePath)
 {
     LevelController& levelController = LevelController::getInstance();
@@ -40,8 +46,7 @@ void GameController::autoplay()
         isAutoplayRunning = true;
 
         if(!onPath){
-            pathIndex = 0;
-            if(player->getEnergy() < 25 || player->getHealth() < 25){
+            if(checkInsufficientStats()){
                 path = pathfinderController.findNearestHealthPack();
 
                 if(path.empty()){
@@ -49,10 +54,8 @@ void GameController::autoplay()
                     disableAutoplay();
                     return;
                 }
-                path = convertPath(path);
                 movingToEnemy = false;
                 qDebug() << "Path to hp found " << path;
-                LevelController::getInstance().showAutoplayPath(path);
             }
             else{
                 path = pathfinderController.findNearestEnemy();
@@ -62,13 +65,13 @@ void GameController::autoplay()
                     disableAutoplay();
                     return;
                 }
-                path = convertPath(path);
                 movingToEnemy = true;
                 qDebug() << "Path to enemies found "  << path;
-                LevelController::getInstance().showAutoplayPath(path);
             }
 
-            onPath = true;
+            pathSetUp();
+            LevelController::getInstance().showAutoplayPath(path);
+
         }
 
         int beforeX = player->getXPos();
@@ -77,7 +80,7 @@ void GameController::autoplay()
         qDebug() << "On pathIndex " << pathIndex;
         sendMoveCommand(path[pathIndex]);
 
-        if(movingToEnemy && (player->getEnergy() < 25 || player->getHealth() < 25)){
+        if(movingToEnemy && checkInsufficientStats()){
             qDebug() << "Not enough hp/ energy";
             onPath = false;
             isAutoplayRunning = false;
@@ -85,7 +88,7 @@ void GameController::autoplay()
         }
 
         if(player->getXPos() == beforeX && player->getYPos() == beforeY){ // no movement due to enemy in the way
-            if(movingToEnemy && (player->getEnergy() < 25 || player->getHealth() < 25)){
+            if(movingToEnemy && checkInsufficientStats()){
                 qDebug() << "Not enough hp/ energy";
                 onPath = false;
                 isAutoplayRunning = false;
@@ -103,7 +106,6 @@ void GameController::autoplay()
         else{
             onPath = false;
         }
-
     }
     isAutoplayRunning = false;
 
@@ -234,7 +236,75 @@ void GameController::disableAutoplay()
     autoplayTimer->stop();
     isAutoplay = false;
     isAutoplayRunning = false;
+    movingToEnemy = false;
+    onPath = false;
+    path.clear();
     LevelController::getInstance().clearAutoplayPath();
+}
+
+void GameController::goTo(int x, int y)
+{
+    if(!onPath){
+        path.clear();
+
+        auto & level = LevelController::getInstance().getCurrentLevel();
+        auto & player = level.protagonist;
+
+        Tile playerPosition(player->getXPos(), player->getYPos(), 0.0f);
+        Tile goToTile{x,y,0.0f};
+
+        path = pathfinderController.calculatePath(playerPosition, goToTile);
+        pathSetUp();
+        move();
+    }
+    else{
+        std::cout << "Player already moving to a target. Wait until player reaches destination." << std::endl;
+    }
+
+}
+
+void GameController::move()
+{
+    auto& player = LevelController::getInstance().getCurrentLevel().protagonist;
+
+    int beforeX = player->getXPos();
+    int beforeY = player->getYPos();
+
+    qDebug() << "On pathIndex " << pathIndex;
+    sendMoveCommand(path[pathIndex]);
+
+    if(player->getXPos() == beforeX && player->getYPos() == beforeY){ // no movement due to enemy in the way
+            qDebug() << "repeating movement";
+            path.insert(path.begin() + pathIndex + 1, path[pathIndex]);
+    }
+
+    if(pathIndex < (int)path.size() - 1){
+        pathIndex++;
+        QTimer::singleShot(500, this, &GameController::move);
+    }
+    else{
+        std::cout << "Destination reached!" << std::endl;
+        onPath = false;
+    }
+}
+
+bool GameController::checkInsufficientStats()
+{
+    auto & player = LevelController::getInstance().getCurrentLevel().protagonist;
+
+    if(player->getEnergy() < 25 || player->getHealth() < 25){
+        return true;
+    }
+    return false;
+}
+
+void GameController::pathSetUp()
+{
+    if(!path.empty()){
+        path = convertPath(path);
+        pathIndex = 0;
+        onPath = true;
+    }
 }
 
 void GameController::onZoomInEvent(){
@@ -247,6 +317,8 @@ void GameController::onZoomOutEvent(){
 
 void GameController::onAutoPlay()
 {
+    path.clear();
+
     if(!isAutoplay){
         isAutoplay = true;
         autoplayTimer->start(500);

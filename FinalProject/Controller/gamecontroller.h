@@ -15,10 +15,19 @@ class GameController : public QObject {
     Q_OBJECT
 
   public:
-    GameController(QObject *parent = nullptr);
     void start(const QString& filePath);
 
-  private:
+    // Static method to get the singleton instance
+    static GameController& getInstance();
+
+    // Delete copy constructor and assignment operator
+    GameController(const GameController&) = delete;
+    GameController& operator=(const GameController&) = delete;
+
+    void goTo(int x, int y);
+
+private:
+    GameController(QObject *parent = nullptr);
 
     MainWindow mainWindow;
 
@@ -38,12 +47,15 @@ class GameController : public QObject {
     bool movingToEnemy{false};
     void disableAutoplay();
     QTimer* autoplayTimer = new QTimer(this);
+    bool checkInsufficientStats();
+    void pathSetUp();
 
   private slots:
     void onZoomInEvent();
     void onZoomOutEvent();
     void onAutoPlay();
     void autoplay();
+    void move();
 
 };
 
