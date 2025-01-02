@@ -70,7 +70,6 @@ void GameController::autoplay()
             }
 
             pathSetUp();
-            LevelController::getInstance().showAutoplayPath(path);
 
         }
 
@@ -272,6 +271,24 @@ void GameController::goToNearestEnemy()
         Tile playerPosition(player->getXPos(), player->getYPos(), 0.0f);
 
         path = pathfinderController.findNearestEnemy();
+        pathSetUp();
+        move();
+    }
+    else{
+        std::cout << "Player already moving to a target. Wait until player reaches destination." << std::endl;
+    }
+}
+
+void GameController::goToNearestHealthpack()
+{
+    if(!onPath){
+        path.clear();
+
+        auto & player = LevelController::getInstance().getCurrentLevel().protagonist;
+
+        Tile playerPosition(player->getXPos(), player->getYPos(), 0.0f);
+
+        path = pathfinderController.findNearestHealthPack();
         pathSetUp();
         move();
     }

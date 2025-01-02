@@ -26,6 +26,7 @@ class GameController : public QObject {
 
     void goTo(int x, int y);
     void goToNearestEnemy();
+    void goToNearestHealthpack();
 
 private:
     GameController(QObject *parent = nullptr);

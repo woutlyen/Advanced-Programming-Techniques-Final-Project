@@ -2,9 +2,11 @@
 
 #include <iostream>
 
+#include <Controller/gamecontroller.h>
+
 TakeNearestHealthPackCommand::TakeNearestHealthPackCommand() {}
 
 void TakeNearestHealthPackCommand::execute() {
-    std::cout << "TODO : Protagonist takes the nearest health pack." << std::endl;
-    // Logic to take nearest health pack
+    std::cout << "Protagonist takes the nearest health pack." << std::endl;
+    GameController::getInstance().goToNearestHealthpack();
 }
