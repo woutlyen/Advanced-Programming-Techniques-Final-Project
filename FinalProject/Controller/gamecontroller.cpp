@@ -338,6 +338,7 @@ void GameController::pathSetUp()
         path = convertPath(path);
         pathIndex = 0;
         onPath = true;
+        LevelController::getInstance().showAutoplayPath(path);
     }
 }
 
