@@ -117,6 +117,8 @@ void InputController::registerCommands()
     commands["left"] = std::make_shared<MoveLeftCommand>();
     commands["take"] = std::make_shared<TakeNearestHealthPackCommand>();
     commands["help"] = std::make_shared<HelpCommand>();
+    commands["attack"] = std::make_shared<AttackNearestEnemyCommand>();
+
 }
 
 void InputController::executeCommand(const QString &input) const

@@ -25,6 +25,7 @@ class GameController : public QObject {
     GameController& operator=(const GameController&) = delete;
 
     void goTo(int x, int y);
+    void goToNearestEnemy();
 
 private:
     GameController(QObject *parent = nullptr);

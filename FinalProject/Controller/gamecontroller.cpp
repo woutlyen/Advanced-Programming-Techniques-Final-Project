@@ -247,8 +247,7 @@ void GameController::goTo(int x, int y)
     if(!onPath){
         path.clear();
 
-        auto & level = LevelController::getInstance().getCurrentLevel();
-        auto & player = level.protagonist;
+        auto & player = LevelController::getInstance().getCurrentLevel().protagonist;
 
         Tile playerPosition(player->getXPos(), player->getYPos(), 0.0f);
         Tile goToTile{x,y,0.0f};
@@ -261,6 +260,24 @@ void GameController::goTo(int x, int y)
         std::cout << "Player already moving to a target. Wait until player reaches destination." << std::endl;
     }
 
+}
+
+void GameController::goToNearestEnemy()
+{
+    if(!onPath){
+        path.clear();
+
+        auto & player = LevelController::getInstance().getCurrentLevel().protagonist;
+
+        Tile playerPosition(player->getXPos(), player->getYPos(), 0.0f);
+
+        path = pathfinderController.findNearestEnemy();
+        pathSetUp();
+        move();
+    }
+    else{
+        std::cout << "Player already moving to a target. Wait until player reaches destination." << std::endl;
+    }
 }
 
 void GameController::move()
