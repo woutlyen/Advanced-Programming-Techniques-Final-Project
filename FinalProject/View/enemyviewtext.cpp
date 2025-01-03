@@ -12,7 +12,7 @@ EnemyViewText::EnemyViewText(const std::unique_ptr<EnemyWrapper> &enemy, double 
     this->tileWidth = tileWidth;
     this->tileHeight = tileHeight;
     this->font = font;
-    this->pen = QPen(QColor(60,180,120));
+    this->pen = QPen(QColor(60, 180, 120));
     this->pen.setWidthF(1.5);
 
     // TODO: Add color
@@ -25,6 +25,7 @@ EnemyViewText::EnemyViewText(const std::unique_ptr<EnemyWrapper> &enemy, double 
     animationTimer->start();
 
     connect(animationTimer, &QTimer::timeout, this, &EnemyViewText::updateAnimationFrame);
+    connect(enemy.get(), &EnemyWrapper::dead, this, &EnemyViewText::onDefeated);
 }
 
 void EnemyViewText::updateAnimationFrame() {
@@ -38,4 +39,9 @@ void EnemyViewText::updateAnimationFrame() {
     }
     // Force the object to update
     update();
+}
+
+void EnemyViewText::onDefeated() {
+    disconnect(animationTimer, &QTimer::timeout, this, &EnemyViewText::updateAnimationFrame);
+    setText(".-.");
 }

@@ -234,3 +234,46 @@ QString WorldViewText::pixmapToString(const QPixmap &pixmap, int xPos, int yPos)
 void WorldViewText::setSize(int newSize) {
     this->size = newSize;
 }
+
+QGraphicsTextItem *WorldViewText::addPoisonCircle(int x, int y, int radius, QGraphicsScene *scene, int value) {
+    auto boxSize = QGraphicsSimpleTextItem("\u2588");
+    boxSize.setFont(font);
+    double boxWidth = boxSize.boundingRect().width();
+    double boxHeight = boxSize.boundingRect().height();
+
+    QGraphicsTextItem *textItem = new QGraphicsTextItem();
+    textItem->setFont(font);
+    textItem->setX(x - boxWidth * 5.8);
+    textItem->setY(y - boxHeight * 3.5);
+    QString text;
+    text.append("<p style=\"line-height:0.5\">");
+    text.append("<font color=\"");
+    text.append(QColor(83, 0, 128, (value*255)/100).name(QColor::HexArgb));
+    text.append("\">");
+    std::cout << "Radius text: " << radius << std::endl;
+    for (int i = 0; i <= 3 * 4 + 1; ++i) {
+        for (int j = 0; j <= 3 * 4 + 1; ++j) {
+            if ((j - 6.5) * (j - 6.5) + (i - 6.5) * (i - 6.5) < 6.5 * 6.5)
+                text.append("\u2585");
+            else
+                // Use non breakin space because other whiteline characters
+                // get removed at the front of html text
+                text.append("\u00A0");
+        }
+        text.append("<br>");
+    }
+    text.append("</font></p>");
+    textItem->setHtml(text);
+
+    textItem->setZValue(-0.5);
+    scene->addItem(textItem);
+
+    return textItem;
+}
+
+void WorldViewText::removePoisonCircle(QGraphicsTextItem *poisonCircle, QGraphicsScene *scene) {
+    std::cout << poisonCircle << std::endl;
+    std::cout << scene << std::endl;
+    scene->removeItem(poisonCircle);
+    delete poisonCircle;
+}

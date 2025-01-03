@@ -194,10 +194,22 @@ QGraphicsEllipseItem *LevelController::generatePoisonedCircle(int x, int y, int 
     return worldView2D.addPoisonCircle(x ,y, 3*getCurrentLevel().grid_size, getCurrentLevel().scenes2D, value);
 }
 
+QGraphicsTextItem *LevelController::generatePoisonedTextArea(int x, int y, int value)
+{
+    return worldViewText.addPoisonCircle(x ,y, 3*getCurrentLevel().grid_size, getCurrentLevel().scenesText, value);
+}
+
 void LevelController::removePoisonedCircle(QGraphicsEllipseItem *poisonCircle)
 {
     if(poisonCircle){
         worldView2D.removePoisonCircle(poisonCircle, getCurrentLevel().scenes2D);
+    }
+}
+
+void LevelController::removePoisonedCircle(QGraphicsTextItem *poisonCircle)
+{
+    if(poisonCircle){
+        worldViewText.removePoisonCircle(poisonCircle, getCurrentLevel().scenesText);
     }
 }
 

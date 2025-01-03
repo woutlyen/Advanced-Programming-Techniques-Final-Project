@@ -22,6 +22,7 @@ class EnemyViewText : public QObject, public QGraphicsSimpleTextItem {
 
   private slots:
     void updateAnimationFrame();
+    void onDefeated();
 };
 
 #endif // ENEMYVIEWTEXT_H

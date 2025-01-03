@@ -29,6 +29,7 @@ class ProtagonistViewText : public QObject, public QGraphicsSimpleTextItem {
 
     QPropertyAnimation *movementAnimation; // Animation for position movement
     QTimer *animationTimer;                // Timer for cycling pixmaps
+    QTimer *poisonTimer;                   // Timer for the poison effect
     int currentFrameIndex;                 // Current frame index in pixmap arrays
 
     void setState(AnimationState newState); // Switch animation state
@@ -40,6 +41,8 @@ class ProtagonistViewText : public QObject, public QGraphicsSimpleTextItem {
     void onEnergyChanged(int energy);     // Updates the protagonist's visual representation
     void updateAnimationFrame();          // Update animation frame
     void checkHealthPackCollision();
+    void onPlayerAttack();
+    void setPoisonEffect();
 };
 
 #endif // PROTAGONISTVIEWTEXT_H

@@ -28,7 +28,9 @@ public:
     void generatePoisonedTiles(int xPos, int yPos, int poisonLevel, int expansionStage);
     void addPoisonedTile(int x, int y, int poisonLevel);
     QGraphicsEllipseItem* generatePoisonedCircle(int x, int y, int value);
+    QGraphicsTextItem* generatePoisonedTextArea(int x, int y, int value);
     void removePoisonedCircle(QGraphicsEllipseItem* poisonCircle);
+    void removePoisonedCircle(QGraphicsTextItem* poisonCircle);
     void setPEnemyConnection(PEnemyWrapper* penemy);
     float getTileValue(int x, int y);
     void showAutoplayPath(std::vector<int> path);

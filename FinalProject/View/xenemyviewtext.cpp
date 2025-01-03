@@ -1,4 +1,5 @@
 #include "xenemyviewtext.h"
+#include "Model/xenemy.h"
 #include "qgraphicsitem.h"
 #include "qpen.h"
 #include "qtimer.h"
@@ -12,10 +13,11 @@ XEnemyViewText::XEnemyViewText(const std::unique_ptr<EnemyWrapper> &enemy, doubl
     this->tileWidth = tileWidth;
     this->tileHeight = tileHeight;
     this->font = font;
-    this->pen = QPen(QColor(255, 255, 255));
+    /*this->pen = QPen(QColor(255, 255, 255));*/
+    this->pen = QPen(QColor(60, 180, 120));
 
     // TODO: Add color
-    setText("xEx");
+    setText(".E.");
     setFont(this->font);
     setPen(pen);
     setPos(tileWidth * enemy->getXPos() + tileWidth / 4, tileHeight * enemy->getYPos() + tileHeight / 2);
@@ -24,20 +26,50 @@ XEnemyViewText::XEnemyViewText(const std::unique_ptr<EnemyWrapper> &enemy, doubl
     animationTimer->start();
 
     connect(animationTimer, &QTimer::timeout, this, &XEnemyViewText::updateAnimationFrame);
+    connect(enemy.get(), &EnemyWrapper::dead, this, &XEnemyViewText::onDefeated);
+    connect(static_cast<XEnemy *>(enemy.get()), &XEnemy::transform, this, &XEnemyViewText::onTransform);
 }
 
 void XEnemyViewText::updateAnimationFrame() {
 
-    // Switch if the font is bold or not
-    currentFrameIndex = (currentFrameIndex + 1) % 64;
-    if (currentFrameIndex < 32) {
-        this->pen.setColor((QColor(255 - 3 * currentFrameIndex, 255 - 3 * currentFrameIndex, 255 - 3 * currentFrameIndex)));
-        setPen(this->pen);
+    if (transformed) {
+        setBrush(QColor(0, 0, 0));
+        // Switch if the font is bold or not
+        currentFrameIndex = (currentFrameIndex + 1) % 64;
+        if (currentFrameIndex < 32) {
+            this->pen.setColor(QColor(255 - 3 * currentFrameIndex, 255 - 3 * currentFrameIndex, 255 - 3 * currentFrameIndex));
+            setPen(this->pen);
 
+        } else {
+            this->pen.setColor(QColor(4 * (currentFrameIndex), 4 * (currentFrameIndex), 4 * (currentFrameIndex)));
+            setPen(this->pen);
+        }
     } else {
-        this->pen.setColor((QColor(4 * (currentFrameIndex), 4 * (currentFrameIndex), 4 * (currentFrameIndex ))));
-        setPen(this->pen);
+        currentFrameIndex = (currentFrameIndex + 1) % 60;
+        if (currentFrameIndex < 30) {
+            setBrush(QColor(2 * currentFrameIndex, 6 * currentFrameIndex, 4 * currentFrameIndex));
+
+        } else {
+            setBrush(QColor(60 - 2 * (currentFrameIndex - 30), 180 - 6 * (currentFrameIndex - 30), 120 - 4 * (currentFrameIndex - 30)));
+        }
     }
     // Force the object to update
     update();
+}
+
+void XEnemyViewText::onDefeated() {
+    if (!transformed) {
+        transformed = true;
+        setText("xEx");
+    } else {
+        setText(".x.");
+        disconnect(animationTimer, &QTimer::timeout, this, &XEnemyViewText::updateAnimationFrame);
+    }
+}
+
+void XEnemyViewText::onTransform() {
+    if (!transformed) {
+        transformed = true;
+        setText("xEx");
+    }
 }

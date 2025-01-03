@@ -12,6 +12,7 @@ ProtagonistViewText::ProtagonistViewText(const std::unique_ptr<Player> &protagon
       currentState{Idle},
       movementAnimation(new QPropertyAnimation(this, "pos")),
       animationTimer(new QTimer(this)),
+      poisonTimer(new QTimer(this)),
       currentFrameIndex{0} {
 
     this->tileWidth = tileWidth;
@@ -32,6 +33,7 @@ ProtagonistViewText::ProtagonistViewText(const std::unique_ptr<Player> &protagon
     connect(protagonist.get(), &Player::posChanged, this, &ProtagonistViewText::onPositionChanged);
     connect(protagonist.get(), &Player::healthChanged, this, &ProtagonistViewText::onHealthChanged);
     connect(protagonist.get(), &Player::energyChanged, this, &ProtagonistViewText::onEnergyChanged);
+    connect(protagonist.get(), &Player::playerAttack, this, &ProtagonistViewText::onPlayerAttack);
 
     // Configure the movement animation
     movementAnimation->setDuration(480); // Animation duration (in milliseconds)
@@ -50,6 +52,9 @@ ProtagonistViewText::ProtagonistViewText(const std::unique_ptr<Player> &protagon
     });
 
     connect(animationTimer, &QTimer::timeout, this, &ProtagonistViewText::checkHealthPackCollision);
+
+    poisonTimer->setInterval(500);
+    poisonTimer->setSingleShot(true);
 }
 
 void ProtagonistViewText::onPositionChanged(int x, int y) {
@@ -115,9 +120,6 @@ void ProtagonistViewText::onHealthChanged(int health) {
     if (health == 100) {
         // Add healing animation
         setText("+P+");
-    } else {
-        // Switch to fighting state
-        setState(Fighting);
     }
 }
 
@@ -157,13 +159,19 @@ void ProtagonistViewText::updateAnimationFrame() {
         setText("{P}");
         currentFrameIndex = (currentFrameIndex + 1) % 16;
         if (currentFrameIndex < 8) {
-            this->pen.setColor((QColor(255 - 16 * currentFrameIndex, 255 - 16 * currentFrameIndex, 0)));
-            this->pen.setWidth(1 + (2 - currentFrameIndex / 4));
+            if (poisonTimer->isActive()) {
+                // 0 - 128
+                this->pen.setColor(QColor(216, 145, 239, 256 - 16 * currentFrameIndex));
+            } else {
+                this->pen.setColor((QColor(255 - 16 * currentFrameIndex, 255 - 16 * currentFrameIndex, 0)));
+            }
+            this->pen.setWidthF(1 + (2 - currentFrameIndex / 4.0));
             setPen(this->pen);
 
         } else {
+            // 128 - 256
             this->pen.setColor((QColor(127 + 16 * (currentFrameIndex - 8), 127 + 16 * (currentFrameIndex - 8), 0)));
-            this->pen.setWidth((currentFrameIndex - 8) / 4);
+            this->pen.setWidthF((currentFrameIndex - 8) / 4.0);
             setPen(this->pen);
         }
         update();
@@ -230,4 +238,12 @@ void ProtagonistViewText::checkHealthPackCollision() {
             break;
         }
     }
+}
+
+void ProtagonistViewText::onPlayerAttack() {
+    setState(Fighting);
+}
+
+void ProtagonistViewText::setPoisonEffect() {
+    poisonTimer->start();
 }

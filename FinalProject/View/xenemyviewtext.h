@@ -20,9 +20,12 @@ class XEnemyViewText : public QObject, public QGraphicsSimpleTextItem {
     QTimer *animationTimer;
     QPen pen;
     int currentFrameIndex;
+    bool transformed;
 
   private slots:
     void updateAnimationFrame();
+    void onDefeated();
+    void onTransform();
 };
 
 #endif // XENEMYVIEWTEXT_H

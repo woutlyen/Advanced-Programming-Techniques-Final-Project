@@ -12,6 +12,7 @@ class PEnemyViewText : public QObject, public QGraphicsSimpleTextItem {
 
   public:
     PEnemyViewText(const std::unique_ptr<EnemyWrapper> &enemy, double tileWidth, double tileHeight, QFont font, QGraphicsItem *parent = nullptr);
+    void setPoisonCircle(int value);
 
   private:
     double tileWidth, tileHeight;
@@ -19,10 +20,14 @@ class PEnemyViewText : public QObject, public QGraphicsSimpleTextItem {
     QTimer *animationTimer;
     QPen pen;
     int currentFrameIndex;
+    QGraphicsTextItem* poisonCircle;
+    void expandPoisonCircle(int value);
+    bool died;
 
   private slots:
+    void onDefeated();
+    void onPoisonLevelValueUpdated(int value);
     void updateAnimationFrame();
 };
-
 
 #endif // PENEMYVIEWTEXT_H

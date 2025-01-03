@@ -17,6 +17,8 @@ class WorldViewText : public QObject, public WorldView {
     QGraphicsScene *makeScene() const override;
     void updateGrid(int xPos, int yPos);
     void setSize(int size);
+    QGraphicsTextItem *addPoisonCircle(int x, int y, int radius, QGraphicsScene *scene, int value);
+    void removePoisonCircle(QGraphicsTextItem *poisonCircle, QGraphicsScene *scene);
 
   private:
     int size{50};
@@ -24,9 +26,6 @@ class WorldViewText : public QObject, public WorldView {
     QColor lightGreen{144, 238, 144}; // Light green color
     QFont font{"Monospace"};
     QGraphicsTextItem *bgText1;
-    /*QGraphicsTextItem *bgText2;*/
-    /*QGraphicsTextItem *bgText3;*/
-    /*QGraphicsTextItem *bgText4;*/
     QGraphicsSimpleTextItem *borders;
 
     QString pixmapToString(const QPixmap &pixmap, int xPos, int yPos) const;
