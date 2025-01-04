@@ -51,6 +51,7 @@ private:
     QTimer* autoplayTimer = new QTimer(this);
     bool checkInsufficientStats();
     void pathSetUp();
+    bool attackFailed{false};
 
   private slots:
     void onZoomInEvent();

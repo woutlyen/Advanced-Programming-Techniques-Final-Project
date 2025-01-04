@@ -46,7 +46,7 @@ void GameController::autoplay()
         isAutoplayRunning = true;
 
         if(!onPath){
-            if(checkInsufficientStats()){
+            if(checkInsufficientStats() || attackFailed){
                 path = pathfinderController.findNearestHealthPack();
 
                 if(path.empty()){
@@ -65,6 +65,7 @@ void GameController::autoplay()
                     disableAutoplay();
                     return;
                 }
+                attackFailed = false;
                 movingToEnemy = true;
                 qDebug() << "Path to enemies found "  << path;
             }
@@ -87,8 +88,9 @@ void GameController::autoplay()
         }
 
         if(player->getXPos() == beforeX && player->getYPos() == beforeY){ // no movement due to enemy in the way
-            if(movingToEnemy && checkInsufficientStats()){
-                qDebug() << "Not enough hp/ energy";
+            if(!player->isStrongEnough() || checkInsufficientStats()){
+                qDebug() << "Not enough hp";
+                attackFailed = true;
                 onPath = false;
                 isAutoplayRunning = false;
                 return;

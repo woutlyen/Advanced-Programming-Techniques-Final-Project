@@ -17,7 +17,6 @@ void MoveUpCommand::execute() {
         }
     }
     else{
-        playerController.startFight();
         playerController.checkForPoison();
     }
 

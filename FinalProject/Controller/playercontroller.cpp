@@ -100,11 +100,6 @@ bool PlayerController::checkForPoison()
     return false;
 }
 
-void PlayerController::startFight()
-{
-    getCurrentLevel().protagonist->attack();
-}
-
 bool PlayerController::checkForPrevLevel() const
 {
     auto& level = getCurrentLevel();

@@ -14,7 +14,7 @@ public:
     void heal(float hp);
     void useEnergy(float energy);
     void addEnergy(float energy);
-    void attack(){emit playerAttack();};
+    bool attack(int receivedDamage);;
 
     void setXPos(int newPos) noexcept {wrappedPlayer->setXPos(newPos);}
     void setYPos(int newPos) noexcept {wrappedPlayer->setYPos(newPos);}
@@ -33,6 +33,9 @@ public:
 
     bool getAlive() const;
     void setAlive(bool newAlive);
+    bool strongEnough{true};
+
+    bool isStrongEnough() const;
 
 private:
     Direction currentDirection;

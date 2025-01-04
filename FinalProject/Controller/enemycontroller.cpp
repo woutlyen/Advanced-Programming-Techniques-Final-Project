@@ -1,21 +1,29 @@
 #include "enemycontroller.h"
 
+/**
+ * @brief EnemyController::checkForEnemy checks whether an enemy is present at the tile the player
+ * wants to move at. If present, check whether the player attacks. If the player attacks, enemy attacks back.
+ * @param pos
+ * @return true if enemy found at position
+ */
 bool EnemyController::checkForEnemy(const Position pos)
 {
     auto& level = getCurrentLevel();
     auto& enemies = level.enemies;
-    auto& protagonist = level.protagonist;
+    auto& player = level.protagonist;
 
-    int X = protagonist->getXPos();
-    int Y = protagonist->getYPos();
+    int X = player->getXPos();
+    int Y = player->getYPos();
 
     switch(pos){
     case(Up):
         if (Y > 0){
             for(auto& enemy : enemies){
                 if(enemy->getXPos() == X && enemy->getYPos() == Y-1 && !enemy->getDefeated()){
-                    checkPoison(enemy);
-                    enemy->attack(protagonist);
+                    if(player->attack(enemy->getValue())){
+                        checkPoison(enemy);
+                        enemy->attack(player);
+                    }
                     return true;
                 }
             }
@@ -25,8 +33,10 @@ bool EnemyController::checkForEnemy(const Position pos)
         if (Y < level.height-1){
             for(auto& enemy : enemies){
                 if(enemy->getXPos() == X && enemy->getYPos() == Y+1 && !enemy->getDefeated()){
-                    checkPoison(enemy);
-                    enemy->attack(protagonist);
+                    if(player->attack(enemy->getValue())){
+                        checkPoison(enemy);
+                        enemy->attack(player);
+                    }
                     return true;
                 }
             }
@@ -36,8 +46,10 @@ bool EnemyController::checkForEnemy(const Position pos)
         if (X > 0){
             for(auto& enemy : enemies){
                 if(enemy->getXPos() == X-1 && enemy->getYPos() == Y && !enemy->getDefeated()){
-                    checkPoison(enemy);
-                    enemy->attack(protagonist);
+                    if(player->attack(enemy->getValue())){
+                        checkPoison(enemy);
+                        enemy->attack(player);
+                    }
                     return true;
                 }
             }
@@ -47,8 +59,10 @@ bool EnemyController::checkForEnemy(const Position pos)
         if (X < level.width -1){
             for(auto& enemy : enemies){
                 if(enemy->getXPos() == X+1 && enemy->getYPos() == Y && !enemy->getDefeated()){
-                    checkPoison(enemy);
-                    enemy->attack(protagonist);
+                    if(player->attack(enemy->getValue())){
+                        checkPoison(enemy);
+                        enemy->attack(player);
+                    }
                     return true;
                 }
             }
