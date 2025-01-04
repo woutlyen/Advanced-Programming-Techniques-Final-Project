@@ -4,7 +4,7 @@
     <number>1</number>
     <xpos>0</xpos>
     <ypos>22</ypos>
-    <enemies>40</enemies>
+    <enemies>5</enemies>
     <healthpacks>10</healthpacks>
     <pratio>0.25</pratio>
     <xratio>0.25</xratio>

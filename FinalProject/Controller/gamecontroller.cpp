@@ -65,7 +65,6 @@ void GameController::autoplay()
                     disableAutoplay();
                     return;
                 }
-                attackFailed = false;
                 movingToEnemy = true;
                 qDebug() << "Path to enemies found "  << path;
             }
@@ -105,6 +104,7 @@ void GameController::autoplay()
             pathIndex++;
         }
         else{
+            attackFailed = false;
             onPath = false;
         }
     }
