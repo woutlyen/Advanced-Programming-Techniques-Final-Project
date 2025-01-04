@@ -3,7 +3,9 @@
 #include "Controller/playercontroller.h"
 
 MoveRightCommand::MoveRightCommand() {}
-
+/**
+ * @brief MoveRightCommand::execute movement command results in either an enemy attack, or movement to given direction
+ */
 void MoveRightCommand::execute() {
 
     playerController.updatePlayerDirection(Player::Right);

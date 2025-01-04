@@ -5,6 +5,9 @@
 
 MoveUpCommand::MoveUpCommand() {}
 
+/**
+ * @brief MoveUpCommand::execute movement command results in either an enemy attack, or movement to given direction
+ */
 void MoveUpCommand::execute() {
 
     playerController.updatePlayerDirection(Player::Back);
