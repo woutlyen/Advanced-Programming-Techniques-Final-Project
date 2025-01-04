@@ -7,9 +7,9 @@ class Node : public Tile
 {
 public:
     Node(int x, int y, float value);
-    float f;
-    float g;
-    float h;
+    float f{0};
+    float g{0};
+    float h{0};
     bool visited{false};
     bool closed{false};
     Node* prev;
