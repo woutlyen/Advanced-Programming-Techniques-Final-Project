@@ -156,6 +156,14 @@ void LevelController::updatePoisonedTileValue(int poisonLevel)
     }
 }
 
+/**
+ * @brief LevelController::generatePoisonedTiles when a PEnemy is attacked,
+ * the tiles around the PEnemy get poisoned as the poison spreads in 2 stages in a circular shape.
+ * @param xPos
+ * @param yPos
+ * @param poisonLevel
+ * @param expansionStage
+ */
 void LevelController::generatePoisonedTiles(int xPos, int yPos, int poisonLevel, int expansionStage)
 {
     switch(expansionStage){
@@ -181,7 +189,7 @@ void LevelController::generatePoisonedTiles(int xPos, int yPos, int poisonLevel,
 
 void LevelController::addPoisonedTile(int x, int y, int poisonLevel)
 {
-    for (auto& tile : getCurrentLevel().tiles) {
+    for (const auto& tile : getCurrentLevel().tiles) {
         if (tile->getXPos() == x && tile->getYPos() == y) {
             auto poisonedTile = std::make_unique<Tile>(x,y, poisonLevel);
             getCurrentLevel().poisonedTiles.push_back(std::move(poisonedTile));
