@@ -46,8 +46,8 @@ public:
 
 
 private:
-    Direction currentDirection;
     std::unique_ptr<Protagonist> wrappedPlayer;
+    Direction currentDirection;
 
     bool isPoisoned {false};
     QTimer* poisonTimer;

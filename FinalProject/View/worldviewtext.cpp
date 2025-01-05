@@ -8,7 +8,6 @@
 #include "View/xenemyviewtext.h"
 #include "qobject.h"
 #include <QThread>
-#include <iostream>
 
 WorldViewText::WorldViewText() : QObject() {
 

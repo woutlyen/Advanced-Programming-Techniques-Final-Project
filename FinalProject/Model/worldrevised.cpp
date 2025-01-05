@@ -80,7 +80,7 @@ std::unique_ptr<Player> WorldRevised::getPlayer()
 void WorldRevised::convertToEnemyWrapper(std::vector<std::unique_ptr<Enemy>> oldEnemies)
 {
     for (auto& enemy : oldEnemies) {
-        if(PEnemy* penemy = dynamic_cast<PEnemy *>(enemy.get())){
+        if(dynamic_cast<PEnemy *>(enemy.get())){
             enemies.push_back(std::make_unique<PEnemyWrapper>(std::move(enemy)));
         }
         else{

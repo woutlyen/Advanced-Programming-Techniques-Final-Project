@@ -30,7 +30,7 @@ size_t LevelController::getCurrentLevelNr() const{
 
 // Set the current level Nr
 void LevelController::setCurrentLevelNr(const size_t levelNumber) {
-    if (levelNumber >= 0 && levelNumber < levels.size()){
+    if (levelNumber < levels.size()){
         currentLevelIndex = levelNumber;
     }
 }

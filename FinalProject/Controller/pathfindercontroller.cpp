@@ -97,8 +97,7 @@ std::vector<Node> PathfinderController::initializeNodes()
 
     for (const auto& tile : tiles)
     {
-        Node node(tile->getXPos(), tile->getYPos(), tile->getValue());
-        nodes.push_back(node);
+        nodes.emplace_back(tile->getXPos(), tile->getYPos(), tile->getValue());;
     }
     return nodes;
 }
