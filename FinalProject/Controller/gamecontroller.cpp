@@ -32,6 +32,10 @@ void GameController::start(const QString& filePath)
     playerController.moveRight();
 }
 
+/**
+ * @brief GameController::autoplay initialises the autoplay loop. Player tries to defeat all enemies,
+ * while replenishing health and energy when these values are low.
+ */
 void GameController::autoplay()
 {
     auto & level = LevelController::getInstance().getCurrentLevel();
@@ -46,7 +50,7 @@ void GameController::autoplay()
         isAutoplayRunning = true;
 
         if(!onPath){
-            if(checkInsufficientStats()){
+            if(checkInsufficientStats() || attackFailed){
                 path = pathfinderController.findNearestHealthPack();
 
                 if(path.empty()){
@@ -87,8 +91,9 @@ void GameController::autoplay()
         }
 
         if(player->getXPos() == beforeX && player->getYPos() == beforeY){ // no movement due to enemy in the way
-            if(movingToEnemy && checkInsufficientStats()){
-                qDebug() << "Not enough hp/ energy";
+            if(!player->isStrongEnough() || checkInsufficientStats()){
+                qDebug() << "Not enough hp";
+                attackFailed = true;
                 onPath = false;
                 isAutoplayRunning = false;
                 return;
@@ -103,6 +108,7 @@ void GameController::autoplay()
             pathIndex++;
         }
         else{
+            attackFailed = false;
             onPath = false;
         }
     }
@@ -110,6 +116,10 @@ void GameController::autoplay()
 
 }
 
+/**
+ * @brief GameController::sendMoveCommand translates the given int to a movement command
+ * @param move
+ */
 void GameController::sendMoveCommand(int move)
 {
     /*
@@ -136,7 +146,13 @@ void GameController::sendMoveCommand(int move)
     }
 }
 
-bool GameController::isTileWalkable(int x, int y)
+/**
+ * @brief GameController::isTileWalkable check whether a tile is walkable in pathfinding mode
+ * @param x
+ * @param y
+ * @return true if the tile is not a wall, nor a portal to the next/previous level
+ */
+bool GameController::isTileWalkable(int x, int y) const
 {
     if(LevelController::getInstance().getTileValue(x,y) != std::numeric_limits<float>::infinity() && !(x == LevelController::getInstance().getCurrentLevel().next_level_x_pos && y == LevelController::getInstance().getCurrentLevel().next_level_y_pos) && !(x == LevelController::getInstance().getCurrentLevel().prev_level_x_pos && y == LevelController::getInstance().getCurrentLevel().prev_level_y_pos)){
         return true;
@@ -144,9 +160,13 @@ bool GameController::isTileWalkable(int x, int y)
     return false;
 }
 
+/**
+ * @brief GameController::convertPath converts diagonal movements returned from the pathfinder to "up, down, left, right" movements
+ * @param path
+ * @return converted path with only "up, down, left, right" movements
+ */
 std::vector<int> GameController::convertPath(std::vector<int> path)
 {
-    // Converting diagonal movements to up, down, left, right movements
     /*
     *     7 0 1
     *     6   2
@@ -297,6 +317,9 @@ void GameController::goToNearestHealthpack()
     }
 }
 
+/**
+ * @brief GameController::move for the specific pathfinding commands that are not part of the autoplay
+ */
 void GameController::move()
 {
     auto& player = LevelController::getInstance().getCurrentLevel().protagonist;
@@ -322,9 +345,9 @@ void GameController::move()
     }
 }
 
-bool GameController::checkInsufficientStats()
+bool GameController::checkInsufficientStats() const
 {
-    auto & player = LevelController::getInstance().getCurrentLevel().protagonist;
+    const auto & player = LevelController::getInstance().getCurrentLevel().protagonist;
 
     if(player->getEnergy() < 25 || player->getHealth() < 25){
         return true;

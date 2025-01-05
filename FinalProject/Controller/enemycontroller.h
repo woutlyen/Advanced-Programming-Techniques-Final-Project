@@ -10,7 +10,7 @@ class EnemyController: public GameObjectController
 public:
     enum Position { Up, Down, Left, Right };
     bool checkForEnemy(const Position pos);
-    void checkPoison(std::unique_ptr<EnemyWrapper> &enemy);
+    void checkPoison(const std::unique_ptr<EnemyWrapper> &enemy);
 };
 
 #endif // ENEMYCONTROLLER_H

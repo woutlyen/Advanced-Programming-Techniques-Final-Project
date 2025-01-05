@@ -17,7 +17,6 @@ public:
     bool checkForPrevLevel() const;
     bool checkForNextLevel() const;
     void updatePlayerDirection(Player::Direction dir);
-    void startFight();
 
 public slots:
     bool checkForPoison();

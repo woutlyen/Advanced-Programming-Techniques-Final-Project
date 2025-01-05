@@ -41,6 +41,22 @@ void Player::addEnergy(float energy)
     setEnergy(std::min(100.0f, getEnergy() + energy));
 }
 
+/**
+ * @brief Player::attack checks whether player has enough health to attack the enemy, then attacks
+ * @param receivedDamage
+ * @return true if player attacks
+ */
+bool Player::attack(int receivedDamage){
+
+    if(getHealth() >= receivedDamage){
+        emit playerAttack();
+        strongEnough = true;
+        return true;
+    }
+    strongEnough = false;
+    return false;
+}
+
 bool Player::getAlive() const
 {
     return alive;
@@ -49,5 +65,10 @@ bool Player::getAlive() const
 void Player::setAlive(bool newAlive)
 {
     alive = newAlive;
+}
+
+bool Player::isStrongEnough() const
+{
+    return strongEnough;
 }
 

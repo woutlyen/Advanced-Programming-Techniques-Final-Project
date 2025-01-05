@@ -7,14 +7,14 @@ std::vector<int> PathfinderController::findNearestEnemy()
 {
     float shortestDistance = std::numeric_limits<float>::infinity();
 
-    auto & player = LevelController::getInstance().getCurrentLevel().protagonist;
-    auto & enemies = LevelController::getInstance().getCurrentLevel().enemies;
+    const auto & player = LevelController::getInstance().getCurrentLevel().protagonist;
+    const auto & enemies = LevelController::getInstance().getCurrentLevel().enemies;
     bool enemyFound = false;
 
     Tile playerPosition(player->getXPos(), player->getYPos(), 0.0f);
     Tile nearestEnemyPosition{0,0,0};
 
-    for(auto& enemy: enemies){
+    for(const auto& enemy: enemies){
         if(enemy->getDefeated()){
             continue;
         }
@@ -49,14 +49,14 @@ std::vector<int> PathfinderController::findNearestHealthPack()
 {
     float shortestDistance = std::numeric_limits<float>::infinity();
 
-    auto & player = LevelController::getInstance().getCurrentLevel().protagonist;
-    auto & healthpacks = LevelController::getInstance().getCurrentLevel().healthPacks;
+    const auto & player = LevelController::getInstance().getCurrentLevel().protagonist;
+    const auto & healthpacks = LevelController::getInstance().getCurrentLevel().healthPacks;
     bool healthpackFound = false;
 
     Tile playerPosition(player->getXPos(), player->getYPos(), 0.0f);
     Tile nearestHealthpackPosition{0,0,0.0f};
 
-    for(auto& healthpack: healthpacks){
+    for(const auto& healthpack: healthpacks){
         if(healthpack->getValue() == 0){
             continue;
         }

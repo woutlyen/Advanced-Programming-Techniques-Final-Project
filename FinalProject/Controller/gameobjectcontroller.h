@@ -10,7 +10,7 @@ class GameObjectController: public QObject
     Q_OBJECT
 public:
 
-    GameObjectController();
+    GameObjectController() = default;
 
 protected:
     Level& getCurrentLevel() const{return LevelController::getInstance().getCurrentLevel();};

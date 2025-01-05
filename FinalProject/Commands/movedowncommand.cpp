@@ -4,6 +4,9 @@
 
 MoveDownCommand::MoveDownCommand() {}
 
+/**
+ * @brief MoveDownCommand::execute movement command results in either an enemy attack, or movement to given direction
+ */
 void MoveDownCommand::execute() {
     playerController.updatePlayerDirection(Player::Front);
 
@@ -15,8 +18,6 @@ void MoveDownCommand::execute() {
         }
     }
     else{
-        playerController.startFight();
         playerController.checkForPoison();
     }
-
 }

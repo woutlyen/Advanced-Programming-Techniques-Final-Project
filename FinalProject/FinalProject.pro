@@ -18,7 +18,6 @@ SOURCES += \
     Commands/moveupcommand.cpp \
     Commands/takenearesthealthpackcommand.cpp \
     Controller/enemycontroller.cpp \
-    Controller/gameobjectcontroller.cpp \
     Controller/inputcontroller.cpp \
     Controller/levelcontroller.cpp \
     Controller/pathfindercontroller.cpp \

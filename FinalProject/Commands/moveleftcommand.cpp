@@ -4,6 +4,9 @@
 
 MoveLeftCommand::MoveLeftCommand() {}
 
+/**
+ * @brief MoveLeftCommand::execute movement command results in either an enemy attack, or movement to given direction
+ */
 void MoveLeftCommand::execute() {
 
     playerController.updatePlayerDirection(Player::Left);
@@ -16,7 +19,6 @@ void MoveLeftCommand::execute() {
         }
     }
     else{
-        playerController.startFight();
         playerController.checkForPoison();
     }
 
