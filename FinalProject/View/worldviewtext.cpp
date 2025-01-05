@@ -7,6 +7,7 @@
 #include "View/protagonistviewtext.h"
 #include "View/xenemyviewtext.h"
 #include "qobject.h"
+#include <QThread>
 #include <iostream>
 
 WorldViewText::WorldViewText() : QObject() {
@@ -20,6 +21,15 @@ WorldViewText::WorldViewText() : QObject() {
     bgText1->setZValue(-2);
     borders->setZValue(-1);
 
+    bgWorker = new BackgroundViewText();
+    bgWorker->moveToThread(&bgThread);
+
+    connect(this, &WorldViewText::createBg, bgWorker, &BackgroundViewText::pixmapToString);
+    connect(this, &WorldViewText::createFastBg, bgWorker, &BackgroundViewText::fastPixmapToString);
+    connect(bgWorker, &BackgroundViewText::stringReady, this, &WorldViewText::setGrid);
+
+    bgThread.start();
+
     // Make sure size is even, otherwise int divisions break
     if (size % 2)
         --size;
@@ -32,7 +42,6 @@ QGraphicsScene *WorldViewText::makeScene() const {
     int columns = level.width;
 
     QGraphicsScene *scene = new QGraphicsScene();
-    /*QObject::connect(level.protagonist.get(), &Protagonist::posChanged, this, &WorldViewText::updateGrid);*/
     connect(level.protagonist.get(), &Player::posChanged, this, &WorldViewText::updateGrid);
 
     // Get the size of a box character
@@ -52,11 +61,10 @@ QGraphicsScene *WorldViewText::makeScene() const {
     int ypos = 1;
 
     bgText1->setFont(font);
-    bgText1->setHtml(pixmapToString(QPixmap(level.data_map), size, size));
+    bgText1->setHtml(pixmapToString(QPixmap(level.visual_map).scaled(level.width * 4, level.height * 4), size, size));
     bgText1->setPos(boxWidth / 4 + width * xpos, boxHeight / 2 + height * ypos);
 
     scene->addItem(bgText1);
-    /*scene->addItem(bgText2);*/
 
     QString border = "";
 
@@ -118,43 +126,23 @@ QGraphicsScene *WorldViewText::makeScene() const {
         scene->addItem(new HealthPackViewText(pack, width, height, font));
     }
 
-    /**/
-    /*for (int i = 0; i < rows; i++) {*/
-    /*    for (int j = 0; j < columns; j++) {*/
-    /*        auto text = scene->addSimpleText("\u250c\u2500\u2500\u2510\n\u2514\u2500\u2500\u2518",  font);*/
-    /*        text->setPos(i*width + boxWidth/2, j*height + boxHeight/2);*/
-    /*    }*/
-    /*}*/
-
     scene->addItem(new ProtagonistViewText(level.protagonist, width, height, font));
 
     return scene;
 }
 
-void WorldViewText::updateGrid(int xPos, int yPos) {
+void WorldViewText::setGrid(const QString &bg, int xPos, int yPos) {
     LevelController &levelController = LevelController::getInstance();
     Level &level = levelController.getCurrentLevel();
 
-    if (level.scenesText != borders->scene()) {
+    if (level.scenesText == borders->scene() || level.scenesText == bgText1->scene()) {
+        if (level.width <= size && level.height <= size) {
+            return;
+        }
+    } else {
         level.scenesText->addItem(bgText1);
-        /*level.scenesText->addItem(bgText2);*/
-        /*level.scenesText->addItem(bgText3);*/
-        /*level.scenesText->addItem(bgText4);*/
         level.scenesText->addItem(borders);
     }
-
-    // Get the size of one tile for positioning other elements
-    // Doesn't work well with unicode characters -> use +---\n| instead for consistent spacing
-    auto tilesize = QGraphicsSimpleTextItem("\u2588\u2588\u2588\u2588\n");
-    tilesize.setFont(font);
-    double width = tilesize.boundingRect().width();
-    double height = tilesize.boundingRect().height();
-
-    // Get the size of a box character
-    auto boxSize = QGraphicsSimpleTextItem("\u2588");
-    boxSize.setFont(font);
-    double boxWidth = boxSize.boundingRect().width();
-    double boxHeight = boxSize.boundingRect().height();
 
     int xBegin, yBegin;
     if (xPos - size / 2 < 0) {
@@ -173,14 +161,54 @@ void WorldViewText::updateGrid(int xPos, int yPos) {
         yBegin = yPos - size / 2;
     }
 
-    bgText1->setHtml(pixmapToString(QPixmap(level.visual_map).scaled(level.width * 4, level.height * 4), xPos, yPos));
-    bgText1->setPos(boxWidth / 4 + width * xBegin, height * yBegin);
+    // Get the size of one tile for positioning other elements
+    // Doesn't work well with unicode characters -> use +---\n| instead for consistent spacing
+    auto tilesize = QGraphicsSimpleTextItem("\u2588\u2588\u2588\u2588\n");
+    tilesize.setFont(font);
+    double width = tilesize.boundingRect().width();
+    double height = tilesize.boundingRect().height();
+
+    // Get the size of a box character
+    auto boxSize = QGraphicsSimpleTextItem("\u2588");
+    boxSize.setFont(font);
+    double boxWidth = boxSize.boundingRect().width();
+    double boxHeight = boxSize.boundingRect().height();
+
+    bgText1->setHtml(bg);
+    if (level.width >= size || level.height >= size) {
+        bgText1->setPos(width * xBegin - boxWidth * 0.6, height * yBegin - boxHeight *1.55);
+    } else {
+        bgText1->setPos(boxWidth / 4 + width * xBegin, height * yBegin);
+    }
 
     borders->setPos(width * xBegin, height * yBegin);
 }
 
-QString WorldViewText::pixmapToString(const QPixmap &pixmap, int xPos, int yPos) const {
+void WorldViewText::updateGrid(int xPos, int yPos) {
+    LevelController &levelController = LevelController::getInstance();
+    Level &level = levelController.getCurrentLevel();
 
+    if (level.scenesText == borders->scene() || level.scenesText == bgText1->scene()) {
+        if (level.width <= size && level.height <= size) {
+            return;
+        }
+    }
+    if (level.width >= size || level.height >= size) {
+        emit createFastBg(QPixmap(level.visual_map).scaled(level.width, level.height), xPos, yPos, size);
+        bgText1->setScale(4);
+    } else {
+        emit createBg(QPixmap(level.visual_map).scaled(level.width * 4, level.height * 4), xPos, yPos, size);
+        bgText1->setScale(1);
+    }
+
+    return;
+}
+
+void WorldViewText::setSize(int newSize) {
+    this->size = newSize;
+}
+
+QString WorldViewText::pixmapToString(const QPixmap &pixmap, int xPos, int yPos) const {
     QString bgText;
 
     // Convert the QPixmap to QImage for pixel manipulation
@@ -228,13 +256,9 @@ QString WorldViewText::pixmapToString(const QPixmap &pixmap, int xPos, int yPos)
         bgText.append("<br>");
     }
     bgText.append("</p>");
+
     return bgText;
 }
-
-void WorldViewText::setSize(int newSize) {
-    this->size = newSize;
-}
-
 QGraphicsTextItem *WorldViewText::addPoisonCircle(int x, int y, int radius, QGraphicsScene *scene, int value) {
     auto boxSize = QGraphicsSimpleTextItem("\u2588");
     boxSize.setFont(font);
@@ -248,9 +272,8 @@ QGraphicsTextItem *WorldViewText::addPoisonCircle(int x, int y, int radius, QGra
     QString text;
     text.append("<p style=\"line-height:0.5\">");
     text.append("<font color=\"");
-    text.append(QColor(83, 0, 128, (value*255)/100).name(QColor::HexArgb));
+    text.append(QColor(83, 0, 128, (value * 255) / 100).name(QColor::HexArgb));
     text.append("\">");
-    std::cout << "Radius text: " << radius << std::endl;
     for (int i = 0; i <= 3 * 4 + 1; ++i) {
         for (int j = 0; j <= 3 * 4 + 1; ++j) {
             if ((j - 6.5) * (j - 6.5) + (i - 6.5) * (i - 6.5) < 6.5 * 6.5)
@@ -272,8 +295,6 @@ QGraphicsTextItem *WorldViewText::addPoisonCircle(int x, int y, int radius, QGra
 }
 
 void WorldViewText::removePoisonCircle(QGraphicsTextItem *poisonCircle, QGraphicsScene *scene) {
-    std::cout << poisonCircle << std::endl;
-    std::cout << scene << std::endl;
     scene->removeItem(poisonCircle);
     delete poisonCircle;
 }

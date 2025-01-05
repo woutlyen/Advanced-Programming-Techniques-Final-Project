@@ -27,6 +27,7 @@ SOURCES += \
     Model/penemywrapper.cpp \
     Model/worldrevised.cpp \
     Model/xenemy.cpp \
+    View/backgroundviewtext.cpp \
     View/enemyview2d.cpp \
     View/enemyviewtext.cpp \
     View/gameobject2dview.cpp \
@@ -69,6 +70,7 @@ HEADERS += \
     Model/penemywrapper.h \
     Model/worldrevised.h \
     Model/xenemy.h \
+    View/backgroundviewtext.h \
     View/enemyview2d.h \
     View/enemyviewtext.h \
     View/gameobject2dview.h \
