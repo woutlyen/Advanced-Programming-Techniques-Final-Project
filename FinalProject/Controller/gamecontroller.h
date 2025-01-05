@@ -24,6 +24,7 @@ class GameController : public QObject {
     GameController(const GameController&) = delete;
     GameController& operator=(const GameController&) = delete;
 
+    // Pathfinding functions
     void goTo(int x, int y);
     void goToNearestEnemy();
     void goToNearestHealthpack();
@@ -38,20 +39,23 @@ private:
     InputController inputController;
     PathfinderController pathfinderController;
 
+    // Autoplay related member variables
     bool isAutoplay{false};
     bool onPath{false};
     std::vector<int> path;
     int pathIndex{0};
-    void sendMoveCommand(int move);
-    bool isTileWalkable(int x, int y);
-    std::vector<int> convertPath(std::vector<int> path);
     bool isAutoplayRunning{false};
     bool movingToEnemy{false};
-    void disableAutoplay();
     QTimer* autoplayTimer = new QTimer(this);
-    bool checkInsufficientStats();
-    void pathSetUp();
     bool attackFailed{false};
+
+    // Autoplay related functions
+    void sendMoveCommand(int move);
+    bool isTileWalkable(int x, int y) const;
+    std::vector<int> convertPath(std::vector<int> path);
+    void disableAutoplay();
+    bool checkInsufficientStats() const;
+    void pathSetUp();
 
   private slots:
     void onZoomInEvent();

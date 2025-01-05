@@ -19,7 +19,7 @@ public:
 
     /**
      *  The heuristic function is calculated using the Manhattan Distance function. As this value is significantly larger than the cost function,
-     *  the calculated distance is scaled based on the maximum distance possible (between two opposite corners for 30x30 map)
+     *  the calculated distance is scaled based on the maximum distance possible (between two opposite corners)
     **/
     helper_func<Tile> manhattanDistanceFunction = [](const Tile& next, const Tile& dest){
         float scaled =  LevelController::getInstance().getCurrentLevel().height - 1 + LevelController::getInstance().getCurrentLevel().height - 1;
@@ -42,9 +42,7 @@ public:
     std::vector<int> calculatePath(const Tile& start, const Tile& end);
 
 private:
-    //
     float heuristicWeight = 1.0f;
-
 
 };
 

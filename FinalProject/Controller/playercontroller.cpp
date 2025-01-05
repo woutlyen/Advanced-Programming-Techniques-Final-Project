@@ -89,7 +89,7 @@ bool PlayerController::checkForPoison()
         QTimer::singleShot(1000, this, &PlayerController::checkForPoison);
     }
 
-    for(auto& poisonedTile : getCurrentLevel().poisonedTiles){
+    for(const auto& poisonedTile : getCurrentLevel().poisonedTiles){
         if(poisonedTile->getXPos() == X && poisonedTile->getYPos() == Y && poisonedTile->getValue() != 0){
             protagonist->setPoisoned(true);
             protagonist->takeDamage(poisonedTile->getValue());

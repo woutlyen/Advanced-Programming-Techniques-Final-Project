@@ -71,7 +71,11 @@ bool EnemyController::checkForEnemy(const Position pos)
     };
 }
 
-void EnemyController::checkPoison(std::unique_ptr<EnemyWrapper> &enemy)
+/**
+ * @brief EnemyController::checkPoison signals to the LevelController to generate poisoned tiles after attack on a PEnemy type
+ * @param enemy
+ */
+void EnemyController::checkPoison(const std::unique_ptr<EnemyWrapper> &enemy)
 {
     if(PEnemyWrapper* penemy = dynamic_cast<PEnemyWrapper *>(enemy.get())){
         if(!penemy->getPoisonStarted()){
