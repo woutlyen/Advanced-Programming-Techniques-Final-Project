@@ -6,7 +6,6 @@
 #include "qgraphicsitem.h"
 #include "qobject.h"
 #include "qpen.h"
-#include "world.h"
 
 class XEnemyViewText : public QObject, public QGraphicsSimpleTextItem {
     Q_OBJECT
@@ -20,7 +19,7 @@ class XEnemyViewText : public QObject, public QGraphicsSimpleTextItem {
     QTimer *animationTimer;
     QPen pen;
     int currentFrameIndex;
-    bool transformed;
+    bool transformed{false};
 
   private slots:
     void updateAnimationFrame();
