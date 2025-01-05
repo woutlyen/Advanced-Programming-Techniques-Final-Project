@@ -6,6 +6,9 @@ Player::Player(std::unique_ptr<Protagonist> protagonist): wrappedPlayer(std::mov
     connect(wrappedPlayer.get(), &Protagonist::energyChanged, this, &Player::energyChangedWrapped);
     connect(wrappedPlayer.get(), &Protagonist::healthChanged, this, &Player::healthChangedWrapped);
     connect(wrappedPlayer.get(), &Protagonist::posChanged, this, &Player::posChangedWrapped);
+
+    poisonTimer = new QTimer(this);
+    connect(poisonTimer, &QTimer::timeout, this, &Player::poisonDamage);
 }
 
 void Player::setDirection(Direction dir)
@@ -16,8 +19,14 @@ void Player::setDirection(Direction dir)
 
 void Player::setPoisoned(bool value)
 {
-    if(value){
+    isPoisoned = value;
+    if(isPoisoned){
         emit poisoned();
+        poisonDurationRemaining = 3;
+        if (!poisonTimer->isActive())
+        {
+            poisonTimer->start(1000);
+        }
     }
 }
 
@@ -71,4 +80,26 @@ bool Player::isStrongEnough() const
 {
     return strongEnough;
 }
+
+/**
+ * @brief Player::poisonDamage leaves the player poisoned for 3 seconds after first interaction with a poison object (poisoned tile or PEnemy).
+ * Timer resets when a new interaction occurs. During this poisoned state, the player takes damage.
+ */
+void Player::poisonDamage()
+{
+
+    if (poisonDurationRemaining > 0)
+    {
+        takeDamage(1);
+        --poisonDurationRemaining;
+        emit poisoned();
+
+        if (poisonDurationRemaining == 0)
+        {
+            poisonTimer->stop();
+            setPoisoned(false);
+        }
+    }
+}
+
 

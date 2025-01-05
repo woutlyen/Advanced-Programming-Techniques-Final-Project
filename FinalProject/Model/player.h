@@ -2,12 +2,20 @@
 #define PLAYER_H
 #include "world.h"
 
+/**
+ * @brief The Player class is a wrapper class for managing and interacting with a unique pointer to Protagonist,
+ * while also extending it with new methods and fields
+ */
 class Player : public QObject
 {
     Q_OBJECT
 public:
     Player(std::unique_ptr<Protagonist> protagonist);
+
+    // Own fields
     enum Direction {Front, Back, Left, Right};
+
+    // Own methods
     void setDirection(Direction dir);
     void setPoisoned(bool value);
     void takeDamage(float damage);
@@ -15,7 +23,11 @@ public:
     void useEnergy(float energy);
     void addEnergy(float energy);
     bool attack(int receivedDamage);;
+    bool getAlive() const;
+    void setAlive(bool newAlive);
+    bool isStrongEnough() const;
 
+    // Wrapper methods
     void setXPos(int newPos) noexcept {wrappedPlayer->setXPos(newPos);}
     void setYPos(int newPos) noexcept {wrappedPlayer->setYPos(newPos);}
     void setPos(int newX, int newY) noexcept {wrappedPlayer->setPos(newX, newY);}
@@ -31,19 +43,18 @@ public:
     [[nodiscard]] int getXPos() const noexcept {return wrappedPlayer->getXPos();};
     [[nodiscard]] int getYPos() const noexcept {return wrappedPlayer->getYPos();};
 
-    bool getAlive() const;
-    void setAlive(bool newAlive);
-    bool strongEnough{true};
 
-    bool isStrongEnough() const;
 
 private:
     Direction currentDirection;
     std::unique_ptr<Protagonist> wrappedPlayer;
 
+    bool isPoisoned {false};
+    QTimer* poisonTimer;
+    int poisonDurationRemaining;
+
     bool alive{true};
-
-
+    bool strongEnough{true};
 
 signals:
 
@@ -60,6 +71,7 @@ private slots:
     void posChangedWrapped(int x, int y){emit posChanged(x,y);};
     void healthChangedWrapped(int h){emit healthChanged(h);};
     void energyChangedWrapped(int e){emit energyChanged(e);};
+    void poisonDamage();
 };
 
 #endif // PLAYER_H
