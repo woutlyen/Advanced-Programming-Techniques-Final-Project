@@ -8,6 +8,11 @@ XEnemy::XEnemy(int xPosition, int yPosition, float strength)
     setValue(strength);
 }
 
+/**
+ * @brief XEnemy::attack will transform from its innocent green slime form, to its stronger skeletal form.
+ * XEnemy requires to be hit 3 times before it dies.
+ * @param player
+ */
 void XEnemy::attack(std::unique_ptr<Player> &player)
 {
     qDebug() << "XEnemy attacks!";

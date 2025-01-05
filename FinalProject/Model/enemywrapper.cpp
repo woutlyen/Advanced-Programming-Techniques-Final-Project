@@ -1,6 +1,6 @@
 #include "enemywrapper.h"
 
-EnemyWrapper::EnemyWrapper(std::unique_ptr<Enemy> enemy): wrappedEnemy(std::move(enemy)) {
+EnemyWrapper::EnemyWrapper(std::unique_ptr<Enemy> &&enemy): wrappedEnemy(std::move(enemy)) {
     connect(wrappedEnemy.get(), &Enemy::dead, this, &EnemyWrapper::onWrappedEnemyDied);
 }
 
