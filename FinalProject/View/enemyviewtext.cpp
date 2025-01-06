@@ -1,7 +1,7 @@
 #include "enemyviewtext.h"
 
 EnemyViewText::EnemyViewText(const std::unique_ptr<EnemyWrapper> &enemy, double tileWidth, double tileHeight, QFont font)
-    : GameObjectTextView(tileWidth, tileHeight, font), enemy(enemy) {
+    : GameObjectTextView(tileWidth, tileHeight, font) {
 
     this->pen = QPen(QColor(60, 180, 120));
     this->pen.setWidthF(1.5);

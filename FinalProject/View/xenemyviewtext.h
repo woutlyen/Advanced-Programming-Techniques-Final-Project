@@ -17,7 +17,7 @@ class XEnemyViewText : public EnemyViewText {
     void setAnimation() override;
 
   private:
-    bool transformed;
+    bool transformed {false};
 
   private slots:
     void onDefeated() override;

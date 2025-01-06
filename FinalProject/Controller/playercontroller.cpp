@@ -12,7 +12,7 @@ void PlayerController::moveUp() const{
     if (protagonist->getYPos() > 0 && protagonist->getEnergy() >= 1 && protagonist->getHealth() >= 1){
         float val = (level.tiles.at((protagonist->getYPos()-1) * level.width + protagonist->getXPos())->getValue());
         if (val != std::numeric_limits<float>::infinity()){
-            protagonist->setEnergy(protagonist->getEnergy() - (1.0 - val));
+            protagonist->setEnergy(protagonist->getEnergy() - (1.0 - val) - 0.1);
             protagonist->setYPos(protagonist->getYPos()-1);
         }
     }
@@ -25,7 +25,7 @@ void PlayerController::moveDown() const{
     if (protagonist->getYPos() < level.height-1 && protagonist->getEnergy() >= 1 && protagonist->getHealth() >= 1){
         float val = (level.tiles.at((protagonist->getYPos()+1) * level.width + protagonist->getXPos())->getValue());
         if (val != std::numeric_limits<float>::infinity()){
-            protagonist->setEnergy(protagonist->getEnergy() - (1.0 - val));
+            protagonist->setEnergy(protagonist->getEnergy() - (1.0 - val) - 0.1);
             protagonist->setYPos(protagonist->getYPos()+1);
         }
     }
@@ -38,7 +38,7 @@ void PlayerController::moveLeft() const{
     if (protagonist->getXPos() > 0 && protagonist->getEnergy() >= 1 && protagonist->getHealth() >= 1){
         float val = (level.tiles.at(protagonist->getYPos() * level.width + protagonist->getXPos() -1)->getValue());
         if (val != std::numeric_limits<float>::infinity()){
-            protagonist->setEnergy(protagonist->getEnergy() - (1.0 - val));
+            protagonist->setEnergy(protagonist->getEnergy() - (1.0 - val) - 0.1);
             protagonist->setXPos(protagonist->getXPos()-1);
         }
     }
@@ -51,7 +51,7 @@ void PlayerController::moveRight() const{
     if (protagonist->getXPos() < level.width-1 && protagonist->getEnergy() >= 1 && protagonist->getHealth() >= 1){
         float val = (level.tiles.at(protagonist->getYPos() * level.width + protagonist->getXPos() +1)->getValue());
         if (val != std::numeric_limits<float>::infinity()){
-            protagonist->setEnergy(protagonist->getEnergy() - (1.0 - val));
+            protagonist->setEnergy(protagonist->getEnergy() - (1.0 - val) - 0.1);
             protagonist->setXPos(protagonist->getXPos()+1);
         }
     }

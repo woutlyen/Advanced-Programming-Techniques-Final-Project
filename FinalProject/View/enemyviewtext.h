@@ -12,7 +12,6 @@ class EnemyViewText : public GameObjectTextView {
     virtual ~EnemyViewText() = default;
 
   protected:
-    const std::unique_ptr<EnemyWrapper> &enemy;
     int getNrOfFramesIdle() const override{return 60;}
     int getNrOfFramesWalking() const override{ return 0;}
     int getNrOfFramesFighting() const override{ return 0;}
