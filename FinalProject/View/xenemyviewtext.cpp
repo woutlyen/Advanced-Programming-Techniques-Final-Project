@@ -1,75 +1,70 @@
 #include "xenemyviewtext.h"
 #include "Model/xenemy.h"
-#include "qgraphicsitem.h"
-#include "qpen.h"
-#include "qtimer.h"
 
-XEnemyViewText::XEnemyViewText(const std::unique_ptr<EnemyWrapper> &enemy, double tileWidth, double tileHeight, QFont font, QGraphicsItem *parent)
-    : QObject(),
-      QGraphicsSimpleTextItem(parent),
-      animationTimer(new QTimer(this)),
-      currentFrameIndex{0} {
+XEnemyViewText::XEnemyViewText(const std::unique_ptr<EnemyWrapper> &enemy, double tileWidth, double tileHeight, QFont font)
+    : EnemyViewText(enemy, tileWidth, tileHeight, font),
+      transformed{false} {
 
-    this->tileWidth = tileWidth;
-    this->tileHeight = tileHeight;
-    this->font = font;
-    /*this->pen = QPen(QColor(255, 255, 255));*/
+    // Only change pen color, other fields are set in EnemyViewText constructor
     this->pen = QPen(QColor(60, 180, 120));
-
-    // TODO: Add color
-    setText(".E.");
-    setFont(this->font);
+    this->pen.setWidthF(1);
     setPen(pen);
-    setPos(tileWidth * enemy->getXPos() + tileWidth / 4, tileHeight * enemy->getYPos() + tileHeight / 2);
 
-    animationTimer->setInterval(30);
-    animationTimer->start();
-
-    connect(animationTimer, &QTimer::timeout, this, &XEnemyViewText::updateAnimationFrame);
     connect(enemy.get(), &EnemyWrapper::dead, this, &XEnemyViewText::onDefeated);
     connect(static_cast<XEnemy *>(enemy.get()), &XEnemy::transform, this, &XEnemyViewText::onTransform);
 }
 
-void XEnemyViewText::updateAnimationFrame() {
+void XEnemyViewText::setAnimation() {
+    switch (currentState) {
+    case Idle:
+        if (this->transformed) {
+            setBrush(QColor(0, 0, 0));
+            setText("xEx");
+            if (currentFrameIndex < 32) {
+                this->pen.setColor(QColor(255 - 3 * currentFrameIndex, 255 - 3 * currentFrameIndex, 255 - 3 * currentFrameIndex));
+                setPen(this->pen);
 
-    if (transformed) {
+            } else {
+                this->pen.setColor(QColor(4 * (currentFrameIndex), 4 * (currentFrameIndex), 4 * (currentFrameIndex)));
+                setPen(this->pen);
+            }
+        } else {
+            setText(".E.");
+            if (currentFrameIndex < 30) {
+                setBrush(QColor(2 * currentFrameIndex, 6 * currentFrameIndex, 4 * currentFrameIndex));
+
+            } else {
+                setBrush(QColor(60 - 2 * (currentFrameIndex - 30), 180 - 6 * (currentFrameIndex - 30), 120 - 4 * (currentFrameIndex - 30)));
+            }
+        }
+        // Force the object to update
+        update();
+        break;
+
+    case Fighting:
+        break;
+
+    case Dying:
+        setText(".x.");
         setBrush(QColor(0, 0, 0));
-        // Switch if the font is bold or not
-        currentFrameIndex = (currentFrameIndex + 1) % 64;
-        if (currentFrameIndex < 32) {
-            this->pen.setColor(QColor(255 - 3 * currentFrameIndex, 255 - 3 * currentFrameIndex, 255 - 3 * currentFrameIndex));
-            setPen(this->pen);
+        break;
 
-        } else {
-            this->pen.setColor(QColor(4 * (currentFrameIndex), 4 * (currentFrameIndex), 4 * (currentFrameIndex)));
-            setPen(this->pen);
-        }
-    } else {
-        currentFrameIndex = (currentFrameIndex + 1) % 60;
-        if (currentFrameIndex < 30) {
-            setBrush(QColor(2 * currentFrameIndex, 6 * currentFrameIndex, 4 * currentFrameIndex));
-
-        } else {
-            setBrush(QColor(60 - 2 * (currentFrameIndex - 30), 180 - 6 * (currentFrameIndex - 30), 120 - 4 * (currentFrameIndex - 30)));
-        }
+    case Walking:
+        break;
     }
-    // Force the object to update
-    update();
 }
 
 void XEnemyViewText::onDefeated() {
     if (!transformed) {
         transformed = true;
-        setText("xEx");
+        setState(Idle);
     } else {
-        setText(".x.");
-        disconnect(animationTimer, &QTimer::timeout, this, &XEnemyViewText::updateAnimationFrame);
+        setState(Dying);
     }
 }
 
 void XEnemyViewText::onTransform() {
     if (!transformed) {
         transformed = true;
-        setText("xEx");
     }
 }

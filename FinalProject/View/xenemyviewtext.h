@@ -1,29 +1,26 @@
 #ifndef XENEMYVIEWTEXT_H
 #define XENEMYVIEWTEXT_H
 
-#include "Model/enemywrapper.h"
-#include "qfont.h"
-#include "qgraphicsitem.h"
-#include "qobject.h"
-#include "qpen.h"
+#include "View/enemyviewtext.h"
 
-class XEnemyViewText : public QObject, public QGraphicsSimpleTextItem {
+class XEnemyViewText : public EnemyViewText {
     Q_OBJECT
 
   public:
-    XEnemyViewText(const std::unique_ptr<EnemyWrapper> &enemy, double tileWidth, double tileHeight, QFont font, QGraphicsItem *parent = nullptr);
+    XEnemyViewText(const std::unique_ptr<EnemyWrapper> &enemy, double tileWidth, double tileHeight, QFont font);
+
+  protected:
+    int getNrOfFramesIdle() const override { return (transformed) ? 64 : 60; }
+    int getNrOfFramesWalking() const override { return 0; }
+    int getNrOfFramesFighting() const override { return 0; }
+    int getNrOfFramesDying() const override { return 0; }
+    void setAnimation() override;
 
   private:
-    double tileWidth, tileHeight;
-    QFont font;
-    QTimer *animationTimer;
-    QPen pen;
-    int currentFrameIndex;
-    bool transformed{false};
+    bool transformed;
 
   private slots:
-    void updateAnimationFrame();
-    void onDefeated();
+    void onDefeated() override;
     void onTransform();
 };
 

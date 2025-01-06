@@ -1,33 +1,30 @@
 #ifndef PENEMYVIEWTEXT_H
 #define PENEMYVIEWTEXT_H
 
-#include "Model/enemywrapper.h"
-#include "qfont.h"
-#include "qgraphicsitem.h"
-#include "qobject.h"
-#include "qpen.h"
-#include "world.h"
-class PEnemyViewText : public QObject, public QGraphicsSimpleTextItem {
+#include "View/enemyviewtext.h"
+
+class PEnemyViewText : public EnemyViewText {
     Q_OBJECT
 
   public:
-    PEnemyViewText(const std::unique_ptr<EnemyWrapper> &enemy, double tileWidth, double tileHeight, QFont font, QGraphicsItem *parent = nullptr);
+    PEnemyViewText(const std::unique_ptr<EnemyWrapper> &enemy, double tileWidth, double tileHeight, QFont font);
     void setPoisonCircle(int value);
 
+  protected:
+    int getNrOfFramesIdle() const override { return 50; }
+    int getNrOfFramesWalking() const override { return 0; }
+    int getNrOfFramesFighting() const override { return 0; }
+    int getNrOfFramesDying() const override { return 0; }
+    void setAnimation() override;
+
   private:
-    double tileWidth, tileHeight;
-    QFont font;
-    QTimer *animationTimer;
-    QPen pen;
-    int currentFrameIndex;
-    QGraphicsTextItem* poisonCircle;
+    QGraphicsTextItem *poisonCircle;
     void expandPoisonCircle(int value);
     bool died;
 
   private slots:
-    void onDefeated();
+    void onDefeated() override;
     void onPoisonLevelValueUpdated(int value);
-    void updateAnimationFrame();
 };
 
 #endif // PENEMYVIEWTEXT_H

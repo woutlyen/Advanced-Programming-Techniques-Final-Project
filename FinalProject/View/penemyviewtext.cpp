@@ -6,52 +6,55 @@
 #include "qtimer.h"
 #include <iostream>
 
-PEnemyViewText::PEnemyViewText(const std::unique_ptr<EnemyWrapper> &enemy, double tileWidth, double tileHeight, QFont font, QGraphicsItem *parent)
-    : QObject(),
-      QGraphicsSimpleTextItem(parent),
-      animationTimer(new QTimer(this)),
-      currentFrameIndex{0} {
+PEnemyViewText::PEnemyViewText(const std::unique_ptr<EnemyWrapper> &enemy, double tileWidth, double tileHeight, QFont font)
+    : EnemyViewText(enemy, tileWidth, tileHeight, font) {
 
-    this->tileWidth = tileWidth;
-    this->tileHeight = tileHeight;
-    this->font = font;
-    this->pen = QPen(QColor(216, 145, 239));
-    this->pen.setWidthF(1.5);
     this->poisonCircle = new QGraphicsTextItem;
     this->died = false;
 
-    setText("oEo");
-    setFont(this->font);
+    QPen pen(QColor(216, 145, 239));
+    pen.setWidthF(1.5);
+
     setPen(pen);
-    setPos(tileWidth * enemy->getXPos() + tileWidth / 4, tileHeight * enemy->getYPos() + tileHeight / 2);
+    setText("oEo");
 
     animationTimer->setInterval(50);
     animationTimer->start();
 
-    connect(animationTimer, &QTimer::timeout, this, &PEnemyViewText::updateAnimationFrame);
     connect(enemy.get(), &EnemyWrapper::dead, this, &PEnemyViewText::onDefeated);
     connect(static_cast<PEnemyWrapper *>(enemy.get()), &PEnemyWrapper::startPoison, this, &PEnemyViewText::setPoisonCircle);
     connect(static_cast<PEnemyWrapper *>(enemy.get()), &PEnemyWrapper::poisonLevelUpdated, this, &PEnemyViewText::onPoisonLevelValueUpdated);
 }
 
-void PEnemyViewText::updateAnimationFrame() {
+void PEnemyViewText::setAnimation() {
+    switch (currentState) {
+    case Idle:
+        setText("oEo");
+        if (currentFrameIndex < 25) {
+            setBrush((QColor(9 * currentFrameIndex, 6 * currentFrameIndex, 9 * currentFrameIndex)));
 
-    currentFrameIndex = (currentFrameIndex + 1) % 50;
-    if (currentFrameIndex < 25) {
-        setBrush((QColor(9 * currentFrameIndex, 6 * currentFrameIndex, 9 * currentFrameIndex)));
+        } else {
+            setBrush((QColor(225 - 9 * (currentFrameIndex - 25), 150 - 6 * (currentFrameIndex - 25), 225 - 9 * (currentFrameIndex - 25))));
+        }
+        // Force the object to update
+        update();
+        break;
 
-    } else {
-        setBrush((QColor(225 - 9 * (currentFrameIndex - 25), 150 - 6 * (currentFrameIndex - 25), 225 - 9 * (currentFrameIndex - 25))));
+    case Fighting:
+        break;
+
+    case Dying:
+        setText(".o.");
+        break;
+
+    case Walking:
+        break;
     }
-    // Force the object to update
-    update();
 }
 
 void PEnemyViewText::onDefeated() {
-    if (!died) {
-        died = true;
-        setText(".o.");
-        disconnect(animationTimer, &QTimer::timeout, this, &PEnemyViewText::updateAnimationFrame);
+    if (currentState != Dying) {
+        setState(Dying);
         QTimer::singleShot(2000, this, [this]() { LevelController::getInstance().removePoisonedCircle(poisonCircle); });
     }
 }

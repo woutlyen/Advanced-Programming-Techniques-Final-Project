@@ -6,34 +6,24 @@
 #include <QPropertyAnimation>
 #include <QScrollBar>
 
-ProtagonistViewText::ProtagonistViewText(const std::unique_ptr<Player> &protagonist, double tileWidth, double tileHeight, QFont font, QGraphicsItem *parent)
-    : QObject(),
-      QGraphicsSimpleTextItem(parent),
-      currentState{Idle},
+ProtagonistViewText::ProtagonistViewText(const std::unique_ptr<Player> &protagonist, double tileWidth, double tileHeight, QFont font)
+    : GameObjectTextView(tileWidth, tileHeight, font),
       movementAnimation(new QPropertyAnimation(this, "pos")),
-      animationTimer(new QTimer(this)),
-      poisonTimer(new QTimer(this)),
-      currentFrameIndex{0} {
+      poisonTimer(new QTimer(this)) {
 
-    this->tileWidth = tileWidth;
-    this->tileHeight = tileHeight;
-    this->font = font;
     this->pen = QPen(QColor(255, 255, 0));
 
     // Set the initial pixmap
     setText(QString("{P}"));
-    setFont(font);
     setPen(pen);
     setPos(tileWidth * protagonist->getXPos() + tileWidth / 4, tileHeight * protagonist->getYPos() + tileHeight / 2);
-    /*QTransform t;*/
-    /*t.scale(-1, 1);*/
-    /*setTransform(t);*/
 
     // Connect signalsc & slots
     connect(protagonist.get(), &Player::posChanged, this, &ProtagonistViewText::onPositionChanged);
     connect(protagonist.get(), &Player::healthChanged, this, &ProtagonistViewText::onHealthChanged);
     connect(protagonist.get(), &Player::energyChanged, this, &ProtagonistViewText::onEnergyChanged);
     connect(protagonist.get(), &Player::playerAttack, this, &ProtagonistViewText::onPlayerAttack);
+    connect(protagonist.get(), &Player::directionChanged, this, &ProtagonistViewText::onDirectionChanged);
 
     // Configure the movement animation
     movementAnimation->setDuration(480); // Animation duration (in milliseconds)
@@ -133,28 +123,12 @@ void ProtagonistViewText::onEnergyChanged(int energy) {
     }
 }
 
-void ProtagonistViewText::setState(AnimationState newState) {
-    if (currentState == newState or currentState == Dying)
-        return; // No state change
-    currentState = newState;
-
-    // Reset frame index for the new state
-    currentFrameIndex = 0;
-
-    // Update the pixmap for the new state
-    switch (currentState) {
-    case Idle:
-        setText("{P}");
-        break;
-    case Walking:
-        break;
-    case Fighting:
-        break;
-    case Dying:
-        break;
-    }
+void ProtagonistViewText::onDirectionChanged(Player::Direction dir) {
+    currentDirection = dir;
 }
-void ProtagonistViewText::updateAnimationFrame() {
+
+void ProtagonistViewText::setAnimation() {
+    QString figting;
     switch (currentState) {
     case Idle:
         font.setItalic(false);
@@ -201,16 +175,25 @@ void ProtagonistViewText::updateAnimationFrame() {
         break;
     case Fighting:
         // Play fighting frames once
-        if (text() == "{P}") {
-            setText("-P/");
-        } else if (text() == "-P/") {
-            setText("~P_");
-        } else if (text() == "~P_") {
-            setText("{P}");
-            setState(Idle);
-        }
+        if (currentFrameIndex % 2)
+            figting.append("~");
+        else
+            figting.append("-");
 
-        currentFrameIndex = (currentFrameIndex + 1) % 16;
+        figting.append("P");
+
+        if (currentFrameIndex < 4)
+            figting.append("/");
+        else if (currentFrameIndex < 8)
+            figting.append("_");
+        else if (currentFrameIndex < 12)
+            figting.append("}");
+        else
+            setState(Idle);
+
+        setText(figting);
+
+        /*currentFrameIndex = (currentFrameIndex + 1) % 16;*/
         if (currentFrameIndex < 8) {
             this->pen.setColor((QColor(255 - 32 * currentFrameIndex, 0, 0)));
             this->pen.setWidth((2 - currentFrameIndex / 4));
@@ -225,6 +208,7 @@ void ProtagonistViewText::updateAnimationFrame() {
         break;
     case Dying:
         // Play dying frames once
+        setText("_X_");
         break;
     }
 }

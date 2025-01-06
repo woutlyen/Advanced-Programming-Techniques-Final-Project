@@ -31,6 +31,7 @@ SOURCES += \
     View/enemyview2d.cpp \
     View/enemyviewtext.cpp \
     View/gameobject2dview.cpp \
+    View/gameobjecttextview.cpp \
     View/healthpackview2d.cpp \
     View/healthpackviewtext.cpp \
     View/penemyview2d.cpp \
@@ -74,6 +75,7 @@ HEADERS += \
     View/enemyview2d.h \
     View/enemyviewtext.h \
     View/gameobject2dview.h \
+    View/gameobjecttextview.h \
     View/healthpackview2d.h \
     View/healthpackviewtext.h \
     View/penemyview2d.h \

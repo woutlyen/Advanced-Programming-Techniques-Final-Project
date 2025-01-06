@@ -1,47 +1,52 @@
 #include "enemyviewtext.h"
-#include "qgraphicsitem.h"
-#include "qpen.h"
-#include "qtimer.h"
 
-EnemyViewText::EnemyViewText(const std::unique_ptr<EnemyWrapper> &enemy, double tileWidth, double tileHeight, QFont font, QGraphicsItem *parent)
-    : QObject(),
-      QGraphicsSimpleTextItem(parent),
-      animationTimer(new QTimer(this)),
-      currentFrameIndex{0} {
+EnemyViewText::EnemyViewText(const std::unique_ptr<EnemyWrapper> &enemy, double tileWidth, double tileHeight, QFont font)
+    : GameObjectTextView(tileWidth, tileHeight, font), enemy(enemy) {
 
-    this->tileWidth = tileWidth;
-    this->tileHeight = tileHeight;
-    this->font = font;
     this->pen = QPen(QColor(60, 180, 120));
     this->pen.setWidthF(1.5);
 
-    // TODO: Add color
     setText(".E.");
-    setFont(this->font);
     setPen(pen);
     setPos(tileWidth * enemy->getXPos() + tileWidth / 4, tileHeight * enemy->getYPos() + tileHeight / 2);
 
     animationTimer->setInterval(30);
     animationTimer->start();
 
-    connect(animationTimer, &QTimer::timeout, this, &EnemyViewText::updateAnimationFrame);
+    connectAnimationTimer();
     connect(enemy.get(), &EnemyWrapper::dead, this, &EnemyViewText::onDefeated);
+    setState(Idle);
 }
 
-void EnemyViewText::updateAnimationFrame() {
+void EnemyViewText::setAnimation() {
+    switch (currentState) {
+    case Idle:
+        setText(".E.");
+        if (currentFrameIndex < 30) {
+            setBrush((QColor(2 * currentFrameIndex, 6 * currentFrameIndex, 4 * currentFrameIndex)));
 
-    currentFrameIndex = (currentFrameIndex + 1) % 60;
-    if (currentFrameIndex < 30) {
-        setBrush((QColor(2 * currentFrameIndex, 6 * currentFrameIndex, 4 * currentFrameIndex)));
+        } else {
+            setBrush((QColor(60 - 2 * (currentFrameIndex - 30), 180 - 6 * (currentFrameIndex - 30), 120 - 4 * (currentFrameIndex - 30))));
+        }
+        // Force the object to update
+        update();
+        break;
 
-    } else {
-        setBrush((QColor(60 - 2 * (currentFrameIndex - 30), 180 - 6 * (currentFrameIndex - 30), 120 - 4 * (currentFrameIndex - 30))));
+    case Fighting:
+        break;
+
+    case Dying:
+        setText(".-.");
+        setBrush(QColor(0,0,0));
+        break;
+
+    case Walking:
+        break;
     }
-    // Force the object to update
-    update();
 }
 
 void EnemyViewText::onDefeated() {
-    disconnect(animationTimer, &QTimer::timeout, this, &EnemyViewText::updateAnimationFrame);
-    setText(".-.");
+    if(currentState != Dying) {
+        setState(Dying);
+    }
 }
