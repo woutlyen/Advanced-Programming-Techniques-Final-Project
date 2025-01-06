@@ -2,9 +2,9 @@
 #include "qbrush.h"
 #include <QPen>
 
-PEnemyView2D::PEnemyView2D(const std::unique_ptr<EnemyWrapper> &enemy, std::size_t gridSize) :EnemyView2D(enemy, gridSize, true) {
+PEnemyView2D::PEnemyView2D(const std::unique_ptr<EnemyWrapper> &enemy, std::size_t gridSize) :EnemyView2D(gridSize) {
 
-    initializeEnemy2DView();
+    initializeEnemy2DView(enemy->getXPos(), enemy->getYPos());
     // Connect signals & slots
     connect(enemy.get(), &EnemyWrapper::dead, this, &PEnemyView2D::onDefeated);
     connect(static_cast<PEnemyWrapper*>(enemy.get()), &PEnemyWrapper::startPoison, this, &PEnemyView2D::setPoisonCircle);

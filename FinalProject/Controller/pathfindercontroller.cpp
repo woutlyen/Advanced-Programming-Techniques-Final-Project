@@ -97,7 +97,14 @@ std::vector<Node> PathfinderController::initializeNodes()
 
     for (const auto& tile : tiles)
     {
-        nodes.emplace_back(tile->getXPos(), tile->getYPos(), tile->getValue());;
+
+        float val = (tile->getValue());
+        if (val == std::numeric_limits<float>::infinity()){
+            nodes.emplace_back(tile->getXPos(), tile->getYPos(), val);;
+        }
+        else{
+            nodes.emplace_back(tile->getXPos(), tile->getYPos(), 1.0-val);;
+        }
     }
     return nodes;
 }

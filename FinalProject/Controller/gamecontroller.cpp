@@ -29,7 +29,7 @@ void GameController::start(const QString& filePath)
     mainWindow.setScene();
     mainWindow.updateConnections();
     mainWindow.show();
-    playerController.moveRight();
+    inputController.executeCommand("right");
 }
 
 /**

@@ -121,6 +121,9 @@ void ProtagonistViewText::onHealthChanged(int health) {
         // Add healing animation
         setText("+P+");
     }
+    else if (health <= 0 && currentState != Dying) {
+        setState(Dying);
+    }
 }
 
 void ProtagonistViewText::onEnergyChanged(int energy) {

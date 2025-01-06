@@ -2,12 +2,11 @@
 #define XENEMYVIEW2D_H
 
 #include "View/enemyview2d.h"
-#include "Model/xenemy.h"
 
 class XEnemyView2D: public EnemyView2D
 {
 public:
-    XEnemyView2D(const std::unique_ptr<EnemyWrapper>& enemy, std::size_t gridSize, QGraphicsItem* parent = nullptr);
+    XEnemyView2D(const std::unique_ptr<EnemyWrapper>& enemy, std::size_t gridSize);
 private:
     QString getIdlePixmapsPath() const override{ return ":/images/xenemy_sprites/xenemy_idle"; }
     QString getFightingPixmapsPath() const override{ return ":/images/xenemy_sprites/xenemy_attack"; }

@@ -34,8 +34,8 @@ private:
 
     MainWindow mainWindow;
 
-    PlayerController playerController;
-    EnemyController enemyController;
+    //PlayerController playerController;
+    //EnemyController enemyController;
     InputController inputController;
     PathfinderController pathfinderController;
 

@@ -1,8 +1,9 @@
 #include "xenemyview2d.h"
+#include "Model/xenemy.h"
 
-XEnemyView2D::XEnemyView2D(const std::unique_ptr<EnemyWrapper> &enemy, std::size_t gridSize, QGraphicsItem *parent):EnemyView2D(enemy, gridSize, true)
+XEnemyView2D::XEnemyView2D(const std::unique_ptr<EnemyWrapper> &enemy, std::size_t gridSize):EnemyView2D(gridSize)
 {
-    initializeEnemy2DView();
+    initializeEnemy2DView(enemy->getXPos(), enemy->getYPos());
 
     initialDyingPixmaps = extractFrames(":/images/xenemy_sprites/xenemy_transform");
     initialIdlePixmaps = extractFrames(":/images/enemy_sprites/enemy_idle");

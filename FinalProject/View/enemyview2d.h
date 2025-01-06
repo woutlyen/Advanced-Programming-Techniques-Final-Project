@@ -10,11 +10,10 @@ class EnemyView2D : public GameObject2DView
     Q_OBJECT
 public:
     EnemyView2D(const std::unique_ptr<EnemyWrapper>& enemy, std::size_t gridSize);
-    EnemyView2D(const std::unique_ptr<EnemyWrapper>& enemy, std::size_t gridSize, bool isDerivedClass);
+    EnemyView2D(std::size_t gridSize);
     virtual ~EnemyView2D() = default;
 
 protected:
-    const std::unique_ptr<EnemyWrapper> &enemy;
     std::vector<QPixmap> idlePixmaps;
     std::vector<QPixmap> fightingPixmaps;
     std::vector<QPixmap> dyingPixmaps;
@@ -26,7 +25,7 @@ protected:
     virtual QString getFightingPixmapsPath() const { return ":/images/enemy_sprites/enemy_attack"; }
     virtual QString getDyingPixmapsPath() const { return ":/images/enemy_sprites/enemy_die"; }
     void setAnimation() override;
-    void initializeEnemy2DView();
+    void initializeEnemy2DView(int XPos, int YPos);
 
 private slots:
     virtual void onDefeated();

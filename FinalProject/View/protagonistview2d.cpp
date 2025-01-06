@@ -141,6 +141,9 @@ void ProtagonistView2D::onHealthChanged(int health)
         glowAnimation->setEndValue(0.0);        // Fade back to normal
         glowAnimation->start(QPropertyAnimation::DeleteWhenStopped);
     }
+    else if (health <= 1 && currentState != Dying) {
+        setState(Dying);
+    }
 }
 
 void ProtagonistView2D::onEnergyChanged(int energy)

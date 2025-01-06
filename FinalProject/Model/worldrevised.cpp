@@ -2,9 +2,6 @@
 
 #include "xenemy.h"
 
-#include <bits/random.h>
-#include <iostream>
-
 WorldRevised::WorldRevised() {}
 
 void WorldRevised::createWorld(QString filename, unsigned int nrOfEnemies, unsigned int nrOfHealthpacks, float pRatio, float xRatio)
@@ -17,15 +14,6 @@ void WorldRevised::createWorld(QString filename, unsigned int nrOfEnemies, unsig
 
     world.load(filename);
 
-    //generate XEnemies
-    std::random_device r;
-
-    // Choose a random distribution for x, y and strength
-    std::default_random_engine e1(r());
-    std::uniform_int_distribution<int> uniform_x(0, getRows() - 1);
-    std::uniform_int_distribution<int> uniform_y(0, getCols() - 1);
-    std::uniform_int_distribution<int> uniform_perc(0, 100);
-
     xRatio = std::min(xRatio, 1-pRatio);
     int XEnemyCounter = (int)(xRatio*(float)nrOfEnemies);
 
@@ -36,12 +24,12 @@ void WorldRevised::createWorld(QString filename, unsigned int nrOfEnemies, unsig
             float val = enemies.at(i)->getValue();
             enemies.erase(enemies.begin() + i);
 
-            std::cout << "Voor: " << enemies.size() << std::endl;
+            //std::cout << "Voor: " << enemies.size() << std::endl;
 
             auto eptr = std::make_unique<XEnemy>(xPos, yPos, val);
             enemies.emplace(enemies.begin()+i, std::move(eptr));
 
-            std::cout << "Achter: " << enemies.size() << std::endl;
+            //std::cout << "Achter: " << enemies.size() << std::endl;
 
             if(XEnemyCounter > 1)
                 XEnemyCounter--;

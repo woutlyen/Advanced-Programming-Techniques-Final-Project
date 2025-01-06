@@ -9,10 +9,10 @@ void PlayerController::moveUp() const{
     auto& protagonist = level.protagonist;
 
 
-    if (protagonist->getYPos() > 0 && protagonist->getEnergy() >= 1){
+    if (protagonist->getYPos() > 0 && protagonist->getEnergy() >= 1 && protagonist->getHealth() >= 1){
         float val = (level.tiles.at((protagonist->getYPos()-1) * level.width + protagonist->getXPos())->getValue());
         if (val != std::numeric_limits<float>::infinity()){
-            protagonist->setEnergy(protagonist->getEnergy() - val);
+            protagonist->setEnergy(protagonist->getEnergy() - (1.0 - val));
             protagonist->setYPos(protagonist->getYPos()-1);
         }
     }
@@ -22,10 +22,10 @@ void PlayerController::moveDown() const{
     auto& level = getCurrentLevel();
     auto& protagonist = level.protagonist;
 
-    if (protagonist->getYPos() < level.height-1 && protagonist->getEnergy() >= 1){
+    if (protagonist->getYPos() < level.height-1 && protagonist->getEnergy() >= 1 && protagonist->getHealth() >= 1){
         float val = (level.tiles.at((protagonist->getYPos()+1) * level.width + protagonist->getXPos())->getValue());
         if (val != std::numeric_limits<float>::infinity()){
-            protagonist->setEnergy(protagonist->getEnergy() - val);
+            protagonist->setEnergy(protagonist->getEnergy() - (1.0 - val));
             protagonist->setYPos(protagonist->getYPos()+1);
         }
     }
@@ -35,10 +35,10 @@ void PlayerController::moveLeft() const{
     auto& level = getCurrentLevel();
     auto& protagonist = level.protagonist;
 
-    if (protagonist->getXPos() > 0 && protagonist->getEnergy() >= 1){
+    if (protagonist->getXPos() > 0 && protagonist->getEnergy() >= 1 && protagonist->getHealth() >= 1){
         float val = (level.tiles.at(protagonist->getYPos() * level.width + protagonist->getXPos() -1)->getValue());
         if (val != std::numeric_limits<float>::infinity()){
-            protagonist->setEnergy(protagonist->getEnergy() - val);
+            protagonist->setEnergy(protagonist->getEnergy() - (1.0 - val));
             protagonist->setXPos(protagonist->getXPos()-1);
         }
     }
@@ -48,10 +48,10 @@ void PlayerController::moveRight() const{
     auto& level = getCurrentLevel();
     auto& protagonist = level.protagonist;
 
-    if (protagonist->getXPos() < level.width-1 && protagonist->getEnergy() >= 1){
+    if (protagonist->getXPos() < level.width-1 && protagonist->getEnergy() >= 1 && protagonist->getHealth() >= 1){
         float val = (level.tiles.at(protagonist->getYPos() * level.width + protagonist->getXPos() +1)->getValue());
         if (val != std::numeric_limits<float>::infinity()){
-            protagonist->setEnergy(protagonist->getEnergy() - val);
+            protagonist->setEnergy(protagonist->getEnergy() - (1.0 - val));
             protagonist->setXPos(protagonist->getXPos()+1);
         }
     }

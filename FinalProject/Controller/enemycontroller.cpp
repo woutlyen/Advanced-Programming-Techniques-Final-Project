@@ -69,6 +69,7 @@ bool EnemyController::checkForEnemy(const Position pos)
         }
         return false;
     };
+
     return false;
 }
 

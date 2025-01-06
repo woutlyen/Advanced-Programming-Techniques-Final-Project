@@ -32,7 +32,7 @@ public:
     void setYPos(int newPos) noexcept {wrappedPlayer->setYPos(newPos);}
     void setPos(int newX, int newY) noexcept {wrappedPlayer->setPos(newX, newY);}
     [[nodiscard]] float getHealth() const noexcept {return wrappedPlayer->getHealth();};
-    void setHealth(float value) noexcept {wrappedPlayer->setHealth(value);}
+    void setHealth(float value) noexcept {wrappedPlayer->setHealth(value); if(value == 0.0){setAlive(false);}}
 
     [[nodiscard]] float getEnergy() const noexcept {return wrappedPlayer->getEnergy();}
     void setEnergy(float value) noexcept {wrappedPlayer->setEnergy(value); if(value < 1){setAlive(false);}}

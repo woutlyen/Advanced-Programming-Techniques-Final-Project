@@ -1,15 +1,15 @@
 #include "enemyview2d.h"
 
 EnemyView2D::EnemyView2D(const std::unique_ptr<EnemyWrapper> &enemy, std::size_t gridSize)
-    : GameObject2DView(gridSize), enemy(enemy) {
+    : GameObject2DView(gridSize){
 
-    initializeEnemy2DView();
+    initializeEnemy2DView(enemy->getXPos(), enemy->getYPos());
     // Connect signals & slots
     connect(enemy.get(), &EnemyWrapper::dead, this, &EnemyView2D::onDefeated);
 }
 
-EnemyView2D::EnemyView2D(const std::unique_ptr<EnemyWrapper> &enemy, std::size_t gridSize, bool isDerivedClass)
-    : GameObject2DView(gridSize), enemy(enemy) {
+EnemyView2D::EnemyView2D(std::size_t gridSize)
+    : GameObject2DView(gridSize) {
 }
 
 void EnemyView2D::setAnimation()
@@ -33,7 +33,7 @@ void EnemyView2D::setAnimation()
     }
 }
 
-void EnemyView2D::initializeEnemy2DView()
+void EnemyView2D::initializeEnemy2DView(int XPos, int YPos)
 {
     // Initialize all Pixmaps
     idlePixmaps = extractFrames(getIdlePixmapsPath());
@@ -41,7 +41,7 @@ void EnemyView2D::initializeEnemy2DView()
     dyingPixmaps = extractFrames(getDyingPixmapsPath());
     // Set the initial pixmap
     setPixmap(idlePixmaps[0]);
-    setPos(gridSize*enemy->getXPos(), gridSize*enemy->getYPos());
+    setPos(gridSize*XPos, gridSize*YPos);
 
     // Configure the animation timer
     animationTimer->setInterval(240); // Frame switch interval (in milliseconds)
