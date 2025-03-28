@@ -26,6 +26,10 @@ Import the `FinalProject.pro` file in the FinalProject folder in a recent versio
 
 ## Final UML
 
-![Final UML](UML 25-01-06.svg)
+![Final UML](https://github.com/woutlyen/Advanced-Programming-Techniques-Final-Project/blob/main/UML%2025-01-06.svg)
 
 ## In Game Pictures
+
+![graphical1](https://github.com/woutlyen/Advanced-Programming-Techniques-Final-Project/blob/main/graph1.png) ![graphical2](https://github.com/woutlyen/Advanced-Programming-Techniques-Final-Project/blob/main/graph2.png) ![graphical3](https://github.com/woutlyen/Advanced-Programming-Techniques-Final-Project/blob/main/graph3.png)
+
+![text1](https://github.com/woutlyen/Advanced-Programming-Techniques-Final-Project/blob/main/text1.png) ![text2](https://github.com/woutlyen/Advanced-Programming-Techniques-Final-Project/blob/main/text2.png) ![text3](https://github.com/woutlyen/Advanced-Programming-Techniques-Final-Project/blob/main/text3.png)
